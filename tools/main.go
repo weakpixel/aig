@@ -54,6 +54,18 @@ func main() {
 	}
 }
 
+func parseModule(name string) bool {
+	return !strings.HasPrefix(name, "_") &&
+		!strings.HasPrefix(name, "include_") &&
+		!strings.HasPrefix(name, "import_") &&
+		!strings.HasPrefix(name, "fail") &&
+		!strings.HasPrefix(name, "wait_for_connection.py") &&
+		!strings.HasPrefix(name, "gather_facts.py") &&
+		!strings.HasPrefix(name, "debug.py") &&
+		!strings.HasPrefix(name, "assert.py") &&
+		!strings.HasPrefix(name, "raw.py")
+
+}
 func parseModules(dir string) ([]Module, error) {
 	modules := []Module{}
 	files, err := ioutil.ReadDir(dir)
@@ -62,9 +74,7 @@ func parseModules(dir string) ([]Module, error) {
 	}
 	for _, file := range files {
 		p := filepath.Join(dir, file.Name())
-		if !strings.HasPrefix(file.Name(), "_") &&
-			!strings.HasPrefix(file.Name(), "include_") &&
-			!strings.HasPrefix(file.Name(), "import_") {
+		if parseModule(file.Name()) {
 			m := Module{Path: p}
 			err := m.parse()
 			if err != nil {
