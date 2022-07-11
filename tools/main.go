@@ -66,7 +66,8 @@ func parseModule(name string) bool {
 		!strings.HasPrefix(name, "raw.py") &&
 		!strings.HasPrefix(name, "fetch.py") &&
 		!strings.HasPrefix(name, "add_host.py") &&
-		!strings.HasPrefix(name, "script.py")
+		!strings.HasPrefix(name, "script.py") &&
+		!strings.HasPrefix(name, "shell.py")
 
 }
 func parseModules(dir string) ([]Module, error) {
