@@ -105,15 +105,18 @@ type Module struct {
 
 type Option struct {
 	NormalizedName string
-	StructTag      string
-	GoType         string
-	GoElements     string
+
+	StructTag  string
+	AliasOf    string
+	GoType     string
+	GoElements string
 
 	Description []string    `yaml:"description"`
 	Type        string      `default:"str" yaml:"type"`
 	Required    bool        `default:"no" yaml:"required"`
 	Default     interface{} `yaml:"default"`
 	Elements    string      `yaml:"elements"`
+	Aliases     []string    `yaml:"aliases"`
 }
 
 type Return struct {
@@ -205,7 +208,26 @@ func (m *Module) normalize() error {
 		o.NormalizedName = m.normalizeName(name)
 		o.StructTag = "`yaml:\"" + name + ",omitempty\" json:\"" + name + ",omitempty\"`"
 		o.GoType = toGoType(o.Type, o.Elements)
+
+		// for _, aliasName := range o.Aliases {
+		// 	if strings.Contains(aliasName, "-") {
+		// 		continue
+		// 	}
+		// 	fmt.Println(aliasName, name)
+		// 	alias := Option{
+		// 		NormalizedName: m.normalizeName(aliasName),
+		// 	}
+		// 	alias.StructTag = "`yaml:\"" + aliasName + ",omitempty\" json:\"" + aliasName + ",omitempty\"`"
+		// 	alias.GoType = o.GoType
+		// 	alias.Type = o.Type
+		// 	alias.Default = o.Default
+		// 	alias.Elements = o.Elements
+		// 	alias.Required = false
+		// 	alias.Description = o.Description
+		// 	m.Options[aliasName] = &alias
+		// }
 	}
+
 	for name, r := range m.Returns {
 		r.GoType = toGoType(r.Type, "")
 		r.NormalizedName = m.normalizeName(name)
