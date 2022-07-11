@@ -7,11 +7,11 @@ import (
 
 type Replace struct {
 	ModuleName string
-	Options    ReplaceOptions
+	Params     ReplaceParams
 	Result     ReplaceResult
 }
 
-type ReplaceOptions struct {
+type ReplaceParams struct {
 
 	// After
 	After string `yaml:"after,omitempty" json:"after,omitempty"`
@@ -43,7 +43,7 @@ type ReplaceResult struct {
 }
 
 func (m *Replace) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

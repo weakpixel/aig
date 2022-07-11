@@ -7,11 +7,11 @@ import (
 
 type Find struct {
 	ModuleName string
-	Options    FindOptions
+	Params     FindParams
 	Result     FindResult
 }
 
-type FindOptions struct {
+type FindParams struct {
 
 	// Age
 	Age string `yaml:"age,omitempty" json:"age,omitempty"`
@@ -76,7 +76,7 @@ type FindResult struct {
 }
 
 func (m *Find) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

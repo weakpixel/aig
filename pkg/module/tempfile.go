@@ -7,11 +7,11 @@ import (
 
 type Tempfile struct {
 	ModuleName string
-	Options    TempfileOptions
+	Params     TempfileParams
 	Result     TempfileResult
 }
 
-type TempfileOptions struct {
+type TempfileParams struct {
 
 	// Path
 	Path string `yaml:"path,omitempty" json:"path,omitempty"`
@@ -34,7 +34,7 @@ type TempfileResult struct {
 }
 
 func (m *Tempfile) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

@@ -7,11 +7,11 @@ import (
 
 type Yum struct {
 	ModuleName string
-	Options    YumOptions
+	Params     YumParams
 	Result     YumResult
 }
 
-type YumOptions struct {
+type YumParams struct {
 
 	// AllowDowngrade
 	AllowDowngrade bool `yaml:"allow_downgrade,omitempty" json:"allow_downgrade,omitempty"`
@@ -106,7 +106,7 @@ type YumResult struct {
 }
 
 func (m *Yum) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

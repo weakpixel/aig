@@ -7,11 +7,11 @@ import (
 
 type Copy struct {
 	ModuleName string
-	Options    CopyOptions
+	Params     CopyParams
 	Result     CopyResult
 }
 
-type CopyOptions struct {
+type CopyParams struct {
 
 	// Backup
 	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
@@ -88,7 +88,7 @@ type CopyResult struct {
 }
 
 func (m *Copy) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

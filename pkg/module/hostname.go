@@ -7,11 +7,11 @@ import (
 
 type Hostname struct {
 	ModuleName string
-	Options    HostnameOptions
+	Params     HostnameParams
 	Result     HostnameResult
 }
 
-type HostnameOptions struct {
+type HostnameParams struct {
 
 	// Name
 	Name string `yaml:"name,omitempty" json:"name,omitempty"`
@@ -25,7 +25,7 @@ type HostnameResult struct {
 }
 
 func (m *Hostname) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

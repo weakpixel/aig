@@ -7,11 +7,11 @@ import (
 
 type YumRepository struct {
 	ModuleName string
-	Options    YumRepositoryOptions
+	Params     YumRepositoryParams
 	Result     YumRepositoryResult
 }
 
-type YumRepositoryOptions struct {
+type YumRepositoryParams struct {
 
 	// Async
 	Async bool `yaml:"async,omitempty" json:"async,omitempty"`
@@ -172,7 +172,7 @@ type YumRepositoryResult struct {
 }
 
 func (m *YumRepository) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

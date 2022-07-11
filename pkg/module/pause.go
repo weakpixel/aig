@@ -7,11 +7,11 @@ import (
 
 type Pause struct {
 	ModuleName string
-	Options    PauseOptions
+	Params     PauseParams
 	Result     PauseResult
 }
 
-type PauseOptions struct {
+type PauseParams struct {
 
 	// Echo
 	Echo bool `yaml:"echo,omitempty" json:"echo,omitempty"`
@@ -49,7 +49,7 @@ type PauseResult struct {
 }
 
 func (m *Pause) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

@@ -7,11 +7,11 @@ import (
 
 type ServiceFacts struct {
 	ModuleName string
-	Options    ServiceFactsOptions
+	Params     ServiceFactsParams
 	Result     ServiceFactsResult
 }
 
-type ServiceFactsOptions struct {
+type ServiceFactsParams struct {
 }
 
 type ServiceFactsResult struct {
@@ -22,7 +22,7 @@ type ServiceFactsResult struct {
 }
 
 func (m *ServiceFacts) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

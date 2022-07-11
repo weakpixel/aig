@@ -7,11 +7,11 @@ import (
 
 type Getent struct {
 	ModuleName string
-	Options    GetentOptions
+	Params     GetentParams
 	Result     GetentResult
 }
 
-type GetentOptions struct {
+type GetentParams struct {
 
 	// Database
 	Database string `yaml:"database,omitempty" json:"database,omitempty"`
@@ -37,7 +37,7 @@ type GetentResult struct {
 }
 
 func (m *Getent) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

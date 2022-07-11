@@ -7,11 +7,11 @@ import (
 
 type Reboot struct {
 	ModuleName string
-	Options    RebootOptions
+	Params     RebootParams
 	Result     RebootResult
 }
 
-type RebootOptions struct {
+type RebootParams struct {
 
 	// BootTimeCommand
 	BootTimeCommand string `yaml:"boot_time_command,omitempty" json:"boot_time_command,omitempty"`
@@ -52,7 +52,7 @@ type RebootResult struct {
 }
 
 func (m *Reboot) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

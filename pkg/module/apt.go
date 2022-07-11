@@ -7,11 +7,11 @@ import (
 
 type Apt struct {
 	ModuleName string
-	Options    AptOptions
+	Params     AptParams
 	Result     AptResult
 }
 
-type AptOptions struct {
+type AptParams struct {
 
 	// AllowChangeHeldPackages
 	AllowChangeHeldPackages bool `yaml:"allow_change_held_packages,omitempty" json:"allow_change_held_packages,omitempty"`
@@ -103,7 +103,7 @@ type AptResult struct {
 }
 
 func (m *Apt) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

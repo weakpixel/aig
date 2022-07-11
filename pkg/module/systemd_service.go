@@ -7,11 +7,11 @@ import (
 
 type SystemdService struct {
 	ModuleName string
-	Options    SystemdServiceOptions
+	Params     SystemdServiceParams
 	Result     SystemdServiceResult
 }
 
-type SystemdServiceOptions struct {
+type SystemdServiceParams struct {
 
 	// DaemonReexec
 	DaemonReexec bool `yaml:"daemon_reexec,omitempty" json:"daemon_reexec,omitempty"`
@@ -49,7 +49,7 @@ type SystemdServiceResult struct {
 }
 
 func (m *SystemdService) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

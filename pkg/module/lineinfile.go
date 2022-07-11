@@ -7,11 +7,11 @@ import (
 
 type Lineinfile struct {
 	ModuleName string
-	Options    LineinfileOptions
+	Params     LineinfileParams
 	Result     LineinfileResult
 }
 
-type LineinfileOptions struct {
+type LineinfileParams struct {
 
 	// Backrefs
 	Backrefs bool `yaml:"backrefs,omitempty" json:"backrefs,omitempty"`
@@ -55,7 +55,7 @@ type LineinfileResult struct {
 }
 
 func (m *Lineinfile) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

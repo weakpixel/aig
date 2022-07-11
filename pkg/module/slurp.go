@@ -7,11 +7,11 @@ import (
 
 type Slurp struct {
 	ModuleName string
-	Options    SlurpOptions
+	Params     SlurpParams
 	Result     SlurpResult
 }
 
-type SlurpOptions struct {
+type SlurpParams struct {
 
 	// Src
 	Src string `yaml:"src,omitempty" json:"src,omitempty"`
@@ -31,7 +31,7 @@ type SlurpResult struct {
 }
 
 func (m *Slurp) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

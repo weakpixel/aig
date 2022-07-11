@@ -96,7 +96,7 @@ type Module struct {
 	ModuleName       string             `yaml:"module"`
 	ShortDescription string             `yaml:"short_description"`
 	Description      []string           `yaml:"description"`
-	Options          map[string]*Option `yaml:"options"`
+	Params           map[string]*Option `yaml:"options"`
 	Returns          map[string]*Return
 	Path             string
 	Documentation    string
@@ -204,7 +204,7 @@ func toGoType(ty string, elementType string) string {
 }
 func (m *Module) normalize() error {
 	m.NormalizedName = m.normalizeName(m.ModuleName)
-	for name, o := range m.Options {
+	for name, o := range m.Params {
 		o.NormalizedName = m.normalizeName(name)
 		o.StructTag = "`yaml:\"" + name + ",omitempty\" json:\"" + name + ",omitempty\"`"
 		o.GoType = toGoType(o.Type, o.Elements)
@@ -224,7 +224,7 @@ func (m *Module) normalize() error {
 		// 	alias.Elements = o.Elements
 		// 	alias.Required = false
 		// 	alias.Description = o.Description
-		// 	m.Options[aliasName] = &alias
+		// 	m.Params[aliasName] = &alias
 		// }
 	}
 
@@ -279,12 +279,12 @@ import (
 
 type {{ .NormalizedName }} struct {
 	ModuleName string
-	Options {{ .NormalizedName }}Options
+	Params {{ .NormalizedName }}Params
 	Result {{ .NormalizedName }}Result
 }
 
-type {{ .NormalizedName }}Options struct {
-	{{range $name, $opt := .Options }}
+type {{ .NormalizedName }}Params struct {
+	{{range $name, $opt := .Params }}
 		// {{ $opt.NormalizedName }} 
 		{{ $opt.NormalizedName }} {{ $opt.GoType }} {{ $opt.StructTag }}
 	{{ end }}
@@ -299,7 +299,7 @@ type {{ .NormalizedName }}Result struct {
 }
 
 func (m *{{ .NormalizedName }}) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

@@ -7,11 +7,11 @@ import (
 
 type Debconf struct {
 	ModuleName string
-	Options    DebconfOptions
+	Params     DebconfParams
 	Result     DebconfResult
 }
 
-type DebconfOptions struct {
+type DebconfParams struct {
 
 	// Name
 	Name string `yaml:"name,omitempty" json:"name,omitempty"`
@@ -34,7 +34,7 @@ type DebconfResult struct {
 }
 
 func (m *Debconf) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

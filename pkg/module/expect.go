@@ -7,11 +7,11 @@ import (
 
 type Expect struct {
 	ModuleName string
-	Options    ExpectOptions
+	Params     ExpectParams
 	Result     ExpectResult
 }
 
-type ExpectOptions struct {
+type ExpectParams struct {
 
 	// Chdir
 	Chdir string `yaml:"chdir,omitempty" json:"chdir,omitempty"`
@@ -40,7 +40,7 @@ type ExpectResult struct {
 }
 
 func (m *Expect) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

@@ -7,11 +7,11 @@ import (
 
 type Meta struct {
 	ModuleName string
-	Options    MetaOptions
+	Params     MetaParams
 	Result     MetaResult
 }
 
-type MetaOptions struct {
+type MetaParams struct {
 
 	// FreeForm
 	FreeForm string `yaml:"free_form,omitempty" json:"free_form,omitempty"`
@@ -22,7 +22,7 @@ type MetaResult struct {
 }
 
 func (m *Meta) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

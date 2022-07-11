@@ -7,11 +7,11 @@ import (
 
 type WaitFor struct {
 	ModuleName string
-	Options    WaitForOptions
+	Params     WaitForParams
 	Result     WaitForResult
 }
 
-type WaitForOptions struct {
+type WaitForParams struct {
 
 	// ActiveConnectionStates
 	ActiveConnectionStates []string `yaml:"active_connection_states,omitempty" json:"active_connection_states,omitempty"`
@@ -64,7 +64,7 @@ type WaitForResult struct {
 }
 
 func (m *WaitFor) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

@@ -7,11 +7,11 @@ import (
 
 type Command struct {
 	ModuleName string
-	Options    CommandOptions
+	Params     CommandParams
 	Result     CommandResult
 }
 
-type CommandOptions struct {
+type CommandParams struct {
 
 	// Argv
 	Argv []string `yaml:"argv,omitempty" json:"argv,omitempty"`
@@ -76,7 +76,7 @@ type CommandResult struct {
 }
 
 func (m *Command) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

@@ -7,11 +7,11 @@ import (
 
 type AddHost struct {
 	ModuleName string
-	Options    AddHostOptions
+	Params     AddHostParams
 	Result     AddHostResult
 }
 
-type AddHostOptions struct {
+type AddHostParams struct {
 
 	// Groups
 	Groups []string `yaml:"groups,omitempty" json:"groups,omitempty"`
@@ -25,7 +25,7 @@ type AddHostResult struct {
 }
 
 func (m *AddHost) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

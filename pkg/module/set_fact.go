@@ -7,11 +7,11 @@ import (
 
 type SetFact struct {
 	ModuleName string
-	Options    SetFactOptions
+	Params     SetFactParams
 	Result     SetFactResult
 }
 
-type SetFactOptions struct {
+type SetFactParams struct {
 
 	// Cacheable
 	Cacheable bool `yaml:"cacheable,omitempty" json:"cacheable,omitempty"`
@@ -25,7 +25,7 @@ type SetFactResult struct {
 }
 
 func (m *SetFact) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

@@ -7,11 +7,11 @@ import (
 
 type GetUrl struct {
 	ModuleName string
-	Options    GetUrlOptions
+	Params     GetUrlParams
 	Result     GetUrlResult
 }
 
-type GetUrlOptions struct {
+type GetUrlParams struct {
 
 	// Backup
 	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
@@ -127,7 +127,7 @@ type GetUrlResult struct {
 }
 
 func (m *GetUrl) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

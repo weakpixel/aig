@@ -7,11 +7,11 @@ import (
 
 type ValidateArgumentSpec struct {
 	ModuleName string
-	Options    ValidateArgumentSpecOptions
+	Params     ValidateArgumentSpecParams
 	Result     ValidateArgumentSpecResult
 }
 
-type ValidateArgumentSpecOptions struct {
+type ValidateArgumentSpecParams struct {
 
 	// ArgumentSpec
 	ArgumentSpec string `yaml:"argument_spec,omitempty" json:"argument_spec,omitempty"`
@@ -34,7 +34,7 @@ type ValidateArgumentSpecResult struct {
 }
 
 func (m *ValidateArgumentSpec) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

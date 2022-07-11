@@ -7,11 +7,11 @@ import (
 
 type SetStats struct {
 	ModuleName string
-	Options    SetStatsOptions
+	Params     SetStatsParams
 	Result     SetStatsResult
 }
 
-type SetStatsOptions struct {
+type SetStatsParams struct {
 
 	// Aggregate
 	Aggregate bool `yaml:"aggregate,omitempty" json:"aggregate,omitempty"`
@@ -28,7 +28,7 @@ type SetStatsResult struct {
 }
 
 func (m *SetStats) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

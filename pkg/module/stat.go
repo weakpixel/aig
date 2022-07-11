@@ -7,11 +7,11 @@ import (
 
 type Stat struct {
 	ModuleName string
-	Options    StatOptions
+	Params     StatParams
 	Result     StatResult
 }
 
-type StatOptions struct {
+type StatParams struct {
 
 	// ChecksumAlgorithm
 	ChecksumAlgorithm string `yaml:"checksum_algorithm,omitempty" json:"checksum_algorithm,omitempty"`
@@ -40,7 +40,7 @@ type StatResult struct {
 }
 
 func (m *Stat) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

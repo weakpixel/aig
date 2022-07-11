@@ -7,11 +7,11 @@ import (
 
 type Fetch struct {
 	ModuleName string
-	Options    FetchOptions
+	Params     FetchParams
 	Result     FetchResult
 }
 
-type FetchOptions struct {
+type FetchParams struct {
 
 	// Dest
 	Dest string `yaml:"dest,omitempty" json:"dest,omitempty"`
@@ -34,7 +34,7 @@ type FetchResult struct {
 }
 
 func (m *Fetch) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

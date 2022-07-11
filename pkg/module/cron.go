@@ -7,11 +7,11 @@ import (
 
 type Cron struct {
 	ModuleName string
-	Options    CronOptions
+	Params     CronParams
 	Result     CronResult
 }
 
-type CronOptions struct {
+type CronParams struct {
 
 	// Backup
 	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
@@ -67,7 +67,7 @@ type CronResult struct {
 }
 
 func (m *Cron) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

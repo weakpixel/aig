@@ -7,11 +7,11 @@ import (
 
 type Ping struct {
 	ModuleName string
-	Options    PingOptions
+	Params     PingParams
 	Result     PingResult
 }
 
-type PingOptions struct {
+type PingParams struct {
 
 	// Data
 	Data string `yaml:"data,omitempty" json:"data,omitempty"`
@@ -25,7 +25,7 @@ type PingResult struct {
 }
 
 func (m *Ping) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

@@ -7,11 +7,11 @@ import (
 
 type Uri struct {
 	ModuleName string
-	Options    UriOptions
+	Params     UriParams
 	Result     UriResult
 }
 
-type UriOptions struct {
+type UriParams struct {
 
 	// Body
 	Body string `yaml:"body,omitempty" json:"body,omitempty"`
@@ -127,7 +127,7 @@ type UriResult struct {
 }
 
 func (m *Uri) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

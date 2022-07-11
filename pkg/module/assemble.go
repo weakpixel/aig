@@ -7,11 +7,11 @@ import (
 
 type Assemble struct {
 	ModuleName string
-	Options    AssembleOptions
+	Params     AssembleParams
 	Result     AssembleResult
 }
 
-type AssembleOptions struct {
+type AssembleParams struct {
 
 	// Backup
 	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
@@ -43,7 +43,7 @@ type AssembleResult struct {
 }
 
 func (m *Assemble) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

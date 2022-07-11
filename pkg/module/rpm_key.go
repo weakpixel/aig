@@ -7,11 +7,11 @@ import (
 
 type RpmKey struct {
 	ModuleName string
-	Options    RpmKeyOptions
+	Params     RpmKeyParams
 	Result     RpmKeyResult
 }
 
-type RpmKeyOptions struct {
+type RpmKeyParams struct {
 
 	// Fingerprint
 	Fingerprint string `yaml:"fingerprint,omitempty" json:"fingerprint,omitempty"`
@@ -31,7 +31,7 @@ type RpmKeyResult struct {
 }
 
 func (m *RpmKey) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

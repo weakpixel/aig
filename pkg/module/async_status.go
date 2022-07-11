@@ -7,11 +7,11 @@ import (
 
 type AsyncStatus struct {
 	ModuleName string
-	Options    AsyncStatusOptions
+	Params     AsyncStatusParams
 	Result     AsyncStatusResult
 }
 
-type AsyncStatusOptions struct {
+type AsyncStatusParams struct {
 
 	// Jid
 	Jid string `yaml:"jid,omitempty" json:"jid,omitempty"`
@@ -43,7 +43,7 @@ type AsyncStatusResult struct {
 }
 
 func (m *AsyncStatus) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

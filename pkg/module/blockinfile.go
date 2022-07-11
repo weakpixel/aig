@@ -7,11 +7,11 @@ import (
 
 type Blockinfile struct {
 	ModuleName string
-	Options    BlockinfileOptions
+	Params     BlockinfileParams
 	Result     BlockinfileResult
 }
 
-type BlockinfileOptions struct {
+type BlockinfileParams struct {
 
 	// Backup
 	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
@@ -49,7 +49,7 @@ type BlockinfileResult struct {
 }
 
 func (m *Blockinfile) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

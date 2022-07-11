@@ -7,11 +7,11 @@ import (
 
 type PackageFacts struct {
 	ModuleName string
-	Options    PackageFactsOptions
+	Params     PackageFactsParams
 	Result     PackageFactsResult
 }
 
-type PackageFactsOptions struct {
+type PackageFactsParams struct {
 
 	// Manager
 	Manager []string `yaml:"manager,omitempty" json:"manager,omitempty"`
@@ -28,7 +28,7 @@ type PackageFactsResult struct {
 }
 
 func (m *PackageFacts) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

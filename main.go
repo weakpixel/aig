@@ -8,13 +8,13 @@ import (
 func main() {
 
 	// cmd := module.NewFind()
-	// cmd.Options.Paths = []string{
+	// cmd.Params.Paths = []string{
 	// 	"/tmp",
 	// }
-	// cmd.Options.Recurse = true
+	// cmd.Params.Recurse = true
 	cmd := module.NewFile()
-	cmd.Options.Path = "/tmp/myfile"
-	cmd.Options.State = "absent"
+	cmd.Params.Path = "/tmp/myfile"
+	cmd.Params.State = "absent"
 	err := cmd.Run()
 	if err != nil {
 		fmt.Println(cmd.Result.Raw)

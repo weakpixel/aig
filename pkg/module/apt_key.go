@@ -7,11 +7,11 @@ import (
 
 type AptKey struct {
 	ModuleName string
-	Options    AptKeyOptions
+	Params     AptKeyParams
 	Result     AptKeyResult
 }
 
-type AptKeyOptions struct {
+type AptKeyParams struct {
 
 	// Data
 	Data string `yaml:"data,omitempty" json:"data,omitempty"`
@@ -61,7 +61,7 @@ type AptKeyResult struct {
 }
 
 func (m *AptKey) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

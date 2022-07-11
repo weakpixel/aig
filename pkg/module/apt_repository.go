@@ -7,11 +7,11 @@ import (
 
 type AptRepository struct {
 	ModuleName string
-	Options    AptRepositoryOptions
+	Params     AptRepositoryParams
 	Result     AptRepositoryResult
 }
 
-type AptRepositoryOptions struct {
+type AptRepositoryParams struct {
 
 	// Codename
 	Codename string `yaml:"codename,omitempty" json:"codename,omitempty"`
@@ -49,7 +49,7 @@ type AptRepositoryResult struct {
 }
 
 func (m *AptRepository) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

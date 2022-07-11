@@ -7,11 +7,11 @@ import (
 
 type DpkgSelections struct {
 	ModuleName string
-	Options    DpkgSelectionsOptions
+	Params     DpkgSelectionsParams
 	Result     DpkgSelectionsResult
 }
 
-type DpkgSelectionsOptions struct {
+type DpkgSelectionsParams struct {
 
 	// Name
 	Name string `yaml:"name,omitempty" json:"name,omitempty"`
@@ -25,7 +25,7 @@ type DpkgSelectionsResult struct {
 }
 
 func (m *DpkgSelections) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

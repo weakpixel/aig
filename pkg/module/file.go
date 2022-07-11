@@ -7,11 +7,11 @@ import (
 
 type File struct {
 	ModuleName string
-	Options    FileOptions
+	Params     FileParams
 	Result     FileResult
 }
 
-type FileOptions struct {
+type FileParams struct {
 
 	// AccessTime
 	AccessTime string `yaml:"access_time,omitempty" json:"access_time,omitempty"`
@@ -55,7 +55,7 @@ type FileResult struct {
 }
 
 func (m *File) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

@@ -7,11 +7,11 @@ import (
 
 type Pip struct {
 	ModuleName string
-	Options    PipOptions
+	Params     PipParams
 	Result     PipResult
 }
 
-type PipOptions struct {
+type PipParams struct {
 
 	// Chdir
 	Chdir string `yaml:"chdir,omitempty" json:"chdir,omitempty"`
@@ -73,7 +73,7 @@ type PipResult struct {
 }
 
 func (m *Pip) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

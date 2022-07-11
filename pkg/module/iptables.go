@@ -7,11 +7,11 @@ import (
 
 type Iptables struct {
 	ModuleName string
-	Options    IptablesOptions
+	Params     IptablesParams
 	Result     IptablesResult
 }
 
-type IptablesOptions struct {
+type IptablesParams struct {
 
 	// Action
 	Action string `yaml:"action,omitempty" json:"action,omitempty"`
@@ -154,7 +154,7 @@ type IptablesResult struct {
 }
 
 func (m *Iptables) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

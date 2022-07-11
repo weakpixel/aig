@@ -7,11 +7,11 @@ import (
 
 type Git struct {
 	ModuleName string
-	Options    GitOptions
+	Params     GitParams
 	Result     GitResult
 }
 
-type GitOptions struct {
+type GitParams struct {
 
 	// AcceptHostkey
 	AcceptHostkey bool `yaml:"accept_hostkey,omitempty" json:"accept_hostkey,omitempty"`
@@ -112,7 +112,7 @@ type GitResult struct {
 }
 
 func (m *Git) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

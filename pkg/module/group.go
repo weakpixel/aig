@@ -7,11 +7,11 @@ import (
 
 type Group struct {
 	ModuleName string
-	Options    GroupOptions
+	Params     GroupParams
 	Result     GroupResult
 }
 
-type GroupOptions struct {
+type GroupParams struct {
 
 	// Gid
 	Gid int `yaml:"gid,omitempty" json:"gid,omitempty"`
@@ -49,7 +49,7 @@ type GroupResult struct {
 }
 
 func (m *Group) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

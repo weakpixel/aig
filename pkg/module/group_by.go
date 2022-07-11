@@ -7,11 +7,11 @@ import (
 
 type GroupBy struct {
 	ModuleName string
-	Options    GroupByOptions
+	Params     GroupByParams
 	Result     GroupByResult
 }
 
-type GroupByOptions struct {
+type GroupByParams struct {
 
 	// Key
 	Key string `yaml:"key,omitempty" json:"key,omitempty"`
@@ -25,7 +25,7 @@ type GroupByResult struct {
 }
 
 func (m *GroupBy) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

@@ -7,11 +7,11 @@ import (
 
 type Script struct {
 	ModuleName string
-	Options    ScriptOptions
+	Params     ScriptParams
 	Result     ScriptResult
 }
 
-type ScriptOptions struct {
+type ScriptParams struct {
 
 	// Chdir
 	Chdir string `yaml:"chdir,omitempty" json:"chdir,omitempty"`
@@ -37,7 +37,7 @@ type ScriptResult struct {
 }
 
 func (m *Script) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

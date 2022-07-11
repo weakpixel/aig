@@ -7,11 +7,11 @@ import (
 
 type Template struct {
 	ModuleName string
-	Options    TemplateOptions
+	Params     TemplateParams
 	Result     TemplateResult
 }
 
-type TemplateOptions struct {
+type TemplateParams struct {
 
 	// Follow
 	Follow bool `yaml:"follow,omitempty" json:"follow,omitempty"`
@@ -22,7 +22,7 @@ type TemplateResult struct {
 }
 
 func (m *Template) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

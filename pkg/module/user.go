@@ -7,11 +7,11 @@ import (
 
 type User struct {
 	ModuleName string
-	Options    UserOptions
+	Params     UserParams
 	Result     UserResult
 }
 
-type UserOptions struct {
+type UserParams struct {
 
 	// Append
 	Append bool `yaml:"append,omitempty" json:"append,omitempty"`
@@ -190,7 +190,7 @@ type UserResult struct {
 }
 
 func (m *User) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

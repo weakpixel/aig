@@ -7,11 +7,11 @@ import (
 
 type Setup struct {
 	ModuleName string
-	Options    SetupOptions
+	Params     SetupParams
 	Result     SetupResult
 }
 
-type SetupOptions struct {
+type SetupParams struct {
 
 	// FactPath
 	FactPath string `yaml:"fact_path,omitempty" json:"fact_path,omitempty"`
@@ -31,7 +31,7 @@ type SetupResult struct {
 }
 
 func (m *Setup) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

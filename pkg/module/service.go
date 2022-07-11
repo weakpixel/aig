@@ -7,11 +7,11 @@ import (
 
 type Service struct {
 	ModuleName string
-	Options    ServiceOptions
+	Params     ServiceParams
 	Result     ServiceResult
 }
 
-type ServiceOptions struct {
+type ServiceParams struct {
 
 	// Arguments
 	Arguments string `yaml:"arguments,omitempty" json:"arguments,omitempty"`
@@ -43,7 +43,7 @@ type ServiceResult struct {
 }
 
 func (m *Service) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

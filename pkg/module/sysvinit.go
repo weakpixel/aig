@@ -7,11 +7,11 @@ import (
 
 type Sysvinit struct {
 	ModuleName string
-	Options    SysvinitOptions
+	Params     SysvinitParams
 	Result     SysvinitResult
 }
 
-type SysvinitOptions struct {
+type SysvinitParams struct {
 
 	// Arguments
 	Arguments string `yaml:"arguments,omitempty" json:"arguments,omitempty"`
@@ -46,7 +46,7 @@ type SysvinitResult struct {
 }
 
 func (m *Sysvinit) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

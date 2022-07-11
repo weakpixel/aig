@@ -7,11 +7,11 @@ import (
 
 type Shell struct {
 	ModuleName string
-	Options    ShellOptions
+	Params     ShellParams
 	Result     ShellResult
 }
 
-type ShellOptions struct {
+type ShellParams struct {
 
 	// Chdir
 	Chdir string `yaml:"chdir,omitempty" json:"chdir,omitempty"`
@@ -73,7 +73,7 @@ type ShellResult struct {
 }
 
 func (m *Shell) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

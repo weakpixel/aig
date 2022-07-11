@@ -7,11 +7,11 @@ import (
 
 type Dnf struct {
 	ModuleName string
-	Options    DnfOptions
+	Params     DnfParams
 	Result     DnfResult
 }
 
-type DnfOptions struct {
+type DnfParams struct {
 
 	// AllowDowngrade
 	AllowDowngrade bool `yaml:"allow_downgrade,omitempty" json:"allow_downgrade,omitempty"`
@@ -109,7 +109,7 @@ type DnfResult struct {
 }
 
 func (m *Dnf) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }

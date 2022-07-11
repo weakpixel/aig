@@ -7,11 +7,11 @@ import (
 
 type Unarchive struct {
 	ModuleName string
-	Options    UnarchiveOptions
+	Params     UnarchiveParams
 	Result     UnarchiveResult
 }
 
-type UnarchiveOptions struct {
+type UnarchiveParams struct {
 
 	// Copy
 	Copy bool `yaml:"copy,omitempty" json:"copy,omitempty"`
@@ -88,7 +88,7 @@ type UnarchiveResult struct {
 }
 
 func (m *Unarchive) Run() error {
-	raw, err := ansible.Execute(m.ModuleName, m.Options, &m.Result)
+	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }
