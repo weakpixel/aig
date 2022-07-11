@@ -58,6 +58,7 @@ func parseModule(name string) bool {
 	return !strings.HasPrefix(name, "_") &&
 		!strings.HasPrefix(name, "include_") &&
 		!strings.HasPrefix(name, "import_") &&
+		!strings.HasPrefix(name, "set_") &&
 		!strings.HasPrefix(name, "fail") &&
 		!strings.HasPrefix(name, "wait_for_connection.py") &&
 		!strings.HasPrefix(name, "gather_facts.py") &&
