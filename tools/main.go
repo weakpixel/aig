@@ -62,7 +62,9 @@ func parseModules(dir string) ([]Module, error) {
 	}
 	for _, file := range files {
 		p := filepath.Join(dir, file.Name())
-		if !strings.HasPrefix(file.Name(), "_") {
+		if !strings.HasPrefix(file.Name(), "_") &&
+			!strings.HasPrefix(file.Name(), "inlude_") &&
+			!strings.HasPrefix(file.Name(), "import_") {
 			m := Module{Path: p}
 			err := m.parse()
 			if err != nil {
