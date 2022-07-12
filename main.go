@@ -1,12 +1,17 @@
 package main
 
 import (
-	"aig/pkg/module"
 	"fmt"
+
+	"github.com/weakpixel/aig/pkg/module"
 )
 
 func main() {
 
+	s, _ := module.GetSpec()
+	for _, m := range s.Modules {
+		fmt.Println(m.ModuleName, "---", m.ShortDescription)
+	}
 	// cmd := module.NewFind()
 	// cmd.Params.Paths = []string{
 	// 	"/tmp",
@@ -18,7 +23,6 @@ func main() {
 	err := cmd.Run()
 	if err != nil {
 		fmt.Println(cmd.Result.Raw)
-
 		panic(err)
 	}
 	// for _, f := range cmd.Result.Files {

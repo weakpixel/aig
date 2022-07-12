@@ -2,7 +2,7 @@
 package module
 
 import (
-	"aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/ansible"
 )
 
 type Debconf struct {

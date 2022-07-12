@@ -2,7 +2,7 @@
 package module
 
 import (
-	"aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/ansible"
 )
 
 type GetUrl struct {
@@ -39,6 +39,9 @@ type GetUrlParams struct {
 
 	// HttpAgent
 	HttpAgent string `yaml:"http_agent,omitempty" json:"http_agent,omitempty"`
+
+	// Sha256sum
+	Sha256sum string `yaml:"sha256sum,omitempty" json:"sha256sum,omitempty"`
 
 	// Timeout
 	Timeout int `yaml:"timeout,omitempty" json:"timeout,omitempty"`

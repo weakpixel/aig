@@ -2,16 +2,16 @@
 package module
 
 import (
-	"aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/ansible"
 )
 
-type SystemdService struct {
+type Systemd struct {
 	ModuleName string
-	Params     SystemdServiceParams
-	Result     SystemdServiceResult
+	Params     SystemdParams
+	Result     SystemdResult
 }
 
-type SystemdServiceParams struct {
+type SystemdParams struct {
 
 	// DaemonReexec
 	DaemonReexec bool `yaml:"daemon_reexec,omitempty" json:"daemon_reexec,omitempty"`
@@ -41,21 +41,21 @@ type SystemdServiceParams struct {
 	State string `yaml:"state,omitempty" json:"state,omitempty"`
 }
 
-type SystemdServiceResult struct {
+type SystemdResult struct {
 	Raw string
 
 	// Status
 	Status interface{} `yaml:"status,omitempty" json:"status,omitempty"`
 }
 
-func (m *SystemdService) Run() error {
+func (m *Systemd) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
 }
 
-func NewSystemdService() *SystemdService {
-	return &SystemdService{
-		ModuleName: "systemd_service",
+func NewSystemd() *Systemd {
+	return &Systemd{
+		ModuleName: "systemd",
 	}
 }

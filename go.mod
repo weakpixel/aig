@@ -1,4 +1,4 @@
-module aig
+module github.com/weakpixel/aig
 
 go 1.18
 

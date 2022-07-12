@@ -2,7 +2,7 @@
 package module
 
 import (
-	"aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/ansible"
 )
 
 type Command struct {
@@ -39,6 +39,9 @@ type CommandParams struct {
 
 	// StripEmptyEnds
 	StripEmptyEnds bool `yaml:"strip_empty_ends,omitempty" json:"strip_empty_ends,omitempty"`
+
+	// Warn
+	Warn bool `yaml:"warn,omitempty" json:"warn,omitempty"`
 }
 
 type CommandResult struct {
