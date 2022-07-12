@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/weakpixel/aig/pkg/types"
+
 	"github.com/go-python/gpython/ast"
 	"github.com/go-python/gpython/parser"
 	"github.com/go-python/gpython/py"
@@ -16,9 +18,9 @@ import (
 	"encoding/json"
 )
 
-func ParseModulesFromSpec(raw string) (*Spec, error) {
-	spec := &Spec{
-		Modules: []Module{},
+func ParseModulesFromSpec(raw string) (*types.Spec, error) {
+	spec := &types.Spec{
+		Modules: []*types.Module{},
 	}
 	jsonRaw, err := b64.StdEncoding.DecodeString(raw)
 	if err != nil {
@@ -33,9 +35,9 @@ func ParseModulesFromSpec(raw string) (*Spec, error) {
 }
 
 // ParseModules parses modules from Ansible source
-func ParseModules(dir string) (*Spec, error) {
-	spec := &Spec{
-		Modules: []Module{},
+func ParseModules(dir string) (*types.Spec, error) {
+	spec := &types.Spec{
+		Modules: []*types.Module{},
 	}
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
@@ -44,8 +46,8 @@ func ParseModules(dir string) (*Spec, error) {
 	for _, file := range files {
 		p := filepath.Join(dir, file.Name())
 		if includeModule(file.Name()) {
-			m := Module{Path: p}
-			err := m.parse()
+			m := &types.Module{Path: p}
+			err := parse(m)
 			if err != nil {
 				// skip this invalid module
 				if err.Error() == "skip" {
@@ -60,7 +62,7 @@ func ParseModules(dir string) (*Spec, error) {
 	return spec, nil
 }
 
-func (m *Module) parse() error {
+func parse(m *types.Module) error {
 	f, _ := os.Open(m.Path)
 	Ast, err := parser.Parse(f, m.Path, py.ExecMode)
 	if err != nil {
@@ -70,7 +72,7 @@ func (m *Module) parse() error {
 	switch node := Ast.(type) {
 	case *ast.Module:
 		for _, stmt := range node.Body {
-			err = m.parseStmt(stmt)
+			err = parseStmt(m, stmt)
 			if err != nil {
 				return err
 			}
@@ -84,12 +86,12 @@ func (m *Module) parse() error {
 	if m.ModuleName == "" {
 		return fmt.Errorf("skip")
 	}
-	m.Returns = map[string]*Return{}
+	m.Returns = map[string]*types.Return{}
 	err = yaml.Unmarshal([]byte(m.Return), m.Returns)
 	if err != nil {
 		return fmt.Errorf("Return: %s: %s", m.Path, err)
 	}
-	return m.normalize()
+	return normalize(m)
 }
 
 func includeModule(name string) bool {
@@ -111,7 +113,7 @@ func includeModule(name string) bool {
 		!strings.HasPrefix(name, "validate_argument_spec.py")
 }
 
-func (m *Module) normalizeName(val string) string {
+func normalizeName(m *types.Module, val string) string {
 	val = strings.ReplaceAll(val, "-", "_")
 	vals := strings.Split(val, "_")
 	for i, v := range vals {
@@ -151,25 +153,25 @@ func toGoType(ty string, elementType string) string {
 	}
 }
 
-func (m *Module) normalize() error {
-	m.NormalizedName = m.normalizeName(m.ModuleName)
+func normalize(m *types.Module) error {
+	m.NormalizedName = normalizeName(m, m.ModuleName)
 	for name, o := range m.Params {
-		o.NormalizedName = m.normalizeName(name)
+		o.NormalizedName = normalizeName(m, name)
 		o.StructTag = "`yaml:\"" + name + ",omitempty\" json:\"" + name + ",omitempty\"`"
 		o.GoType = toGoType(o.Type, o.Elements)
 	}
 
 	for name, r := range m.Returns {
 		r.GoType = toGoType(r.Type, "")
-		r.NormalizedName = m.normalizeName(name)
+		r.NormalizedName = normalizeName(m, name)
 		r.StructTag = "`yaml:\"" + name + ",omitempty\" json:\"" + name + ",omitempty\"`"
 	}
 	return nil
 }
-func (m *Module) parseStmt(stmt ast.Stmt) error {
+func parseStmt(m *types.Module, stmt ast.Stmt) error {
 	switch node := stmt.(type) {
 	case *ast.Assign:
-		id, val, err := m.parseAssign(node)
+		id, val, err := parseAssign(m, node)
 		if err != nil {
 			return err
 		}
@@ -183,7 +185,7 @@ func (m *Module) parseStmt(stmt ast.Stmt) error {
 	return nil
 }
 
-func (m *Module) parseAssign(node *ast.Assign) (id string, value string, err error) {
+func parseAssign(m *types.Module, node *ast.Assign) (id string, value string, err error) {
 	if len(node.Targets) != 1 {
 		return
 	}

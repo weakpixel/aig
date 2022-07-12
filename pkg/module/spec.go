@@ -1,11 +1,16 @@
 package module
 
 import (
-	"github.com/weakpixel/aig/pkg/parser"
+	b64 "encoding/base64"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
-func GetSpec() (*parser.Spec, error) {
-	return parser.ParseModulesFromSpec(moduleSpecJSON)
+func GetSpec() (*types.Spec, error) {
+	jsonRaw, err := b64.StdEncoding.DecodeString(moduleSpecJSON)
+	if err != nil {
+		return nil, err
+	}
+	return types.Parse(jsonRaw)
 }
 
 const (

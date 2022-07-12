@@ -1,7 +1,20 @@
-package parser
+package types
+
+import "encoding/json"
+
+func Parse(raw []byte) (*Spec, error) {
+	spec := &Spec{
+		Modules: []*Module{},
+	}
+	err := json.Unmarshal(raw, spec)
+	if err != nil {
+		return spec, err
+	}
+	return spec, err
+}
 
 type Spec struct {
-	Modules []Module `yaml:"modules" json:"modules"`
+	Modules []*Module `yaml:"modules" json:"modules"`
 }
 
 type Module struct {

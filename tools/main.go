@@ -11,6 +11,7 @@ import (
 	"text/template"
 
 	"github.com/weakpixel/aig/pkg/parser"
+	"github.com/weakpixel/aig/pkg/types"
 
 	b64 "encoding/base64"
 
@@ -86,7 +87,7 @@ func writeModuleZip(out string) {
 	}
 }
 
-func writeModuleSpec(spec *parser.Spec, out string) {
+func writeModuleSpec(spec *types.Spec, out string) {
 	raw, err := json.Marshal(spec)
 	if err != nil {
 		panic(err)
@@ -123,10 +124,15 @@ var (
 	specTemplate = `
 		package module
 		import (
-			"github.com/weakpixel/aig/pkg/parser"
+			"github.com/weakpixel/aig/pkg/types"
+			b64 "encoding/base64"
 		)
-		func GetSpec() (*parser.Spec, error) {
-			return parser.ParseModulesFromSpec(moduleSpecJSON)
+		func GetSpec() (*types.Spec, error) {
+			jsonRaw, err := b64.StdEncoding.DecodeString(moduleSpecJSON)
+			if err != nil {
+				return nil, err
+			}
+			return types.Parse(jsonRaw)
 		}
 		const (
 			// ModuleSpecJson contains source model spec base64 encoded
@@ -154,7 +160,6 @@ var (
 		func ModuleByName(ty string) Module {
 			return factories[ty]()
 		}
-
 	`
 
 	moduleTemplate = `
