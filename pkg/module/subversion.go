@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -60,6 +61,7 @@ type SubversionParams struct {
 }
 
 type SubversionResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -75,6 +77,10 @@ func (m *Subversion) GetResult() interface{} {
 
 func (m *Subversion) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Subversion) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Subversion) GetParams() interface{} {

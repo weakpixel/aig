@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -27,6 +28,7 @@ type GroupByParams struct {
 }
 
 type GroupByResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -42,6 +44,10 @@ func (m *GroupBy) GetResult() interface{} {
 
 func (m *GroupBy) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *GroupBy) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *GroupBy) GetParams() interface{} {

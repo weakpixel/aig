@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -111,6 +112,7 @@ type DnfParams struct {
 }
 
 type DnfResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -126,6 +128,10 @@ func (m *Dnf) GetResult() interface{} {
 
 func (m *Dnf) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Dnf) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Dnf) GetParams() interface{} {

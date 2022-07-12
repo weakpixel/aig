@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -36,6 +37,7 @@ type DebconfParams struct {
 }
 
 type DebconfResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -51,6 +53,10 @@ func (m *Debconf) GetResult() interface{} {
 
 func (m *Debconf) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Debconf) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Debconf) GetParams() interface{} {

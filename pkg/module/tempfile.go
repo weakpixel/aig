@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -33,6 +34,7 @@ type TempfileParams struct {
 }
 
 type TempfileResult struct {
+	types.CommonReturn
 	Raw string
 
 	// Path
@@ -51,6 +53,10 @@ func (m *Tempfile) GetResult() interface{} {
 
 func (m *Tempfile) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Tempfile) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Tempfile) GetParams() interface{} {

@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -33,6 +34,7 @@ type PauseParams struct {
 }
 
 type PauseResult struct {
+	types.CommonReturn
 	Raw string
 
 	// Delta
@@ -66,6 +68,10 @@ func (m *Pause) GetResult() interface{} {
 
 func (m *Pause) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Pause) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Pause) GetParams() interface{} {

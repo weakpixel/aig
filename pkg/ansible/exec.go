@@ -3,6 +3,7 @@ package ansible
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"os"
 	"os/exec"
 	"text/template"
@@ -11,7 +12,7 @@ import (
 	"github.com/weakpixel/aig/pkg/module/src"
 )
 
-type Data struct {
+type data struct {
 	Shebang       string
 	ZipData       string
 	Year          int
@@ -25,11 +26,11 @@ type Data struct {
 	AnsibleModule string
 }
 
-type Args struct {
+type args struct {
 	ModuleArgs interface{} `json:"ANSIBLE_MODULE_ARGS"`
 }
 
-func argsToString(a Args) string {
+func argsToString(a args) string {
 	val, err := json.Marshal(a)
 	if err != nil {
 		panic(err)
@@ -54,7 +55,7 @@ func Execute(module string, params interface{}, result interface{}) (string, err
 			return "", err
 		}
 	}
-	d := Data{
+	d := data{
 		Shebang:   "#!" + bin,
 		ZipData:   string(raw),
 		Year:      now.Year(),
@@ -64,7 +65,7 @@ func Execute(module string, params interface{}, result interface{}) (string, err
 		Minute:    now.Minute(),
 		Second:    now.Second(),
 		ModuleFqn: "ansible.modules." + module,
-		Params: argsToString(Args{
+		Params: argsToString(args{
 			ModuleArgs: params,
 		}),
 		AnsibleModule: "ansible" + module,
@@ -97,10 +98,15 @@ func Execute(module string, params interface{}, result interface{}) (string, err
 	cmd.Stdin = os.Stdout
 	cmd.Stdout = &buf
 	err = cmd.Run()
-	if err != nil {
-		return buf.String(), err
+
+	rawResult := buf.String()
+	decodeErr := json.Unmarshal([]byte(rawResult), result)
+
+	if decodeErr != nil {
+		// if decoding failed than we can assume that the execution failed.
+		// return original error
+		return rawResult, fmt.Errorf("execution failed: %s  Decoding error: %s", err, decodeErr)
 	}
-	de := json.NewDecoder(&buf)
-	return buf.String(), de.Decode(result)
+	return rawResult, nil
 
 }

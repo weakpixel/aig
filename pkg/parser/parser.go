@@ -13,26 +13,7 @@ import (
 	"github.com/go-python/gpython/parser"
 	"github.com/go-python/gpython/py"
 	yaml "gopkg.in/yaml.v3"
-
-	b64 "encoding/base64"
-	"encoding/json"
 )
-
-func ParseModulesFromSpec(raw string) (*types.Spec, error) {
-	spec := &types.Spec{
-		Modules: []*types.Module{},
-	}
-	jsonRaw, err := b64.StdEncoding.DecodeString(raw)
-	if err != nil {
-		return spec, err
-	}
-	err = json.Unmarshal(jsonRaw, spec)
-	if err != nil {
-		return spec, err
-	}
-
-	return spec, err
-}
 
 // ParseModules parses modules from Ansible source
 func ParseModules(dir string) (*types.Spec, error) {

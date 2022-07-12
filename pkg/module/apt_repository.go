@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -51,6 +52,7 @@ type AptRepositoryParams struct {
 }
 
 type AptRepositoryResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -66,6 +68,10 @@ func (m *AptRepository) GetResult() interface{} {
 
 func (m *AptRepository) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *AptRepository) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *AptRepository) GetParams() interface{} {

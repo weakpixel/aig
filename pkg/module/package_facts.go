@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -27,6 +28,7 @@ type PackageFactsParams struct {
 }
 
 type PackageFactsResult struct {
+	types.CommonReturn
 	Raw string
 
 	// AnsibleFacts
@@ -45,6 +47,10 @@ func (m *PackageFacts) GetResult() interface{} {
 
 func (m *PackageFacts) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *PackageFacts) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *PackageFacts) GetParams() interface{} {

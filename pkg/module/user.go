@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -129,6 +130,7 @@ type UserParams struct {
 }
 
 type UserResult struct {
+	types.CommonReturn
 	Raw string
 
 	// Append
@@ -207,6 +209,10 @@ func (m *User) GetResult() interface{} {
 
 func (m *User) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *User) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *User) GetParams() interface{} {

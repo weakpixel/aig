@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -108,6 +109,7 @@ type YumParams struct {
 }
 
 type YumResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -123,6 +125,10 @@ func (m *Yum) GetResult() interface{} {
 
 func (m *Yum) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Yum) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Yum) GetParams() interface{} {

@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -33,6 +34,7 @@ type RpmKeyParams struct {
 }
 
 type RpmKeyResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -48,6 +50,10 @@ func (m *RpmKey) GetResult() interface{} {
 
 func (m *RpmKey) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *RpmKey) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *RpmKey) GetParams() interface{} {

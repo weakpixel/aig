@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -51,6 +52,7 @@ type BlockinfileParams struct {
 }
 
 type BlockinfileResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -66,6 +68,10 @@ func (m *Blockinfile) GetResult() interface{} {
 
 func (m *Blockinfile) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Blockinfile) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Blockinfile) GetParams() interface{} {

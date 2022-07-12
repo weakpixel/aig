@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -27,6 +28,7 @@ type AsyncStatusParams struct {
 }
 
 type AsyncStatusResult struct {
+	types.CommonReturn
 	Raw string
 
 	// AnsibleJobId
@@ -60,6 +62,10 @@ func (m *AsyncStatus) GetResult() interface{} {
 
 func (m *AsyncStatus) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *AsyncStatus) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *AsyncStatus) GetParams() interface{} {

@@ -25,6 +25,7 @@ var (
 type Module interface {
 	GetResult() interface{}
 	GetResultRaw() string
+	GetCommonResult() types.CommonReturn
 	GetParams() interface{}
 	GetType() string
 	Run() error

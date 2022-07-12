@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -42,6 +43,7 @@ type ExpectParams struct {
 }
 
 type ExpectResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -57,6 +59,10 @@ func (m *Expect) GetResult() interface{} {
 
 func (m *Expect) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Expect) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Expect) GetParams() interface{} {

@@ -20,7 +20,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	cmd2 := module.NewFind()
 	cmd2.Params.Recurse = true
 	cmd2.Params.Paths = []string{
@@ -36,12 +35,10 @@ func main() {
 	if cmd2.Result.Matched > 0 {
 		fmt.Println(cmd2.Result.Files[0])
 	}
-
 	m := module.ModuleByName("file")
 	err = m.Run()
 	if err != nil {
-		fmt.Println(m.GetResultRaw())
 		panic(err)
 	}
-
+	fmt.Println("Failed: ", m.GetCommonResult().Failed, "Cause: ", m.GetCommonResult().Msg)
 }

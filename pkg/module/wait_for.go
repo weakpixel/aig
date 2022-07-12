@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -57,6 +58,7 @@ type WaitForParams struct {
 }
 
 type WaitForResult struct {
+	types.CommonReturn
 	Raw string
 
 	// Elapsed
@@ -81,6 +83,10 @@ func (m *WaitFor) GetResult() interface{} {
 
 func (m *WaitFor) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *WaitFor) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *WaitFor) GetParams() interface{} {

@@ -146,6 +146,7 @@ var (
 		type Module interface {
 			GetResult() interface{}
 			GetResultRaw() string
+			GetCommonResult() types.CommonReturn 
 			GetParams() interface{}
 			GetType() string
 			Run() error
@@ -168,7 +169,7 @@ var (
 
 		import (
 			"github.com/weakpixel/aig/pkg/ansible"
-			
+			"github.com/weakpixel/aig/pkg/types"
 		)
 
 		func init() {
@@ -191,6 +192,7 @@ var (
 		}
 
 		type {{ .NormalizedName }}Result struct {
+			types.CommonReturn
 			Raw string 
 			{{range $name, $opt := .Returns }}
 				// {{ $opt.NormalizedName }} 
@@ -210,6 +212,10 @@ var (
 
 		func (m *{{ .NormalizedName }}) GetResultRaw() string {
 			return m.Result.Raw
+		}
+
+		func (m *{{ .NormalizedName }}) GetCommonResult() types.CommonReturn {
+			return m.Result.CommonReturn
 		}
 
 		func (m *{{ .NormalizedName }}) GetParams() interface{} {

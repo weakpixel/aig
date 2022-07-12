@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -27,6 +28,7 @@ type HostnameParams struct {
 }
 
 type HostnameResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -42,6 +44,10 @@ func (m *Hostname) GetResult() interface{} {
 
 func (m *Hostname) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Hostname) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Hostname) GetParams() interface{} {

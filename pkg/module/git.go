@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -96,6 +97,7 @@ type GitParams struct {
 }
 
 type GitResult struct {
+	types.CommonReturn
 	Raw string
 
 	// After
@@ -129,6 +131,10 @@ func (m *Git) GetResult() interface{} {
 
 func (m *Git) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Git) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Git) GetParams() interface{} {

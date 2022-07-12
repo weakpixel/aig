@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -48,6 +49,7 @@ type RebootParams struct {
 }
 
 type RebootResult struct {
+	types.CommonReturn
 	Raw string
 
 	// Elapsed
@@ -69,6 +71,10 @@ func (m *Reboot) GetResult() interface{} {
 
 func (m *Reboot) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Reboot) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Reboot) GetParams() interface{} {

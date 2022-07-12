@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -156,6 +157,7 @@ type IptablesParams struct {
 }
 
 type IptablesResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -171,6 +173,10 @@ func (m *Iptables) GetResult() interface{} {
 
 func (m *Iptables) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Iptables) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Iptables) GetParams() interface{} {

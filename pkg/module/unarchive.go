@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -57,6 +58,7 @@ type UnarchiveParams struct {
 }
 
 type UnarchiveResult struct {
+	types.CommonReturn
 	Raw string
 
 	// Dest
@@ -105,6 +107,10 @@ func (m *Unarchive) GetResult() interface{} {
 
 func (m *Unarchive) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Unarchive) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Unarchive) GetParams() interface{} {

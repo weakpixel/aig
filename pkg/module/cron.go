@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -69,6 +70,7 @@ type CronParams struct {
 }
 
 type CronResult struct {
+	types.CommonReturn
 	Raw string
 }
 
@@ -84,6 +86,10 @@ func (m *Cron) GetResult() interface{} {
 
 func (m *Cron) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Cron) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Cron) GetParams() interface{} {

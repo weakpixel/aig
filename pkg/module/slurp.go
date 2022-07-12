@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -24,6 +25,7 @@ type SlurpParams struct {
 }
 
 type SlurpResult struct {
+	types.CommonReturn
 	Raw string
 
 	// Content
@@ -48,6 +50,10 @@ func (m *Slurp) GetResult() interface{} {
 
 func (m *Slurp) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Slurp) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Slurp) GetParams() interface{} {

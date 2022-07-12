@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -54,6 +55,7 @@ type CopyParams struct {
 }
 
 type CopyResult struct {
+	types.CommonReturn
 	Raw string
 
 	// BackupFile
@@ -105,6 +107,10 @@ func (m *Copy) GetResult() interface{} {
 
 func (m *Copy) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Copy) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Copy) GetParams() interface{} {

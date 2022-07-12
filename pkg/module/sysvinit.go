@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -45,6 +46,7 @@ type SysvinitParams struct {
 }
 
 type SysvinitResult struct {
+	types.CommonReturn
 	Raw string
 
 	// Results
@@ -63,6 +65,10 @@ func (m *Sysvinit) GetResult() interface{} {
 
 func (m *Sysvinit) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Sysvinit) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Sysvinit) GetParams() interface{} {

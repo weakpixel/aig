@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -48,6 +49,7 @@ type SystemdParams struct {
 }
 
 type SystemdResult struct {
+	types.CommonReturn
 	Raw string
 
 	// Status
@@ -66,6 +68,10 @@ func (m *Systemd) GetResult() interface{} {
 
 func (m *Systemd) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *Systemd) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *Systemd) GetParams() interface{} {

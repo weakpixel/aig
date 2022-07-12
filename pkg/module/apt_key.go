@@ -3,6 +3,7 @@ package module
 
 import (
 	"github.com/weakpixel/aig/pkg/ansible"
+	"github.com/weakpixel/aig/pkg/types"
 )
 
 func init() {
@@ -45,6 +46,7 @@ type AptKeyParams struct {
 }
 
 type AptKeyResult struct {
+	types.CommonReturn
 	Raw string
 
 	// After
@@ -78,6 +80,10 @@ func (m *AptKey) GetResult() interface{} {
 
 func (m *AptKey) GetResultRaw() string {
 	return m.Result.Raw
+}
+
+func (m *AptKey) GetCommonResult() types.CommonReturn {
+	return m.Result.CommonReturn
 }
 
 func (m *AptKey) GetParams() interface{} {
