@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("async_status", func() Module {
+		return NewAsyncStatus()
+	})
+}
+
 type AsyncStatus struct {
 	ModuleName string
 	Params     AsyncStatusParams
@@ -46,6 +52,22 @@ func (m *AsyncStatus) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *AsyncStatus) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *AsyncStatus) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *AsyncStatus) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *AsyncStatus) GetType() string {
+	return m.ModuleName
 }
 
 func NewAsyncStatus() *AsyncStatus {

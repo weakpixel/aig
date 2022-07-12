@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("copy", func() Module {
+		return NewCopy()
+	})
+}
+
 type Copy struct {
 	ModuleName string
 	Params     CopyParams
@@ -91,6 +97,22 @@ func (m *Copy) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Copy) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Copy) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Copy) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Copy) GetType() string {
+	return m.ModuleName
 }
 
 func NewCopy() *Copy {

@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("replace", func() Module {
+		return NewReplace()
+	})
+}
+
 type Replace struct {
 	ModuleName string
 	Params     ReplaceParams
@@ -46,6 +52,22 @@ func (m *Replace) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Replace) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Replace) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Replace) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Replace) GetType() string {
+	return m.ModuleName
 }
 
 func NewReplace() *Replace {

@@ -131,7 +131,30 @@ var (
 		const (
 			// ModuleSpecJson contains source model spec base64 encoded
 			moduleSpecJSON = {{ .Source | printf "%q" }}
+			
 		)
+		var (
+			factories = map[string]factory{}
+		)
+
+		type Module interface {
+			GetResult() interface{}
+			GetResultRaw() string
+			GetParams() interface{}
+			GetType() string
+			Run() error
+		}
+
+		type factory func() Module
+
+		func addModuleFactory(ty string, f factory) {
+			factories[ty] = f
+		}
+		
+		func ModuleByName(ty string) Module {
+			return factories[ty]()
+		}
+
 	`
 
 	moduleTemplate = `
@@ -142,6 +165,12 @@ var (
 			"github.com/weakpixel/aig/pkg/ansible"
 			
 		)
+
+		func init() {
+			addModuleFactory("{{.ModuleName}}", func() Module {
+				return New{{.NormalizedName}}()
+			})
+		}
 
 		type {{ .NormalizedName }} struct {
 			ModuleName string
@@ -168,6 +197,22 @@ var (
 			raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 			m.Result.Raw = raw
 			return err
+		}
+
+		func (m *{{ .NormalizedName }}) GetResult() interface{} {
+			return &m.Result
+		}
+
+		func (m *{{ .NormalizedName }}) GetResultRaw() string {
+			return m.Result.Raw
+		}
+
+		func (m *{{ .NormalizedName }}) GetParams() interface{} {
+			return &m.Params
+		}
+
+		func (m *{{ .NormalizedName }}) GetType() string {
+			return m.ModuleName
 		}
 
 		func New{{.NormalizedName}}() *{{.NormalizedName}} {

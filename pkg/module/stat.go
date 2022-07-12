@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("stat", func() Module {
+		return NewStat()
+	})
+}
+
 type Stat struct {
 	ModuleName string
 	Params     StatParams
@@ -43,6 +49,22 @@ func (m *Stat) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Stat) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Stat) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Stat) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Stat) GetType() string {
+	return m.ModuleName
 }
 
 func NewStat() *Stat {

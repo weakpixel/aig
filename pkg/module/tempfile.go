@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("tempfile", func() Module {
+		return NewTempfile()
+	})
+}
+
 type Tempfile struct {
 	ModuleName string
 	Params     TempfileParams
@@ -37,6 +43,22 @@ func (m *Tempfile) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Tempfile) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Tempfile) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Tempfile) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Tempfile) GetType() string {
+	return m.ModuleName
 }
 
 func NewTempfile() *Tempfile {

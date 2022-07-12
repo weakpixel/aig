@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("debconf", func() Module {
+		return NewDebconf()
+	})
+}
+
 type Debconf struct {
 	ModuleName string
 	Params     DebconfParams
@@ -37,6 +43,22 @@ func (m *Debconf) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Debconf) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Debconf) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Debconf) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Debconf) GetType() string {
+	return m.ModuleName
 }
 
 func NewDebconf() *Debconf {

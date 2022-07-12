@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("getent", func() Module {
+		return NewGetent()
+	})
+}
+
 type Getent struct {
 	ModuleName string
 	Params     GetentParams
@@ -40,6 +46,22 @@ func (m *Getent) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Getent) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Getent) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Getent) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Getent) GetType() string {
+	return m.ModuleName
 }
 
 func NewGetent() *Getent {

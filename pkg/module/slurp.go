@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("slurp", func() Module {
+		return NewSlurp()
+	})
+}
+
 type Slurp struct {
 	ModuleName string
 	Params     SlurpParams
@@ -34,6 +40,22 @@ func (m *Slurp) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Slurp) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Slurp) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Slurp) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Slurp) GetType() string {
+	return m.ModuleName
 }
 
 func NewSlurp() *Slurp {

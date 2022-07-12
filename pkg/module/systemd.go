@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("systemd", func() Module {
+		return NewSystemd()
+	})
+}
+
 type Systemd struct {
 	ModuleName string
 	Params     SystemdParams
@@ -52,6 +58,22 @@ func (m *Systemd) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Systemd) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Systemd) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Systemd) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Systemd) GetType() string {
+	return m.ModuleName
 }
 
 func NewSystemd() *Systemd {

@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("file", func() Module {
+		return NewFile()
+	})
+}
+
 type File struct {
 	ModuleName string
 	Params     FileParams
@@ -58,6 +64,22 @@ func (m *File) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *File) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *File) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *File) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *File) GetType() string {
+	return m.ModuleName
 }
 
 func NewFile() *File {

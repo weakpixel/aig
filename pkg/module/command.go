@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("command", func() Module {
+		return NewCommand()
+	})
+}
+
 type Command struct {
 	ModuleName string
 	Params     CommandParams
@@ -82,6 +88,22 @@ func (m *Command) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Command) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Command) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Command) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Command) GetType() string {
+	return m.ModuleName
 }
 
 func NewCommand() *Command {

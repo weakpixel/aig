@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("hostname", func() Module {
+		return NewHostname()
+	})
+}
+
 type Hostname struct {
 	ModuleName string
 	Params     HostnameParams
@@ -28,6 +34,22 @@ func (m *Hostname) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Hostname) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Hostname) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Hostname) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Hostname) GetType() string {
+	return m.ModuleName
 }
 
 func NewHostname() *Hostname {

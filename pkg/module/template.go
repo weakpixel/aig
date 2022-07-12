@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("template", func() Module {
+		return NewTemplate()
+	})
+}
+
 type Template struct {
 	ModuleName string
 	Params     TemplateParams
@@ -25,6 +31,22 @@ func (m *Template) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Template) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Template) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Template) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Template) GetType() string {
+	return m.ModuleName
 }
 
 func NewTemplate() *Template {

@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("rpm_key", func() Module {
+		return NewRpmKey()
+	})
+}
+
 type RpmKey struct {
 	ModuleName string
 	Params     RpmKeyParams
@@ -34,6 +40,22 @@ func (m *RpmKey) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *RpmKey) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *RpmKey) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *RpmKey) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *RpmKey) GetType() string {
+	return m.ModuleName
 }
 
 func NewRpmKey() *RpmKey {

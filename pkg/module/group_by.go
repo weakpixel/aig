@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("group_by", func() Module {
+		return NewGroupBy()
+	})
+}
+
 type GroupBy struct {
 	ModuleName string
 	Params     GroupByParams
@@ -28,6 +34,22 @@ func (m *GroupBy) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *GroupBy) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *GroupBy) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *GroupBy) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *GroupBy) GetType() string {
+	return m.ModuleName
 }
 
 func NewGroupBy() *GroupBy {

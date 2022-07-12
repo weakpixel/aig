@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("cron", func() Module {
+		return NewCron()
+	})
+}
+
 type Cron struct {
 	ModuleName string
 	Params     CronParams
@@ -70,6 +76,22 @@ func (m *Cron) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Cron) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Cron) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Cron) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Cron) GetType() string {
+	return m.ModuleName
 }
 
 func NewCron() *Cron {

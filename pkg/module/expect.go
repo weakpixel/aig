@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("expect", func() Module {
+		return NewExpect()
+	})
+}
+
 type Expect struct {
 	ModuleName string
 	Params     ExpectParams
@@ -43,6 +49,22 @@ func (m *Expect) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Expect) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Expect) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Expect) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Expect) GetType() string {
+	return m.ModuleName
 }
 
 func NewExpect() *Expect {

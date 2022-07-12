@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("assemble", func() Module {
+		return NewAssemble()
+	})
+}
+
 type Assemble struct {
 	ModuleName string
 	Params     AssembleParams
@@ -46,6 +52,22 @@ func (m *Assemble) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Assemble) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Assemble) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Assemble) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Assemble) GetType() string {
+	return m.ModuleName
 }
 
 func NewAssemble() *Assemble {

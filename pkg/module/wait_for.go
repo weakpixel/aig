@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("wait_for", func() Module {
+		return NewWaitFor()
+	})
+}
+
 type WaitFor struct {
 	ModuleName string
 	Params     WaitForParams
@@ -67,6 +73,22 @@ func (m *WaitFor) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *WaitFor) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *WaitFor) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *WaitFor) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *WaitFor) GetType() string {
+	return m.ModuleName
 }
 
 func NewWaitFor() *WaitFor {

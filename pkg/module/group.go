@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("group", func() Module {
+		return NewGroup()
+	})
+}
+
 type Group struct {
 	ModuleName string
 	Params     GroupParams
@@ -52,6 +58,22 @@ func (m *Group) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Group) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Group) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Group) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Group) GetType() string {
+	return m.ModuleName
 }
 
 func NewGroup() *Group {

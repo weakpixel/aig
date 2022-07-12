@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("user", func() Module {
+		return NewUser()
+	})
+}
+
 type User struct {
 	ModuleName string
 	Params     UserParams
@@ -193,6 +199,22 @@ func (m *User) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *User) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *User) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *User) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *User) GetType() string {
+	return m.ModuleName
 }
 
 func NewUser() *User {

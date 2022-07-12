@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("blockinfile", func() Module {
+		return NewBlockinfile()
+	})
+}
+
 type Blockinfile struct {
 	ModuleName string
 	Params     BlockinfileParams
@@ -52,6 +58,22 @@ func (m *Blockinfile) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Blockinfile) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Blockinfile) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Blockinfile) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Blockinfile) GetType() string {
+	return m.ModuleName
 }
 
 func NewBlockinfile() *Blockinfile {

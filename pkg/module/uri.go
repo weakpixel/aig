@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("uri", func() Module {
+		return NewUri()
+	})
+}
+
 type Uri struct {
 	ModuleName string
 	Params     UriParams
@@ -130,6 +136,22 @@ func (m *Uri) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Uri) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Uri) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Uri) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Uri) GetType() string {
+	return m.ModuleName
 }
 
 func NewUri() *Uri {

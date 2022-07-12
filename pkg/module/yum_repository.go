@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("yum_repository", func() Module {
+		return NewYumRepository()
+	})
+}
+
 type YumRepository struct {
 	ModuleName string
 	Params     YumRepositoryParams
@@ -175,6 +181,22 @@ func (m *YumRepository) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *YumRepository) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *YumRepository) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *YumRepository) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *YumRepository) GetType() string {
+	return m.ModuleName
 }
 
 func NewYumRepository() *YumRepository {

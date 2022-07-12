@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("apt_key", func() Module {
+		return NewAptKey()
+	})
+}
+
 type AptKey struct {
 	ModuleName string
 	Params     AptKeyParams
@@ -64,6 +70,22 @@ func (m *AptKey) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *AptKey) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *AptKey) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *AptKey) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *AptKey) GetType() string {
+	return m.ModuleName
 }
 
 func NewAptKey() *AptKey {

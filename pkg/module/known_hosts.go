@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("known_hosts", func() Module {
+		return NewKnownHosts()
+	})
+}
+
 type KnownHosts struct {
 	ModuleName string
 	Params     KnownHostsParams
@@ -37,6 +43,22 @@ func (m *KnownHosts) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *KnownHosts) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *KnownHosts) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *KnownHosts) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *KnownHosts) GetType() string {
+	return m.ModuleName
 }
 
 func NewKnownHosts() *KnownHosts {

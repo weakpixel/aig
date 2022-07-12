@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("package_facts", func() Module {
+		return NewPackageFacts()
+	})
+}
+
 type PackageFacts struct {
 	ModuleName string
 	Params     PackageFactsParams
@@ -31,6 +37,22 @@ func (m *PackageFacts) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *PackageFacts) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *PackageFacts) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *PackageFacts) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *PackageFacts) GetType() string {
+	return m.ModuleName
 }
 
 func NewPackageFacts() *PackageFacts {

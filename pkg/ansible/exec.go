@@ -98,7 +98,7 @@ func Execute(module string, params interface{}, result interface{}) (string, err
 	cmd.Stdout = &buf
 	err = cmd.Run()
 	if err != nil {
-		return "", err
+		return buf.String(), err
 	}
 	de := json.NewDecoder(&buf)
 	return buf.String(), de.Decode(result)

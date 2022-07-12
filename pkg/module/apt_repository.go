@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("apt_repository", func() Module {
+		return NewAptRepository()
+	})
+}
+
 type AptRepository struct {
 	ModuleName string
 	Params     AptRepositoryParams
@@ -52,6 +58,22 @@ func (m *AptRepository) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *AptRepository) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *AptRepository) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *AptRepository) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *AptRepository) GetType() string {
+	return m.ModuleName
 }
 
 func NewAptRepository() *AptRepository {

@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("pause", func() Module {
+		return NewPause()
+	})
+}
+
 type Pause struct {
 	ModuleName string
 	Params     PauseParams
@@ -52,6 +58,22 @@ func (m *Pause) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Pause) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Pause) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Pause) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Pause) GetType() string {
+	return m.ModuleName
 }
 
 func NewPause() *Pause {

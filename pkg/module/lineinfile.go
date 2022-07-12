@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("lineinfile", func() Module {
+		return NewLineinfile()
+	})
+}
+
 type Lineinfile struct {
 	ModuleName string
 	Params     LineinfileParams
@@ -58,6 +64,22 @@ func (m *Lineinfile) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Lineinfile) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Lineinfile) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Lineinfile) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Lineinfile) GetType() string {
+	return m.ModuleName
 }
 
 func NewLineinfile() *Lineinfile {

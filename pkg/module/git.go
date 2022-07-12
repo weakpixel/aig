@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("git", func() Module {
+		return NewGit()
+	})
+}
+
 type Git struct {
 	ModuleName string
 	Params     GitParams
@@ -115,6 +121,22 @@ func (m *Git) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Git) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Git) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Git) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Git) GetType() string {
+	return m.ModuleName
 }
 
 func NewGit() *Git {

@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("iptables", func() Module {
+		return NewIptables()
+	})
+}
+
 type Iptables struct {
 	ModuleName string
 	Params     IptablesParams
@@ -157,6 +163,22 @@ func (m *Iptables) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Iptables) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Iptables) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Iptables) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Iptables) GetType() string {
+	return m.ModuleName
 }
 
 func NewIptables() *Iptables {

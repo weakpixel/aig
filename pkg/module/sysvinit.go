@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("sysvinit", func() Module {
+		return NewSysvinit()
+	})
+}
+
 type Sysvinit struct {
 	ModuleName string
 	Params     SysvinitParams
@@ -49,6 +55,22 @@ func (m *Sysvinit) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Sysvinit) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Sysvinit) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Sysvinit) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Sysvinit) GetType() string {
+	return m.ModuleName
 }
 
 func NewSysvinit() *Sysvinit {

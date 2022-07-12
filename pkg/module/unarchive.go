@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("unarchive", func() Module {
+		return NewUnarchive()
+	})
+}
+
 type Unarchive struct {
 	ModuleName string
 	Params     UnarchiveParams
@@ -91,6 +97,22 @@ func (m *Unarchive) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Unarchive) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Unarchive) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Unarchive) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Unarchive) GetType() string {
+	return m.ModuleName
 }
 
 func NewUnarchive() *Unarchive {

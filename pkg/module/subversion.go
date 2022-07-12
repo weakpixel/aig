@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("subversion", func() Module {
+		return NewSubversion()
+	})
+}
+
 type Subversion struct {
 	ModuleName string
 	Params     SubversionParams
@@ -61,6 +67,22 @@ func (m *Subversion) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Subversion) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Subversion) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Subversion) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Subversion) GetType() string {
+	return m.ModuleName
 }
 
 func NewSubversion() *Subversion {

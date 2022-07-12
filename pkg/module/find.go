@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("find", func() Module {
+		return NewFind()
+	})
+}
+
 type Find struct {
 	ModuleName string
 	Params     FindParams
@@ -79,6 +85,22 @@ func (m *Find) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Find) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Find) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Find) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Find) GetType() string {
+	return m.ModuleName
 }
 
 func NewFind() *Find {

@@ -5,6 +5,12 @@ import (
 	"github.com/weakpixel/aig/pkg/ansible"
 )
 
+func init() {
+	addModuleFactory("pip", func() Module {
+		return NewPip()
+	})
+}
+
 type Pip struct {
 	ModuleName string
 	Params     PipParams
@@ -76,6 +82,22 @@ func (m *Pip) Run() error {
 	raw, err := ansible.Execute(m.ModuleName, m.Params, &m.Result)
 	m.Result.Raw = raw
 	return err
+}
+
+func (m *Pip) GetResult() interface{} {
+	return &m.Result
+}
+
+func (m *Pip) GetResultRaw() string {
+	return m.Result.Raw
+}
+
+func (m *Pip) GetParams() interface{} {
+	return &m.Params
+}
+
+func (m *Pip) GetType() string {
+	return m.ModuleName
 }
 
 func NewPip() *Pip {
