@@ -3,11 +3,12 @@ package ansible
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"text/template"
 	"time"
+
+	"github.com/weakpixel/aig/pkg/module/src"
 )
 
 type Data struct {
@@ -28,23 +29,16 @@ type Args struct {
 	ModuleArgs interface{} `json:"ANSIBLE_MODULE_ARGS"`
 }
 
-func ArgstoString(a Args) string {
+func argsToString(a Args) string {
 	val, err := json.Marshal(a)
 	if err != nil {
 		panic(err)
 	}
-	res := string(val)
-	// res = strings.ReplaceAll(res, "false", "False")
-	// res = strings.ReplaceAll(res, "true", "True")
-	return res
+	return string(val)
 }
 
 func loadModulesChunk() (string, error) {
-	raw, err := ioutil.ReadFile("build/ansible_modules.txt")
-	if err != nil {
-		return "", err
-	}
-	return string(raw), nil
+	return src.ModuleSources, nil
 }
 
 func Execute(module string, params interface{}, result interface{}) (string, error) {
@@ -55,10 +49,12 @@ func Execute(module string, params interface{}, result interface{}) (string, err
 	now := time.Now()
 	bin, err := exec.LookPath("python")
 	if err != nil {
-		return "", err
+		bin, err = exec.LookPath("python3")
+		if err != nil {
+			return "", err
+		}
 	}
 	d := Data{
-		// Shebang:   "#!/usr/local/Cellar/ansible/6.0.0/libexec/bin/python3.10",
 		Shebang:   "#!" + bin,
 		ZipData:   string(raw),
 		Year:      now.Year(),
@@ -68,7 +64,7 @@ func Execute(module string, params interface{}, result interface{}) (string, err
 		Minute:    now.Minute(),
 		Second:    now.Second(),
 		ModuleFqn: "ansible.modules." + module,
-		Params: ArgstoString(Args{
+		Params: argsToString(Args{
 			ModuleArgs: params,
 		}),
 		AnsibleModule: "ansible" + module,

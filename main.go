@@ -8,10 +8,11 @@ import (
 
 func main() {
 
-	s, _ := module.GetSpec()
-	for _, m := range s.Modules {
-		fmt.Println(m.ModuleName, "---", m.ShortDescription)
-	}
+	// s, _ := module.GetSpec()
+	// for _, m := range s.Modules {
+	// 	fmt.Println(m.ModuleName, "---", m.ShortDescription)
+	// }
+
 	// cmd := module.NewFind()
 	// cmd.Params.Paths = []string{
 	// 	"/tmp",
@@ -21,10 +22,11 @@ func main() {
 	cmd.Params.Path = "/tmp/myfile"
 	cmd.Params.State = "absent"
 	err := cmd.Run()
+	fmt.Println(cmd.Result.Raw)
 	if err != nil {
-		fmt.Println(cmd.Result.Raw)
 		panic(err)
 	}
+
 	// for _, f := range cmd.Result.Files {
 	// 	fmt.Println(f["path"])
 	// }

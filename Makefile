@@ -1,7 +1,7 @@
 
 current_dir := "$(shell pwd)"
 zip_file := "$(current_dir)/build/ansible_modules.zip"
-base64_file := "$(current_dir)/build/ansible_modules.txt"
+base64_file := "$(current_dir)/build/ansible_modules.zip.base64"
 
 .PHONY: prepare_ansible
 prepare_ansible:
