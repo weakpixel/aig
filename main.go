@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/weakpixel/aig/pkg/ansible"
 	"github.com/weakpixel/aig/pkg/module"
 )
 
@@ -15,7 +16,7 @@ func main() {
 	cmd := module.NewFile()
 	cmd.Params.Path = "/tmp/myfile"
 	cmd.Params.State = "absent"
-	err := cmd.Run()
+	_, err := ansible.ExecuteLocal(cmd)
 	fmt.Println(cmd.Result.Raw)
 	if err != nil {
 		panic(err)
@@ -25,7 +26,7 @@ func main() {
 	cmd2.Params.Paths = []string{
 		"/tmp/",
 	}
-	err = cmd2.Run()
+	_, err = ansible.ExecuteLocal(cmd2)
 	if err != nil {
 		fmt.Println(cmd2.Result.Raw)
 		panic(err)
@@ -36,7 +37,7 @@ func main() {
 		fmt.Println(cmd2.Result.Files[0])
 	}
 	m := module.ModuleByName("file")
-	err = m.Run()
+	_, err = ansible.ExecuteLocal(m)
 	if err != nil {
 		panic(err)
 	}

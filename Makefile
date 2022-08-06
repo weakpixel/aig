@@ -21,7 +21,7 @@ clean:
 .PHONY: gen
 gen:
 	rm -fr pkg/module/*
-	go run tools/main.go -m  build/ansible/lib/ansible/modules/ -o pkg/module/
+	go run tools/generator.go -m  build/ansible/lib/ansible/modules/ -o pkg/module/
 	go fmt pkg/module/*.go
 
 build: gen

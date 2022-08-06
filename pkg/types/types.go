@@ -54,6 +54,17 @@ type Return struct {
 	StructTag string `yaml:"structTag" json:"structTag"`
 }
 
+// Desc special handling since description can be either a string or a string slice.
+func (r *Return) Desc() []string {
+	switch t := r.Description.(type) {
+	case string:
+		return []string{t}
+	case []string:
+		return t
+	}
+	return []string{}
+}
+
 type CommonReturn struct {
 
 	// For those modules that implement backup=no|yes when manipulating files, a path to the backup file created.

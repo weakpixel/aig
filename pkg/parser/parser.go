@@ -91,7 +91,10 @@ func includeModule(name string) bool {
 		!strings.HasPrefix(name, "add_host.py") &&
 		!strings.HasPrefix(name, "script.py") &&
 		!strings.HasPrefix(name, "shell.py") &&
+		!strings.HasPrefix(name, "group_by.py") &&
+		!strings.HasPrefix(name, "copy.py") &&
 		!strings.HasPrefix(name, "validate_argument_spec.py")
+
 }
 
 func normalizeName(m *types.Module, val string) string {
