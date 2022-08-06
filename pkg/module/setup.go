@@ -23,6 +23,8 @@ func NewSetup() *Setup {
 //
 // This module is automatically called by playbooks to gather useful variables about remote hosts that can be used in playbooks. It can also be executed directly by C(/usr/bin/ansible) to check what variables are available to a host. Ansible provides many I(facts) about the system, automatically.
 // This module is also supported for Windows targets.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/setup.py
 type Setup struct {
 	Params SetupParams
 	Result SetupResult

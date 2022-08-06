@@ -23,6 +23,8 @@ func NewStat() *Stat {
 //
 // Retrieves facts for a file similar to the Linux/Unix 'stat' command.
 // For Windows targets, use the M(ansible.windows.win_stat) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/stat.py
 type Stat struct {
 	Params StatParams
 	Result StatResult

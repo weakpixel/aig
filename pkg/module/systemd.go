@@ -22,6 +22,8 @@ func NewSystemd() *Systemd {
 // Systemd (systemd) - Manage systemd units
 //
 // Controls systemd units (services, timers, and so on) on remote hosts.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/systemd.py
 type Systemd struct {
 	Params SystemdParams
 	Result SystemdResult

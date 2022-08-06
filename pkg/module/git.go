@@ -22,6 +22,8 @@ func NewGit() *Git {
 // Git (git) - Deploy software (or files) from git checkouts
 //
 // Manage I(git) checkouts of repositories to deploy files or software.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/git.py
 type Git struct {
 	Params GitParams
 	Result GitResult

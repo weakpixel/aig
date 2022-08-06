@@ -24,6 +24,8 @@ func NewMeta() *Meta {
 // Meta tasks are a special kind of task which can influence Ansible internal execution or state.
 // Meta tasks can be used anywhere within your playbook.
 // This module is also supported for Windows targets.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/meta.py
 type Meta struct {
 	Params MetaParams
 	Result MetaResult

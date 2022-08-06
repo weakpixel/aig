@@ -23,6 +23,8 @@ func NewDebconf() *Debconf {
 //
 // Configure a .deb package using debconf-set-selections.
 // Or just query existing selections.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/debconf.py
 type Debconf struct {
 	Params DebconfParams
 	Result DebconfResult

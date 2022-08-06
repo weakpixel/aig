@@ -23,6 +23,8 @@ func NewUser() *User {
 //
 // Manage user accounts and user attributes.
 // For Windows targets, use the M(ansible.windows.win_user) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/user.py
 type User struct {
 	Params UserParams
 	Result UserResult

@@ -23,6 +23,8 @@ func NewHostname() *Hostname {
 //
 // Set system's hostname. Supports most OSs/Distributions including those using C(systemd).
 // Windows, HP-UX, and AIX are not currently supported.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/hostname.py
 type Hostname struct {
 	Params HostnameParams
 	Result HostnameResult

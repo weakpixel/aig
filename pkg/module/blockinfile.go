@@ -22,6 +22,8 @@ func NewBlockinfile() *Blockinfile {
 // Blockinfile (blockinfile) - Insert/update/remove a text block surrounded by marker lines
 //
 // This module will insert/update/remove a block of multi-line text surrounded by customizable marker lines.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/blockinfile.py
 type Blockinfile struct {
 	Params BlockinfileParams
 	Result BlockinfileResult

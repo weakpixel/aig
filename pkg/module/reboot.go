@@ -23,6 +23,8 @@ func NewReboot() *Reboot {
 //
 // Reboot a machine, wait for it to go down, come back up, and respond to commands.
 // For Windows targets, use the M(ansible.windows.win_reboot) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/reboot.py
 type Reboot struct {
 	Params RebootParams
 	Result RebootResult

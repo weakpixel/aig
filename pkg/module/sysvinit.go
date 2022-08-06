@@ -22,6 +22,8 @@ func NewSysvinit() *Sysvinit {
 // Sysvinit (sysvinit) - Manage SysV services.
 //
 // Controls services on target hosts that use the SysV init system.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/sysvinit.py
 type Sysvinit struct {
 	Params SysvinitParams
 	Result SysvinitResult

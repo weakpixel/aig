@@ -22,6 +22,8 @@ func NewSubversion() *Subversion {
 // Subversion (subversion) - Deploys a subversion repository
 //
 // Deploy given repository URL / revision to dest. If dest exists, update to the specified revision, otherwise perform a checkout.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/subversion.py
 type Subversion struct {
 	Params SubversionParams
 	Result SubversionResult

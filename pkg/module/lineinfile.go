@@ -24,6 +24,8 @@ func NewLineinfile() *Lineinfile {
 // This module ensures a particular line is in a file, or replace an existing line using a back-referenced regular expression.
 // This is primarily useful when you want to change a single line in a file only.
 // See the M(ansible.builtin.replace) module if you want to change multiple, similar lines or check M(ansible.builtin.blockinfile) if you want to insert/update/remove a block of lines in a file. For other cases, see the M(ansible.builtin.copy) or M(ansible.builtin.template) modules.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/lineinfile.py
 type Lineinfile struct {
 	Params LineinfileParams
 	Result LineinfileResult

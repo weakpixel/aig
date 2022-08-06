@@ -23,6 +23,8 @@ func NewYumRepository() *YumRepository {
 //
 // Add or remove YUM repositories in RPM-based Linux distributions.
 // If you wish to update an existing repository definition use M(community.general.ini_file) instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/yum_repository.py
 type YumRepository struct {
 	Params YumRepositoryParams
 	Result YumRepositoryResult

@@ -22,6 +22,8 @@ func NewAptRepository() *AptRepository {
 // AptRepository (apt_repository) - Add and remove APT repositories
 //
 // Add or remove an APT repositories in Ubuntu and Debian.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/apt_repository.py
 type AptRepository struct {
 	Params AptRepositoryParams
 	Result AptRepositoryResult

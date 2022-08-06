@@ -28,6 +28,8 @@ func NewWaitFor() *WaitFor {
 // In Ansible 1.6 and later, this module can also be used to wait for a file to be available or absent on the filesystem.
 // In Ansible 1.8 and later, this module can also be used to wait for active connections to be closed before continuing, useful if a node is being rotated out of a load balancer pool.
 // For Windows targets, use the M(ansible.windows.win_wait_for) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/wait_for.py
 type WaitFor struct {
 	Params WaitForParams
 	Result WaitForResult

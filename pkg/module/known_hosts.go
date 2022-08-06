@@ -24,6 +24,8 @@ func NewKnownHosts() *KnownHosts {
 // The C(known_hosts) module lets you add or remove a host keys from the C(known_hosts) file.
 // Starting at Ansible 2.2, multiple entries per host are allowed, but only one for each key type supported by ssh. This is useful if you're going to want to use the M(ansible.builtin.git) module over ssh, for example.
 // If you have a very large number of host keys to manage, you will find the M(ansible.builtin.template) module more useful.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/known_hosts.py
 type KnownHosts struct {
 	Params KnownHostsParams
 	Result KnownHostsResult

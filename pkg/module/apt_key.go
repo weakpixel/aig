@@ -22,6 +22,8 @@ func NewAptKey() *AptKey {
 // AptKey (apt_key) - Add or remove an apt key
 //
 // Add or remove an I(apt) key, optionally downloading it.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/apt_key.py
 type AptKey struct {
 	Params AptKeyParams
 	Result AptKeyResult

@@ -23,6 +23,8 @@ func NewGroup() *Group {
 //
 // Manage presence of groups on a host.
 // For Windows targets, use the M(ansible.windows.win_group) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/group.py
 type Group struct {
 	Params GroupParams
 	Result GroupResult

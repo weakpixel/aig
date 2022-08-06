@@ -26,6 +26,8 @@ func NewGetUrl() *GetUrl {
 // HTTP redirects can redirect from HTTP to HTTPS so you should be sure that your proxy environment for both protocols is correct.
 // From Ansible 2.4 when run with C(--check), it will do a HEAD request to validate the URL but will not download the entire file or verify it against hashes and will report incorrect changed status.
 // For Windows targets, use the M(ansible.windows.win_get_url) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/get_url.py
 type GetUrl struct {
 	Params GetUrlParams
 	Result GetUrlResult

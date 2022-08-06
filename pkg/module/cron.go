@@ -25,6 +25,8 @@ func NewCron() *Cron {
 // When crontab jobs are managed: the module includes one line with the description of the crontab entry C("#Ansible: <name>") corresponding to the "name" passed to the module, which is used by future ansible/module calls to find/check the state. The "name" parameter should be unique, and changing the "name" value will result in a new cron task being created (or a different one being removed).
 // When environment variables are managed, no comment line is added, but, when the module needs to find/check the state, it uses the "name" parameter to find the environment variable definition line.
 // When using symbols such as %, they must be properly escaped.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/cron.py
 type Cron struct {
 	Params CronParams
 	Result CronResult

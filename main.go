@@ -36,7 +36,7 @@ func main() {
 	if cmd2.Result.Matched > 0 {
 		fmt.Println(cmd2.Result.Files[0])
 	}
-	m := module.ModuleByName("file")
+	m := module.ModuleByName("setup")
 	_, err = ansible.ExecuteLocal(m)
 	if err != nil {
 		panic(err)

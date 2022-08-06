@@ -15,24 +15,29 @@ import (
 	yaml "gopkg.in/yaml.v3"
 )
 
+type Parser struct {
+	Dir        string
+	AnsibleTag string
+}
+
 // ParseModules parses modules from Ansible source
-func ParseModules(dir string) (*types.Spec, error) {
+func (p *Parser) Parse() (*types.Spec, error) {
 	spec := &types.Spec{
 		Modules: []*types.Module{},
 	}
-	files, err := ioutil.ReadDir(dir)
+	files, err := ioutil.ReadDir(p.Dir)
 	if err != nil {
 		return spec, err
 	}
 	for _, file := range files {
-		p := filepath.Join(dir, file.Name())
-		if includeModule(file.Name()) {
-			m := &types.Module{Path: p}
-			err := parse(m)
+		pth := filepath.Join(p.Dir, file.Name())
+		if p.includeModule(file.Name()) {
+			m := &types.Module{Path: pth}
+			err := p.parse(m)
 			if err != nil {
 				// skip this invalid module
 				if err.Error() == "skip" {
-					fmt.Println("skipped: " + p)
+					fmt.Println("skipped: " + pth)
 					continue
 				}
 				return spec, err
@@ -43,7 +48,7 @@ func ParseModules(dir string) (*types.Spec, error) {
 	return spec, nil
 }
 
-func parse(m *types.Module) error {
+func (p *Parser) parse(m *types.Module) error {
 	f, _ := os.Open(m.Path)
 	Ast, err := parser.Parse(f, m.Path, py.ExecMode)
 	if err != nil {
@@ -53,7 +58,7 @@ func parse(m *types.Module) error {
 	switch node := Ast.(type) {
 	case *ast.Module:
 		for _, stmt := range node.Body {
-			err = parseStmt(m, stmt)
+			err = p.parseStmt(m, stmt)
 			if err != nil {
 				return err
 			}
@@ -72,10 +77,10 @@ func parse(m *types.Module) error {
 	if err != nil {
 		return fmt.Errorf("Return: %s: %s", m.Path, err)
 	}
-	return normalize(m)
+	return p.normalize(m)
 }
 
-func includeModule(name string) bool {
+func (p *Parser) includeModule(name string) bool {
 	// exclude modueles which are known to not work
 	return !strings.HasPrefix(name, "_") &&
 		!strings.HasPrefix(name, "include_") &&
@@ -93,11 +98,15 @@ func includeModule(name string) bool {
 		!strings.HasPrefix(name, "shell.py") &&
 		!strings.HasPrefix(name, "group_by.py") &&
 		!strings.HasPrefix(name, "copy.py") &&
+		!strings.HasPrefix(name, "pause.py") &&
+		!strings.HasPrefix(name, "ping.py") &&
+		!strings.HasPrefix(name, "service.py") &&
+		!strings.HasPrefix(name, "service_facts.py") &&
 		!strings.HasPrefix(name, "validate_argument_spec.py")
 
 }
 
-func normalizeName(m *types.Module, val string) string {
+func (p *Parser) normalizeName(m *types.Module, val string) string {
 	val = strings.ReplaceAll(val, "-", "_")
 	vals := strings.Split(val, "_")
 	for i, v := range vals {
@@ -106,7 +115,7 @@ func normalizeName(m *types.Module, val string) string {
 	return strings.Join(vals, "")
 }
 
-func toGoType(ty string, elementType string) string {
+func (p *Parser) toGoType(ty string, elementType string) string {
 	switch ty {
 	case "path":
 		return "string"
@@ -119,7 +128,7 @@ func toGoType(ty string, elementType string) string {
 	case "list":
 		elType := "map[string]interface{}"
 		if elementType != "" {
-			elType = toGoType(elementType, "")
+			elType = p.toGoType(elementType, "")
 		}
 		return "[]" + elType
 	case "complex":
@@ -137,25 +146,27 @@ func toGoType(ty string, elementType string) string {
 	}
 }
 
-func normalize(m *types.Module) error {
-	m.NormalizedName = normalizeName(m, m.ModuleName)
+func (p *Parser) normalize(m *types.Module) error {
+	m.NormalizedName = p.normalizeName(m, m.ModuleName)
 	for name, o := range m.Params {
-		o.NormalizedName = normalizeName(m, name)
+		o.NormalizedName = p.normalizeName(m, name)
 		o.StructTag = "`yaml:\"" + name + ",omitempty\" json:\"" + name + ",omitempty\"`"
-		o.GoType = toGoType(o.Type, o.Elements)
+		o.GoType = p.toGoType(o.Type, o.Elements)
 	}
 
 	for name, r := range m.Returns {
-		r.GoType = toGoType(r.Type, "")
-		r.NormalizedName = normalizeName(m, name)
+		r.GoType = p.toGoType(r.Type, "")
+		r.NormalizedName = p.normalizeName(m, name)
 		r.StructTag = "`yaml:\"" + name + ",omitempty\" json:\"" + name + ",omitempty\"`"
 	}
+
+	m.SourceLink = fmt.Sprintf("https://github.com/ansible/ansible/blob/%s/lib/ansible/modules/%s.py", p.AnsibleTag, m.ModuleName)
 	return nil
 }
-func parseStmt(m *types.Module, stmt ast.Stmt) error {
+func (p *Parser) parseStmt(m *types.Module, stmt ast.Stmt) error {
 	switch node := stmt.(type) {
 	case *ast.Assign:
-		id, val, err := parseAssign(m, node)
+		id, val, err := p.parseAssign(m, node)
 		if err != nil {
 			return err
 		}
@@ -169,7 +180,7 @@ func parseStmt(m *types.Module, stmt ast.Stmt) error {
 	return nil
 }
 
-func parseAssign(m *types.Module, node *ast.Assign) (id string, value string, err error) {
+func (p *Parser) parseAssign(m *types.Module, node *ast.Assign) (id string, value string, err error) {
 	if len(node.Targets) != 1 {
 		return
 	}

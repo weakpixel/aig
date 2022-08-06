@@ -22,6 +22,8 @@ func NewPackageFacts() *PackageFacts {
 // PackageFacts (package_facts) - Package information as facts
 //
 // Return information about installed packages as facts.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/package_facts.py
 type PackageFacts struct {
 	Params PackageFactsParams
 	Result PackageFactsResult

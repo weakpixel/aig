@@ -25,6 +25,8 @@ func NewFile() *File {
 // Alternatively, remove files, symlinks or directories.
 // Many other modules support the same options as the C(file) module - including M(ansible.builtin.copy), M(ansible.builtin.template), and M(ansible.builtin.assemble).
 // For Windows targets, use the M(ansible.windows.win_file) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/file.py
 type File struct {
 	Params FileParams
 	Result FileResult

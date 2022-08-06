@@ -22,6 +22,8 @@ func NewPip() *Pip {
 // Pip (pip) - Manages Python library dependencies
 //
 // Manage Python library dependencies. To use this module, one of the following keys is required: C(name) or C(requirements).
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/pip.py
 type Pip struct {
 	Params PipParams
 	Result PipResult

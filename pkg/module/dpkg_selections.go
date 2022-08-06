@@ -22,6 +22,8 @@ func NewDpkgSelections() *DpkgSelections {
 // DpkgSelections (dpkg_selections) - Dpkg package selection selections
 //
 // Change dpkg package selection state via --get-selections and --set-selections.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/dpkg_selections.py
 type DpkgSelections struct {
 	Params DpkgSelectionsParams
 	Result DpkgSelectionsResult

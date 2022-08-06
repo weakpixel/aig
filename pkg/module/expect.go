@@ -23,6 +23,8 @@ func NewExpect() *Expect {
 //
 // The C(expect) module executes a command and responds to prompts.
 // The given command will be executed on all selected nodes. It will not be processed through the shell, so variables like C($HOME) and operations like C("<"), C(">"), C("|"), and C("&") will not work.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/expect.py
 type Expect struct {
 	Params ExpectParams
 	Result ExpectResult

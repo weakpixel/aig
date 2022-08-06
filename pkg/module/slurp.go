@@ -23,6 +23,8 @@ func NewSlurp() *Slurp {
 //
 // This module works like M(ansible.builtin.fetch). It is used for fetching a base64- encoded blob containing the data in a remote file.
 // This module is also supported for Windows targets.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/slurp.py
 type Slurp struct {
 	Params SlurpParams
 	Result SlurpResult

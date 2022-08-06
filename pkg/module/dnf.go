@@ -22,6 +22,8 @@ func NewDnf() *Dnf {
 // Dnf (dnf) - Manages packages with the I(dnf) package manager
 //
 // Installs, upgrade, removes, and lists packages and groups with the I(dnf) package manager.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/dnf.py
 type Dnf struct {
 	Params DnfParams
 	Result DnfResult

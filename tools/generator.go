@@ -21,6 +21,7 @@ import (
 func main() {
 	modulePath := flag.String("m", "", "Path to ansible modules")
 	outPath := flag.String("o", "", "Path to go generated taks")
+	ansibleTag := flag.String("V", "devel", "Ansible Version Tag")
 	flag.Parse()
 	dir := *modulePath
 	if dir == "" {
@@ -32,7 +33,11 @@ func main() {
 		fmt.Println("[ERROR] Please define go output path with -o <path>")
 		os.Exit(1)
 	}
-	spec, err := parser.ParseModules(dir)
+	p := parser.Parser{
+		Dir:        *modulePath,
+		AnsibleTag: *ansibleTag,
+	}
+	spec, err := p.Parse()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -191,6 +196,8 @@ var (
 		{{- range $d := .Description }}
 		// {{ $d }}
 		{{- end }}
+		//
+		// Source: {{ .SourceLink }}
 		type {{ .NormalizedName }} struct {
 			Params {{ .NormalizedName }}Params
 			Result {{ .NormalizedName }}Result

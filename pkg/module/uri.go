@@ -23,6 +23,8 @@ func NewUri() *Uri {
 //
 // Interacts with HTTP and HTTPS web services and supports Digest, Basic and WSSE HTTP authentication mechanisms.
 // For Windows targets, use the M(ansible.windows.win_uri) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/uri.py
 type Uri struct {
 	Params UriParams
 	Result UriResult

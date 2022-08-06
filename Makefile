@@ -2,12 +2,13 @@
 current_dir := "$(shell pwd)"
 zip_file := "$(current_dir)/build/ansible_modules.zip"
 base64_file := "$(current_dir)/build/ansible_modules.zip.base64"
+ansible_tag := "v2.13.1"
 
 .PHONY: prepare_ansible
 prepare_ansible:
 	mkdir -p build 
 	pushd build && git clone https://github.com/ansible/ansible.git
-	pushd build/ansible && git checkout v2.13.1
+	pushd build/ansible && git checkout $(ansible_tag)
 	cp -r resources/ansible/* build/ansible/lib/ansible/
 
 .PHONY: zip_modules
@@ -21,7 +22,7 @@ clean:
 .PHONY: gen
 gen:
 	rm -fr pkg/module/*
-	go run tools/generator.go -m  build/ansible/lib/ansible/modules/ -o pkg/module/
+	go run tools/generator.go -m  build/ansible/lib/ansible/modules/ -o pkg/module/ -V $(ansible_tag)
 	go fmt pkg/module/*.go
 
 build: gen

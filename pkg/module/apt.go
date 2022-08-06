@@ -22,6 +22,8 @@ func NewApt() *Apt {
 // Apt (apt) - Manages apt-packages
 //
 // Manages I(apt) packages (such as for Debian/Ubuntu).
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/apt.py
 type Apt struct {
 	Params AptParams
 	Result AptResult

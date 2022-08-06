@@ -23,6 +23,8 @@ func NewIptables() *Iptables {
 //
 // C(iptables) is used to set up, maintain, and inspect the tables of IP packet filter rules in the Linux kernel.
 // This module does not handle the saving and/or loading of rules, but rather only manipulates the current rules that are present in memory. This is the same as the behaviour of the C(iptables) and C(ip6tables) command which this module uses internally.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/iptables.py
 type Iptables struct {
 	Params IptablesParams
 	Result IptablesResult

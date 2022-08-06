@@ -23,6 +23,8 @@ func NewFind() *Find {
 //
 // Return a list of files based on specific criteria. Multiple criteria are AND'd together.
 // For Windows targets, use the M(ansible.windows.win_find) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/find.py
 type Find struct {
 	Params FindParams
 	Result FindResult

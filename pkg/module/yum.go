@@ -23,6 +23,8 @@ func NewYum() *Yum {
 //
 // Installs, upgrade, downgrades, removes, and lists packages and groups with the I(yum) package manager.
 // This module only works on Python 2. If you require Python 3 support see the M(ansible.builtin.dnf) module.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/yum.py
 type Yum struct {
 	Params YumParams
 	Result YumResult

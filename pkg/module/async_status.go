@@ -23,6 +23,8 @@ func NewAsyncStatus() *AsyncStatus {
 //
 // This module gets the status of an asynchronous task.
 // This module is also supported for Windows targets.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/async_status.py
 type AsyncStatus struct {
 	Params AsyncStatusParams
 	Result AsyncStatusResult

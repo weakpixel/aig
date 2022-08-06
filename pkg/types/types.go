@@ -27,6 +27,7 @@ type Module struct {
 	Path             string             `yaml:"-" json:"-"`
 	Documentation    string             `yaml:"doc" json:"doc"`
 	Return           string             `yaml:"return" json:"return"`
+	SourceLink       string             `yaml:"-" json:"-"`
 }
 
 type Param struct {

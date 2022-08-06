@@ -25,6 +25,8 @@ func NewAssemble() *Assemble {
 // Often a particular program will take a single configuration file and does not support a C(conf.d) style structure where it is easy to build up the configuration from multiple sources. C(assemble) will take a directory of files that can be local or have already been transferred to the system, and concatenate them together to produce a destination file.
 // Files are assembled in string sorting order.
 // Puppet calls this idea I(fragments).
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/assemble.py
 type Assemble struct {
 	Params AssembleParams
 	Result AssembleResult

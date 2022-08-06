@@ -22,6 +22,8 @@ func NewGetent() *Getent {
 // Getent (getent) - A wrapper to the unix getent utility
 //
 // Runs getent against one of it's various databases and returns information into the host's facts, in a getent_<database> prefixed variable.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/getent.py
 type Getent struct {
 	Params GetentParams
 	Result GetentResult

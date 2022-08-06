@@ -27,6 +27,8 @@ func NewCommand() *Command {
 // To create C(command) tasks that are easier to read than the ones using space-delimited arguments, pass parameters using the C(args) L(task keyword,../reference_appendices/playbooks_keywords.html#task) or use C(cmd) parameter.
 // Either a free form command or C(cmd) parameter is required, see the examples.
 // For Windows targets, use the M(ansible.windows.win_command) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/command.py
 type Command struct {
 	Params CommandParams
 	Result CommandResult

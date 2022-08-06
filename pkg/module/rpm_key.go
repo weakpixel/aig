@@ -22,6 +22,8 @@ func NewRpmKey() *RpmKey {
 // RpmKey (rpm_key) - Adds or removes a gpg key from the rpm db
 //
 // Adds or removes (rpm --import) a gpg key to your rpm database.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/rpm_key.py
 type RpmKey struct {
 	Params RpmKeyParams
 	Result RpmKeyResult

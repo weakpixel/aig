@@ -26,6 +26,8 @@ func NewUnarchive() *Unarchive {
 // Set C(remote_src=yes) to unpack an archive which already exists on the target.
 // If checksum validation is desired, use M(ansible.builtin.get_url) or M(ansible.builtin.uri) instead to fetch the file and set C(remote_src=yes).
 // For Windows targets, use the M(community.windows.win_unzip) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/unarchive.py
 type Unarchive struct {
 	Params UnarchiveParams
 	Result UnarchiveResult

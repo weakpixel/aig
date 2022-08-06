@@ -23,6 +23,8 @@ func NewTempfile() *Tempfile {
 //
 // The C(tempfile) module creates temporary files and directories. C(mktemp) command takes different parameters on various systems, this module helps to avoid troubles related to that. Files/directories created by module are accessible only by creator. In case you need to make them world-accessible you need to use M(ansible.builtin.file) module.
 // For Windows targets, use the M(ansible.windows.win_tempfile) module instead.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/tempfile.py
 type Tempfile struct {
 	Params TempfileParams
 	Result TempfileResult

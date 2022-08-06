@@ -23,6 +23,8 @@ func NewReplace() *Replace {
 //
 // This module will replace all instances of a pattern within a file.
 // It is up to the user to maintain idempotence by ensuring that the same pattern would never match any replacements made.
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/replace.py
 type Replace struct {
 	Params ReplaceParams
 	Result ReplaceResult

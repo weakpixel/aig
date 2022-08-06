@@ -21,6 +21,8 @@ func NewTemplate() *Template {
 
 // Template (template) - Template a file out to a target host
 //
+//
+// Source: https://github.com/ansible/ansible/blob/v2.13.1/lib/ansible/modules/template.py
 type Template struct {
 	Params TemplateParams
 	Result TemplateResult
