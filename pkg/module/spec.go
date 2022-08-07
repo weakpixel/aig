@@ -22,20 +22,12 @@ var (
 	factories = map[string]factory{}
 )
 
-type Module interface {
-	GetResult() interface{}
-	GetResultRaw() string
-	GetCommonResult() types.CommonReturn
-	GetParams() interface{}
-	GetType() string
-}
-
-type factory func() Module
+type factory func() types.Module
 
 func addModuleFactory(ty string, f factory) {
 	factories[ty] = f
 }
 
-func ModuleByName(ty string) Module {
+func ModuleByName(ty string) types.Module {
 	return factories[ty]()
 }

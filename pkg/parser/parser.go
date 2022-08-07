@@ -23,7 +23,7 @@ type Parser struct {
 // ParseModules parses modules from Ansible source
 func (p *Parser) Parse() (*types.Spec, error) {
 	spec := &types.Spec{
-		Modules: []*types.Module{},
+		Modules: []*types.ModuleSpec{},
 	}
 	files, err := ioutil.ReadDir(p.Dir)
 	if err != nil {
@@ -32,7 +32,7 @@ func (p *Parser) Parse() (*types.Spec, error) {
 	for _, file := range files {
 		pth := filepath.Join(p.Dir, file.Name())
 		if p.includeModule(file.Name()) {
-			m := &types.Module{Path: pth}
+			m := &types.ModuleSpec{Path: pth}
 			err := p.parse(m)
 			if err != nil {
 				// skip this invalid module
@@ -48,7 +48,7 @@ func (p *Parser) Parse() (*types.Spec, error) {
 	return spec, nil
 }
 
-func (p *Parser) parse(m *types.Module) error {
+func (p *Parser) parse(m *types.ModuleSpec) error {
 	f, _ := os.Open(m.Path)
 	Ast, err := parser.Parse(f, m.Path, py.ExecMode)
 	if err != nil {
@@ -72,10 +72,10 @@ func (p *Parser) parse(m *types.Module) error {
 	if m.ModuleName == "" {
 		return fmt.Errorf("skip")
 	}
-	m.Returns = map[string]*types.Return{}
+	m.Returns = map[string]*types.ReturnSpec{}
 	err = yaml.Unmarshal([]byte(m.Return), m.Returns)
 	if err != nil {
-		return fmt.Errorf("Return: %s: %s", m.Path, err)
+		return fmt.Errorf("return: %s: %s", m.Path, err)
 	}
 	return p.normalize(m)
 }
@@ -106,7 +106,7 @@ func (p *Parser) includeModule(name string) bool {
 
 }
 
-func (p *Parser) normalizeName(m *types.Module, val string) string {
+func (p *Parser) normalizeName(m *types.ModuleSpec, val string) string {
 	val = strings.ReplaceAll(val, "-", "_")
 	vals := strings.Split(val, "_")
 	for i, v := range vals {
@@ -146,7 +146,7 @@ func (p *Parser) toGoType(ty string, elementType string) string {
 	}
 }
 
-func (p *Parser) normalize(m *types.Module) error {
+func (p *Parser) normalize(m *types.ModuleSpec) error {
 	m.NormalizedName = p.normalizeName(m, m.ModuleName)
 	for name, o := range m.Params {
 		o.NormalizedName = p.normalizeName(m, name)
@@ -163,7 +163,7 @@ func (p *Parser) normalize(m *types.Module) error {
 	m.SourceLink = fmt.Sprintf("https://github.com/ansible/ansible/blob/%s/lib/ansible/modules/%s.py", p.AnsibleTag, m.ModuleName)
 	return nil
 }
-func (p *Parser) parseStmt(m *types.Module, stmt ast.Stmt) error {
+func (p *Parser) parseStmt(m *types.ModuleSpec, stmt ast.Stmt) error {
 	switch node := stmt.(type) {
 	case *ast.Assign:
 		id, val, err := p.parseAssign(m, node)
@@ -180,7 +180,7 @@ func (p *Parser) parseStmt(m *types.Module, stmt ast.Stmt) error {
 	return nil
 }
 
-func (p *Parser) parseAssign(m *types.Module, node *ast.Assign) (id string, value string, err error) {
+func (p *Parser) parseAssign(m *types.ModuleSpec, node *ast.Assign) (id string, value string, err error) {
 	if len(node.Targets) != 1 {
 		return
 	}

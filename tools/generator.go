@@ -48,7 +48,7 @@ func main() {
 			panic(err)
 		}
 		defer f.Close()
-		t, err := template.New(m.ModuleName).Parse(moduleTemplate)
+		t, err := template.New("moduleTemplate:" + m.ModuleName).Parse(moduleTemplate)
 		if err != nil {
 			panic(err)
 		}
@@ -148,21 +148,14 @@ var (
 			factories = map[string]factory{}
 		)
 
-		type Module interface {
-			GetResult() interface{}
-			GetResultRaw() string
-			GetCommonResult() types.CommonReturn 
-			GetParams() interface{}
-			GetType() string
-		}
-
-		type factory func() Module
+		
+		type factory func() types.Module
 
 		func addModuleFactory(ty string, f factory) {
 			factories[ty] = f
 		}
 		
-		func ModuleByName(ty string) Module {
+		func ModuleByName(ty string) types.Module {
 			return factories[ty]()
 		}
 	`
@@ -175,10 +168,11 @@ var (
 
 		import (
 			"github.com/weakpixel/aig/pkg/types"
+			"fmt"
 		)
 
 		func init() {
-			addModuleFactory("{{.ModuleName}}", func() Module {
+			addModuleFactory("{{.ModuleName}}", func() types.Module {
 				return New{{.NormalizedName}}()
 			})
 		}
@@ -187,14 +181,45 @@ var (
 		// {{.NormalizedName}} ({{ .ModuleName }}) - {{ .ShortDescription }}
 		// 
 		func New{{.NormalizedName}}() *{{.NormalizedName}} {
-			return &{{.NormalizedName}} {
-			}
+			module := {{.NormalizedName}} {}
+			// Create dynamic param values
+			paramValues := map[string]types.Value{}
+			{{- range $name, $opt := .Params }}
+			    {{- if eq $opt.GoType "string" }}
+				paramValues["{{ $name }}"] = types.NewStringValue(&module.Params.{{ $opt.NormalizedName }})
+				{{- else if eq $opt.GoType "bool" }}
+				paramValues["{{ $name }}"] = types.NewBoolValue(&module.Params.{{ $opt.NormalizedName }})
+				{{- else if eq $opt.GoType "int" }}
+				paramValues["{{ $name }}"] = types.NewIntValue(&module.Params.{{ $opt.NormalizedName }})
+				{{- else if eq $opt.GoType "[]string" }}
+				paramValues["{{ $name }}"] = types.NewStringArrayValue(&module.Params.{{ $opt.NormalizedName }})
+				{{- end -}}
+			{{ end }}
+			module.Params.values = paramValues
+
+			// Create dynamic result values
+			resultValues := map[string]types.Value{}
+			{{range $name, $opt := .Returns }}
+				{{- if eq $opt.GoType "string" }}
+					resultValues["{{ $name }}"] = types.NewStringValue(&module.Result.{{ $opt.NormalizedName }})
+					{{- else if eq $opt.GoType "bool" }}
+					resultValues["{{ $name }}"] = types.NewBoolValue(&module.Result.{{ $opt.NormalizedName }})
+					{{- else if eq $opt.GoType "int" }}
+					resultValues["{{ $name }}"] = types.NewIntValue(&module.Result.{{ $opt.NormalizedName }})
+					{{- else if eq $opt.GoType "[]string" }}
+					resultValues["{{ $name }}"] = types.NewStringArrayValue(&module.Result.{{ $opt.NormalizedName }})
+				{{- end -}}
+			{{ end }}
+			module.Result.values = resultValues
+
+			return &module
 		}
 
 		// {{.NormalizedName}} ({{ .ModuleName }}) - {{ .ShortDescription }}
 		//
 		{{- range $d := .Description }}
 		// {{ $d }}
+		//
 		{{- end }}
 		//
 		// Source: {{ .SourceLink }}
@@ -215,6 +240,31 @@ var (
 				{{ $opt.NormalizedName }} {{ $opt.GoType }} {{ $opt.StructTag }}
 				
 			{{ end }}
+			values map[string]types.Value
+		}
+
+		func (p *{{ .NormalizedName }}Params) Names() []string {
+			names := []string{}
+			for name := range p.values {
+				names = append(names, name)
+			}
+			return []string{}
+		}
+
+		func (p *{{ .NormalizedName }}Params) Set(name string, value interface{}) error {
+			v, ok := p.values[name]
+			if !ok {
+				return fmt.Errorf("no param with name %q", name)
+			}
+			return v.Set(value)
+		}
+
+		func (p *{{ .NormalizedName }}Params) Get(name string) (interface{}, error) {
+			v, ok := p.values[name]
+			if !ok {
+				return nil, fmt.Errorf("no param with name %q", name)
+			}
+			return v.Get(), nil
 		}
 
 		type {{ .NormalizedName }}Result struct {
@@ -227,9 +277,34 @@ var (
 				{{- end }}
 				{{ $opt.NormalizedName }} {{ $opt.GoType }} {{ $opt.StructTag }}
 			{{ end }}
+			values map[string]types.Value
 		}
 
-		func (m *{{ .NormalizedName }}) GetResult() interface{} {
+		func (r *{{ .NormalizedName }}Result) Names() []string {
+			names := []string{}
+			for name := range r.values {
+				names = append(names, name)
+			}
+			return []string{}
+		}
+
+		func (r *{{ .NormalizedName }}Result) Set(name string, value interface{}) error {
+			v, ok := r.values[name]
+			if !ok {
+				return fmt.Errorf("no param with name %q", name)
+			}
+			return v.Set(value)
+		}
+		
+		func (r *{{ .NormalizedName }}Result) Get(name string) (interface{}, error) {
+			v, ok := r.values[name]
+			if !ok {
+				return nil, fmt.Errorf("no param with name %q", name)
+			}
+			return v.Get(), nil
+		}
+
+		func (m *{{ .NormalizedName }}) GetResult() types.Result {
 			return &m.Result
 		}
 		
@@ -241,7 +316,7 @@ var (
 			return m.Result.CommonReturn
 		}
 
-		func (m *{{ .NormalizedName }}) GetParams() interface{} {
+		func (m *{{ .NormalizedName }}) GetParams() types.Params {
 			return &m.Params
 		}
 

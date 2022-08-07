@@ -14,14 +14,6 @@ import (
 	"github.com/weakpixel/aig/pkg/types"
 )
 
-type Module interface {
-	GetResult() interface{}
-	GetResultRaw() string
-	GetCommonResult() types.CommonReturn
-	GetParams() interface{}
-	GetType() string
-}
-
 type data struct {
 	Shebang       string
 	ZipData       string
@@ -60,7 +52,7 @@ func loadModulesChunk() (string, error) {
 	return src.ModuleSources, nil
 }
 
-func newPackage(pythonBin string, module Module) (*data, error) {
+func newPackage(pythonBin string, module types.Module) (*data, error) {
 	raw, err := loadModulesChunk()
 	if err != nil {
 		return nil, err
@@ -115,7 +107,7 @@ func writeBinTmp(pkg *data) (string, error) {
 	return f.Name(), nil
 }
 
-func ExecuteLocal(module Module) (string, error) {
+func ExecuteLocal(module types.Module) (string, error) {
 	bin, err := lookupPython()
 	if err != nil {
 		return "", err
