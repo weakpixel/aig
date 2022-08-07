@@ -34,6 +34,7 @@ func NewSystemd() *Systemd {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
+	// NOT SUPPORTED: status Status interface{}
 	module.Result.values = resultValues
 
 	return &module

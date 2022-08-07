@@ -59,6 +59,7 @@ func NewIptables() *Iptables {
 	paramValues["state"] = types.NewStringValue(&module.Params.State)
 	paramValues["syn"] = types.NewStringValue(&module.Params.Syn)
 	paramValues["table"] = types.NewStringValue(&module.Params.Table)
+	paramValues["tcp_flags"] = types.NewStringMapValue(&module.Params.TcpFlags)
 	paramValues["to_destination"] = types.NewStringValue(&module.Params.ToDestination)
 	paramValues["to_ports"] = types.NewStringValue(&module.Params.ToPorts)
 	paramValues["to_source"] = types.NewStringValue(&module.Params.ToSource)
@@ -421,7 +422,7 @@ type IptablesParams struct {
 	//
 	// Default: map[]
 	// Required: false
-	TcpFlags map[string]interface{} `yaml:"tcp_flags,omitempty" json:"tcp_flags,omitempty"`
+	TcpFlags map[string]string `yaml:"tcp_flags,omitempty" json:"tcp_flags,omitempty"`
 
 	// ToDestination
 	// This specifies a destination address to use with C(DNAT).

@@ -38,6 +38,8 @@ func NewWaitFor() *WaitFor {
 	resultValues := map[string]types.Value{}
 
 	resultValues["elapsed"] = types.NewIntValue(&module.Result.Elapsed)
+	resultValues["match_groupdict"] = types.NewStringMapValue(&module.Result.MatchGroupdict)
+	// NOT SUPPORTED: match_groups MatchGroups []map[string]interface{}
 	module.Result.values = resultValues
 
 	return &module
@@ -196,7 +198,7 @@ type WaitForResult struct {
 
 	// MatchGroupdict
 	// Dictionary containing all the named subgroups of the match, keyed by the subgroup name, as returned by U(https://docs.python.org/3/library/re.html#re.MatchObject.groupdict)
-	MatchGroupdict map[string]interface{} `yaml:"match_groupdict,omitempty" json:"match_groupdict,omitempty"`
+	MatchGroupdict map[string]string `yaml:"match_groupdict,omitempty" json:"match_groupdict,omitempty"`
 
 	// MatchGroups
 	// Tuple containing all the subgroups of the match as returned by U(https://docs.python.org/3/library/re.html#re.MatchObject.groups)

@@ -33,6 +33,8 @@ func NewAptKey() *AptKey {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
+	// NOT SUPPORTED: after After []map[string]interface{}
+	// NOT SUPPORTED: before Before []map[string]interface{}
 	resultValues["fp"] = types.NewStringValue(&module.Result.Fp)
 	resultValues["id"] = types.NewStringValue(&module.Result.Id)
 	resultValues["key_id"] = types.NewStringValue(&module.Result.KeyId)

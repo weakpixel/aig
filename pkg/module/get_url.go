@@ -27,6 +27,7 @@ func NewGetUrl() *GetUrl {
 	paramValues["dest"] = types.NewStringValue(&module.Params.Dest)
 	paramValues["force"] = types.NewBoolValue(&module.Params.Force)
 	paramValues["force_basic_auth"] = types.NewBoolValue(&module.Params.ForceBasicAuth)
+	paramValues["headers"] = types.NewStringMapValue(&module.Params.Headers)
 	paramValues["http_agent"] = types.NewStringValue(&module.Params.HttpAgent)
 	paramValues["sha256sum"] = types.NewStringValue(&module.Params.Sha256sum)
 	paramValues["timeout"] = types.NewIntValue(&module.Params.Timeout)
@@ -153,7 +154,7 @@ type GetUrlParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Headers map[string]interface{} `yaml:"headers,omitempty" json:"headers,omitempty"`
+	Headers map[string]string `yaml:"headers,omitempty" json:"headers,omitempty"`
 
 	// HttpAgent
 	// Header to identify as, generally appears in web server logs.

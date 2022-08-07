@@ -31,6 +31,7 @@ func NewStat() *Stat {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
+	// NOT SUPPORTED: stat Stat interface{}
 	module.Result.values = resultValues
 
 	return &module

@@ -38,6 +38,7 @@ func NewUnarchive() *Unarchive {
 	resultValues := map[string]types.Value{}
 
 	resultValues["dest"] = types.NewStringValue(&module.Result.Dest)
+	// NOT SUPPORTED: files Files []map[string]interface{}
 	resultValues["gid"] = types.NewIntValue(&module.Result.Gid)
 	resultValues["group"] = types.NewStringValue(&module.Result.Group)
 	resultValues["handler"] = types.NewStringValue(&module.Result.Handler)

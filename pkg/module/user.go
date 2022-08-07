@@ -24,6 +24,7 @@ func NewUser() *User {
 	paramValues["authorization"] = types.NewStringValue(&module.Params.Authorization)
 	paramValues["comment"] = types.NewStringValue(&module.Params.Comment)
 	paramValues["create_home"] = types.NewBoolValue(&module.Params.CreateHome)
+	paramValues["expires"] = types.NewFloat64Value(&module.Params.Expires)
 	paramValues["force"] = types.NewBoolValue(&module.Params.Force)
 	paramValues["generate_ssh_key"] = types.NewBoolValue(&module.Params.GenerateSshKey)
 	paramValues["group"] = types.NewStringValue(&module.Params.Group)

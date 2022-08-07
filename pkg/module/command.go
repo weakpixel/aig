@@ -35,13 +35,16 @@ func NewCommand() *Command {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
+	// NOT SUPPORTED: cmd Cmd []map[string]interface{}
 	resultValues["delta"] = types.NewStringValue(&module.Result.Delta)
 	resultValues["end"] = types.NewStringValue(&module.Result.End)
 	resultValues["msg"] = types.NewBoolValue(&module.Result.Msg)
 	resultValues["rc"] = types.NewIntValue(&module.Result.Rc)
 	resultValues["start"] = types.NewStringValue(&module.Result.Start)
 	resultValues["stderr"] = types.NewStringValue(&module.Result.Stderr)
+	// NOT SUPPORTED: stderr_lines StderrLines []map[string]interface{}
 	resultValues["stdout"] = types.NewStringValue(&module.Result.Stdout)
+	// NOT SUPPORTED: stdout_lines StdoutLines []map[string]interface{}
 	module.Result.values = resultValues
 
 	return &module

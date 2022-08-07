@@ -193,6 +193,12 @@ var (
 				paramValues["{{ $name }}"] = types.NewIntValue(&module.Params.{{ $opt.NormalizedName }})
 				{{- else if eq $opt.GoType "[]string" }}
 				paramValues["{{ $name }}"] = types.NewStringArrayValue(&module.Params.{{ $opt.NormalizedName }})
+				{{- else if eq $opt.GoType "float64" }}
+				paramValues["{{ $name }}"] = types.NewFloat64Value(&module.Params.{{ $opt.NormalizedName }})
+				{{- else if eq $opt.GoType "map[string]string" }}
+				paramValues["{{ $name }}"] = types.NewStringMapValue(&module.Params.{{ $opt.NormalizedName }})
+				{{- else }}
+				// NOT SUPPORTED: {{ $name }} {{ $opt.NormalizedName }} {{$opt.GoType}}
 				{{- end -}}
 			{{ end }}
 			module.Params.values = paramValues
@@ -201,13 +207,19 @@ var (
 			resultValues := map[string]types.Value{}
 			{{range $name, $opt := .Returns }}
 				{{- if eq $opt.GoType "string" }}
-					resultValues["{{ $name }}"] = types.NewStringValue(&module.Result.{{ $opt.NormalizedName }})
-					{{- else if eq $opt.GoType "bool" }}
-					resultValues["{{ $name }}"] = types.NewBoolValue(&module.Result.{{ $opt.NormalizedName }})
-					{{- else if eq $opt.GoType "int" }}
-					resultValues["{{ $name }}"] = types.NewIntValue(&module.Result.{{ $opt.NormalizedName }})
-					{{- else if eq $opt.GoType "[]string" }}
-					resultValues["{{ $name }}"] = types.NewStringArrayValue(&module.Result.{{ $opt.NormalizedName }})
+				resultValues["{{ $name }}"] = types.NewStringValue(&module.Result.{{ $opt.NormalizedName }})
+				{{- else if eq $opt.GoType "bool" }}
+				resultValues["{{ $name }}"] = types.NewBoolValue(&module.Result.{{ $opt.NormalizedName }})
+				{{- else if eq $opt.GoType "int" }}
+				resultValues["{{ $name }}"] = types.NewIntValue(&module.Result.{{ $opt.NormalizedName }})
+				{{- else if eq $opt.GoType "[]string" }}
+				resultValues["{{ $name }}"] = types.NewStringArrayValue(&module.Result.{{ $opt.NormalizedName }})
+				{{- else if eq $opt.GoType "float64" }}
+				resultValues["{{ $name }}"] = types.NewFloat64Value(&module.Result.{{ $opt.NormalizedName }})
+				{{- else if eq $opt.GoType "map[string]string" }}
+				resultValues["{{ $name }}"] = types.NewStringMapValue(&module.Result.{{ $opt.NormalizedName }})
+				{{- else }}
+				// NOT SUPPORTED: {{ $name }} {{ $opt.NormalizedName }} {{$opt.GoType}}
 				{{- end -}}
 			{{ end }}
 			module.Result.values = resultValues

@@ -134,7 +134,7 @@ func (p *Parser) toGoType(ty string, elementType string) string {
 	case "complex":
 		return "interface{}"
 	case "dict":
-		return "map[string]interface{}"
+		return "map[string]string"
 	case "raw":
 		return "string"
 	case "bool":

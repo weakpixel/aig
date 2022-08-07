@@ -5,6 +5,11 @@ import (
 	"strconv"
 )
 
+type Value interface {
+	Set(value interface{}) error
+	Get() interface{}
+}
+
 func NewStringValue(v *string) Value {
 	return &stringValue{
 		value: v,
@@ -23,15 +28,22 @@ func NewIntValue(v *int) Value {
 	}
 }
 
+func NewFloat64Value(v *float64) Value {
+	return &float64Value{
+		value: v,
+	}
+}
+
 func NewStringArrayValue(v *[]string) Value {
 	return &stringArrayValue{
 		value: v,
 	}
 }
 
-type Value interface {
-	Set(value interface{}) error
-	Get() interface{}
+func NewStringMapValue(v *map[string]string) Value {
+	return &stringMapValue{
+		value: v,
+	}
 }
 
 type stringValue struct {
@@ -132,6 +144,48 @@ func (s *intValue) Set(value interface{}) error {
 		} else {
 			*s.value = 0
 		}
+	default:
+		return fmt.Errorf("cannot convert interface to bool: %T", value)
+	}
+	return nil
+}
+
+type float64Value struct {
+	value *float64
+}
+
+func (s *float64Value) Get() interface{} {
+	return *s.value
+}
+
+func (s *float64Value) Set(value interface{}) error {
+	switch t := value.(type) {
+	case float64:
+		*s.value = t
+	case string:
+		f, err := strconv.ParseFloat(t, 64)
+		if err != nil {
+			return err
+		}
+		*s.value = f
+	default:
+		return fmt.Errorf("cannot convert interface to bool: %T", value)
+	}
+	return nil
+}
+
+type stringMapValue struct {
+	value *map[string]string
+}
+
+func (s *stringMapValue) Get() interface{} {
+	return *s.value
+}
+
+func (s *stringMapValue) Set(value interface{}) error {
+	switch t := value.(type) {
+	case map[string]string:
+		*s.value = t
 	default:
 		return fmt.Errorf("cannot convert interface to bool: %T", value)
 	}

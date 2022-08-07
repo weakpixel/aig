@@ -8,9 +8,7 @@ import (
 
 func TestStringValue(t *testing.T) {
 	val := ""
-	vv := &stringValue{
-		value: &val,
-	}
+	vv := NewStringValue(&val)
 
 	err := vv.Set("newValue")
 	if assert.NoError(t, err) {
@@ -40,9 +38,7 @@ func TestStringValue(t *testing.T) {
 
 func TestStringArrayValue(t *testing.T) {
 	val := []string{}
-	vv := &stringArrayValue{
-		value: &val,
-	}
+	vv := NewStringArrayValue(&val)
 	newVal := []string{
 		"a",
 		"b",
@@ -57,9 +53,7 @@ func TestStringArrayValue(t *testing.T) {
 
 func TestBoolValue(t *testing.T) {
 	val := false
-	vv := &boolValue{
-		value: &val,
-	}
+	vv := NewBoolValue(&val)
 	err := vv.Set(true)
 	if assert.NoError(t, err) {
 		assert.Equal(t, true, val)
@@ -83,9 +77,7 @@ func TestBoolValue(t *testing.T) {
 
 func TestIntValue(t *testing.T) {
 	val := 0
-	vv := &intValue{
-		value: &val,
-	}
+	vv := NewIntValue(&val)
 	err := vv.Set(true)
 	if assert.NoError(t, err) {
 		assert.Equal(t, 1, val)
@@ -104,5 +96,19 @@ func TestIntValue(t *testing.T) {
 	err = vv.Set(40)
 	if assert.NoError(t, err) {
 		assert.Equal(t, 40, val)
+	}
+}
+
+func TestFloat64Value(t *testing.T) {
+	val := 0.0
+	vv := NewFloat64Value(&val)
+	err := vv.Set("101.23")
+	if assert.NoError(t, err) {
+		assert.Equal(t, 101.23, val)
+	}
+
+	err = vv.Set(40.345)
+	if assert.NoError(t, err) {
+		assert.Equal(t, 40.345, val)
 	}
 }

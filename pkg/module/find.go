@@ -4,6 +4,7 @@ package module
 
 import (
 	"fmt"
+
 	"github.com/weakpixel/aig/pkg/types"
 )
 
@@ -41,7 +42,9 @@ func NewFind() *Find {
 	resultValues := map[string]types.Value{}
 
 	resultValues["examined"] = types.NewIntValue(&module.Result.Examined)
+	// NOT SUPPORTED: files Files []map[string]interface{}
 	resultValues["matched"] = types.NewIntValue(&module.Result.Matched)
+	resultValues["skipped_paths"] = types.NewStringMapValue(&module.Result.SkippedPaths)
 	module.Result.values = resultValues
 
 	return &module
@@ -230,7 +233,7 @@ type FindResult struct {
 
 	// SkippedPaths
 	// skipped paths and reasons they were skipped
-	SkippedPaths map[string]interface{} `yaml:"skipped_paths,omitempty" json:"skipped_paths,omitempty"`
+	SkippedPaths map[string]string `yaml:"skipped_paths,omitempty" json:"skipped_paths,omitempty"`
 
 	values map[string]types.Value
 }

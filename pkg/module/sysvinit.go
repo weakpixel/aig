@@ -33,6 +33,7 @@ func NewSysvinit() *Sysvinit {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
+	// NOT SUPPORTED: results Results interface{}
 	module.Result.values = resultValues
 
 	return &module

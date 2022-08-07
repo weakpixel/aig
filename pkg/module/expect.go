@@ -25,6 +25,7 @@ func NewExpect() *Expect {
 	paramValues["creates"] = types.NewStringValue(&module.Params.Creates)
 	paramValues["echo"] = types.NewBoolValue(&module.Params.Echo)
 	paramValues["removes"] = types.NewStringValue(&module.Params.Removes)
+	paramValues["responses"] = types.NewStringMapValue(&module.Params.Responses)
 	paramValues["timeout"] = types.NewIntValue(&module.Params.Timeout)
 	module.Params.values = paramValues
 
@@ -91,7 +92,7 @@ type ExpectParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Responses map[string]interface{} `yaml:"responses,omitempty" json:"responses,omitempty"`
+	Responses map[string]string `yaml:"responses,omitempty" json:"responses,omitempty"`
 
 	// Timeout
 	// Amount of time in seconds to wait for the expected strings. Use C(null) to disable timeout.

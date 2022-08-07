@@ -27,6 +27,7 @@ func NewPackageFacts() *PackageFacts {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
+	// NOT SUPPORTED: ansible_facts AnsibleFacts interface{}
 	module.Result.values = resultValues
 
 	return &module

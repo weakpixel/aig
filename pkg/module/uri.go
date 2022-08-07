@@ -30,12 +30,14 @@ func NewUri() *Uri {
 	paramValues["follow_redirects"] = types.NewStringValue(&module.Params.FollowRedirects)
 	paramValues["force"] = types.NewBoolValue(&module.Params.Force)
 	paramValues["force_basic_auth"] = types.NewBoolValue(&module.Params.ForceBasicAuth)
+	paramValues["headers"] = types.NewStringMapValue(&module.Params.Headers)
 	paramValues["http_agent"] = types.NewStringValue(&module.Params.HttpAgent)
 	paramValues["method"] = types.NewStringValue(&module.Params.Method)
 	paramValues["remote_src"] = types.NewBoolValue(&module.Params.RemoteSrc)
 	paramValues["removes"] = types.NewStringValue(&module.Params.Removes)
 	paramValues["return_content"] = types.NewBoolValue(&module.Params.ReturnContent)
 	paramValues["src"] = types.NewStringValue(&module.Params.Src)
+	// NOT SUPPORTED: status_code StatusCode []int
 	paramValues["timeout"] = types.NewIntValue(&module.Params.Timeout)
 	paramValues["unix_socket"] = types.NewStringValue(&module.Params.UnixSocket)
 	paramValues["unredirected_headers"] = types.NewStringArrayValue(&module.Params.UnredirectedHeaders)
@@ -51,6 +53,7 @@ func NewUri() *Uri {
 	resultValues := map[string]types.Value{}
 
 	resultValues["content"] = types.NewStringValue(&module.Result.Content)
+	resultValues["cookies"] = types.NewStringMapValue(&module.Result.Cookies)
 	resultValues["cookies_string"] = types.NewStringValue(&module.Result.CookiesString)
 	resultValues["elapsed"] = types.NewIntValue(&module.Result.Elapsed)
 	resultValues["msg"] = types.NewStringValue(&module.Result.Msg)
@@ -162,7 +165,7 @@ type UriParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Headers map[string]interface{} `yaml:"headers,omitempty" json:"headers,omitempty"`
+	Headers map[string]string `yaml:"headers,omitempty" json:"headers,omitempty"`
 
 	// HttpAgent
 	// Header to identify as, generally appears in web server logs.
@@ -322,7 +325,7 @@ type UriResult struct {
 
 	// Cookies
 	// The cookie values placed in cookie jar.
-	Cookies map[string]interface{} `yaml:"cookies,omitempty" json:"cookies,omitempty"`
+	Cookies map[string]string `yaml:"cookies,omitempty" json:"cookies,omitempty"`
 
 	// CookiesString
 	// The value for future request Cookie headers.

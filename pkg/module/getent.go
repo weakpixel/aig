@@ -30,6 +30,7 @@ func NewGetent() *Getent {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
+	resultValues["ansible_facts"] = types.NewStringMapValue(&module.Result.AnsibleFacts)
 	module.Result.values = resultValues
 
 	return &module
@@ -117,7 +118,7 @@ type GetentResult struct {
 
 	// AnsibleFacts
 	// Facts to add to ansible_facts.
-	AnsibleFacts map[string]interface{} `yaml:"ansible_facts,omitempty" json:"ansible_facts,omitempty"`
+	AnsibleFacts map[string]string `yaml:"ansible_facts,omitempty" json:"ansible_facts,omitempty"`
 
 	values map[string]types.Value
 }

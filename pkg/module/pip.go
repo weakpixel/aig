@@ -39,6 +39,7 @@ func NewPip() *Pip {
 	resultValues := map[string]types.Value{}
 
 	resultValues["cmd"] = types.NewStringValue(&module.Result.Cmd)
+	// NOT SUPPORTED: name Name []map[string]interface{}
 	resultValues["requirements"] = types.NewStringValue(&module.Result.Requirements)
 	resultValues["version"] = types.NewStringValue(&module.Result.Version)
 	resultValues["virtualenv"] = types.NewStringValue(&module.Result.Virtualenv)
