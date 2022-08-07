@@ -60,7 +60,7 @@ func (p *TemplateParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *TemplateParams) Set(name string, value interface{}) error {
@@ -91,7 +91,7 @@ func (r *TemplateResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *TemplateResult) Set(name string, value interface{}) error {

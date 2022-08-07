@@ -72,7 +72,7 @@ func (p *MetaParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *MetaParams) Set(name string, value interface{}) error {
@@ -103,7 +103,7 @@ func (r *MetaResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *MetaResult) Set(name string, value interface{}) error {

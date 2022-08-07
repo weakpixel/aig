@@ -64,7 +64,7 @@ func (p *SlurpParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *SlurpParams) Set(name string, value interface{}) error {
@@ -107,7 +107,7 @@ func (r *SlurpResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *SlurpResult) Set(name string, value interface{}) error {

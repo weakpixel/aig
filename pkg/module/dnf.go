@@ -304,7 +304,7 @@ func (p *DnfParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *DnfParams) Set(name string, value interface{}) error {
@@ -335,7 +335,7 @@ func (r *DnfResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *DnfResult) Set(name string, value interface{}) error {

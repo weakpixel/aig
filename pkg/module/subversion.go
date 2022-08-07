@@ -158,7 +158,7 @@ func (p *SubversionParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *SubversionParams) Set(name string, value interface{}) error {
@@ -189,7 +189,7 @@ func (r *SubversionResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *SubversionResult) Set(name string, value interface{}) error {

@@ -477,7 +477,7 @@ func (p *YumRepositoryParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *YumRepositoryParams) Set(name string, value interface{}) error {
@@ -516,7 +516,7 @@ func (r *YumRepositoryResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *YumRepositoryResult) Set(name string, value interface{}) error {

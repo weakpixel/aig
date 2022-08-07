@@ -169,7 +169,7 @@ func (p *WaitForParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *WaitForParams) Set(name string, value interface{}) error {
@@ -212,7 +212,7 @@ func (r *WaitForResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *WaitForResult) Set(name string, value interface{}) error {

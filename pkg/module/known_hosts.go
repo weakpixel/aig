@@ -104,7 +104,7 @@ func (p *KnownHostsParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *KnownHostsParams) Set(name string, value interface{}) error {
@@ -135,7 +135,7 @@ func (r *KnownHostsResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *KnownHostsResult) Set(name string, value interface{}) error {

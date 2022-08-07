@@ -260,7 +260,7 @@ var (
 			for name := range p.values {
 				names = append(names, name)
 			}
-			return []string{}
+			return names
 		}
 
 		func (p *{{ .NormalizedName }}Params) Set(name string, value interface{}) error {
@@ -297,7 +297,7 @@ var (
 			for name := range r.values {
 				names = append(names, name)
 			}
-			return []string{}
+			return names
 		}
 
 		func (r *{{ .NormalizedName }}Result) Set(name string, value interface{}) error {

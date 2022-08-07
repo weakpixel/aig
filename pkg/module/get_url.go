@@ -252,7 +252,7 @@ func (p *GetUrlParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *GetUrlParams) Set(name string, value interface{}) error {
@@ -355,7 +355,7 @@ func (r *GetUrlResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *GetUrlResult) Set(name string, value interface{}) error {

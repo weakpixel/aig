@@ -120,7 +120,7 @@ func (p *SysvinitParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *SysvinitParams) Set(name string, value interface{}) error {
@@ -155,7 +155,7 @@ func (r *SysvinitResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *SysvinitResult) Set(name string, value interface{}) error {

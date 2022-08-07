@@ -124,7 +124,7 @@ func (p *AptKeyParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *AptKeyParams) Set(name string, value interface{}) error {
@@ -179,7 +179,7 @@ func (r *AptKeyResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *AptKeyResult) Set(name string, value interface{}) error {

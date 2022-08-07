@@ -134,7 +134,7 @@ func (p *AptRepositoryParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *AptRepositoryParams) Set(name string, value interface{}) error {
@@ -165,7 +165,7 @@ func (r *AptRepositoryResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *AptRepositoryResult) Set(name string, value interface{}) error {

@@ -130,7 +130,7 @@ func (p *SystemdParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *SystemdParams) Set(name string, value interface{}) error {
@@ -165,7 +165,7 @@ func (r *SystemdResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *SystemdResult) Set(name string, value interface{}) error {

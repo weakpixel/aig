@@ -85,7 +85,7 @@ func (p *RpmKeyParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *RpmKeyParams) Set(name string, value interface{}) error {
@@ -116,7 +116,7 @@ func (r *RpmKeyResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *RpmKeyResult) Set(name string, value interface{}) error {

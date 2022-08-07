@@ -183,7 +183,7 @@ func (p *LineinfileParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *LineinfileParams) Set(name string, value interface{}) error {
@@ -214,7 +214,7 @@ func (r *LineinfileResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *LineinfileResult) Set(name string, value interface{}) error {

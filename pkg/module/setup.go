@@ -86,7 +86,7 @@ func (p *SetupParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *SetupParams) Set(name string, value interface{}) error {
@@ -117,7 +117,7 @@ func (r *SetupResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *SetupResult) Set(name string, value interface{}) error {

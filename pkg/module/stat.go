@@ -106,7 +106,7 @@ func (p *StatParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *StatParams) Set(name string, value interface{}) error {
@@ -141,7 +141,7 @@ func (r *StatResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *StatResult) Set(name string, value interface{}) error {

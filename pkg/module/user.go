@@ -412,7 +412,7 @@ func (p *UserParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *UserParams) Set(name string, value interface{}) error {
@@ -527,7 +527,7 @@ func (r *UserResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *UserResult) Set(name string, value interface{}) error {

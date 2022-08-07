@@ -176,7 +176,7 @@ func (p *UnarchiveParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *UnarchiveParams) Set(name string, value interface{}) error {
@@ -250,7 +250,7 @@ func (r *UnarchiveResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *UnarchiveResult) Set(name string, value interface{}) error {

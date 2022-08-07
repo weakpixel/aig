@@ -67,7 +67,7 @@ func (p *DpkgSelectionsParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *DpkgSelectionsParams) Set(name string, value interface{}) error {
@@ -98,7 +98,7 @@ func (r *DpkgSelectionsResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *DpkgSelectionsResult) Set(name string, value interface{}) error {

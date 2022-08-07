@@ -268,7 +268,7 @@ func (p *GitParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *GitParams) Set(name string, value interface{}) error {
@@ -323,7 +323,7 @@ func (r *GitResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *GitResult) Set(name string, value interface{}) error {

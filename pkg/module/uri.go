@@ -296,7 +296,7 @@ func (p *UriParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *UriParams) Set(name string, value interface{}) error {
@@ -363,7 +363,7 @@ func (r *UriResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *UriResult) Set(name string, value interface{}) error {

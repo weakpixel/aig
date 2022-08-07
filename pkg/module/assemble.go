@@ -127,7 +127,7 @@ func (p *AssembleParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *AssembleParams) Set(name string, value interface{}) error {
@@ -158,7 +158,7 @@ func (r *AssembleResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *AssembleResult) Set(name string, value interface{}) error {

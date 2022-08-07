@@ -198,7 +198,7 @@ func (p *CronParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *CronParams) Set(name string, value interface{}) error {
@@ -229,7 +229,7 @@ func (r *CronResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *CronResult) Set(name string, value interface{}) error {

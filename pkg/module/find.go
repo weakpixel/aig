@@ -4,7 +4,6 @@ package module
 
 import (
 	"fmt"
-
 	"github.com/weakpixel/aig/pkg/types"
 )
 
@@ -196,7 +195,7 @@ func (p *FindParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *FindParams) Set(name string, value interface{}) error {
@@ -243,7 +242,7 @@ func (r *FindResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *FindResult) Set(name string, value interface{}) error {

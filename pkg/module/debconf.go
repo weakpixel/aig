@@ -95,7 +95,7 @@ func (p *DebconfParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *DebconfParams) Set(name string, value interface{}) error {
@@ -126,7 +126,7 @@ func (r *DebconfResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *DebconfResult) Set(name string, value interface{}) error {

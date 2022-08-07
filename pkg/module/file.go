@@ -157,7 +157,7 @@ func (p *FileParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *FileParams) Set(name string, value interface{}) error {
@@ -196,7 +196,7 @@ func (r *FileResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *FileResult) Set(name string, value interface{}) error {

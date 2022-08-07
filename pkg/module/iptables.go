@@ -471,7 +471,7 @@ func (p *IptablesParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *IptablesParams) Set(name string, value interface{}) error {
@@ -502,7 +502,7 @@ func (r *IptablesResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *IptablesResult) Set(name string, value interface{}) error {

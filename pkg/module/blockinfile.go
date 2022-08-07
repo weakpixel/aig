@@ -139,7 +139,7 @@ func (p *BlockinfileParams) Names() []string {
 	for name := range p.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (p *BlockinfileParams) Set(name string, value interface{}) error {
@@ -170,7 +170,7 @@ func (r *BlockinfileResult) Names() []string {
 	for name := range r.values {
 		names = append(names, name)
 	}
-	return []string{}
+	return names
 }
 
 func (r *BlockinfileResult) Set(name string, value interface{}) error {
