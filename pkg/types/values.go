@@ -3,6 +3,10 @@ package types
 import (
 	"fmt"
 	"strconv"
+
+	"github.com/zclconf/go-cty/cty"
+	"github.com/zclconf/go-cty/cty/convert"
+	"github.com/zclconf/go-cty/cty/gocty"
 )
 
 type Value interface {
@@ -72,6 +76,13 @@ func (s *stringValue) Set(value interface{}) error {
 		} else {
 			*s.value = "false"
 		}
+	case cty.Value:
+		v, err := convert.Convert(value.(cty.Value), cty.String)
+		if err != nil {
+			return err
+		}
+		*s.value = v.AsString()
+
 	default:
 		return fmt.Errorf("cannot convert interface to string: %T", value)
 	}
@@ -90,6 +101,16 @@ func (s *stringListValue) Set(value interface{}) error {
 	switch t := value.(type) {
 	case []string:
 		*s.value = t
+	case cty.Value:
+		ty := t.Type()
+		if ty.IsMapType() {
+			return fmt.Errorf("cannot convert interface to []string: %T (is map) -> type: %s", value, ty.FriendlyName())
+		}
+		res, err := toStringList(t)
+		if err != nil {
+			return fmt.Errorf("cannot convert interface to []string: %T", value)
+		}
+		*s.value = res
 	default:
 		return fmt.Errorf("cannot convert interface to []string: %T", value)
 	}
@@ -108,8 +129,18 @@ func (s *intListValue) Set(value interface{}) error {
 	switch t := value.(type) {
 	case []int:
 		*s.value = t
+	case cty.Value:
+		ty := t.Type()
+		if ty.IsMapType() {
+			return fmt.Errorf("cannot convert interface to []int: %T (is map) -> type: %s", value, ty.FriendlyName())
+		}
+		res, err := toIntList(t)
+		if err != nil {
+			return fmt.Errorf("cannot convert interface to []int: %T", value)
+		}
+		*s.value = res
 	default:
-		return fmt.Errorf("cannot convert interface to []string: %T", value)
+		return fmt.Errorf("cannot convert interface to []int: %T", value)
 	}
 	return nil
 }
@@ -138,6 +169,15 @@ func (s *boolValue) Set(value interface{}) error {
 		}
 	case bool:
 		*s.value = t
+	case cty.Value:
+		i, err := convert.Convert(t, cty.Bool)
+		if err != nil {
+			return fmt.Errorf("cannot convert value to bool: %s", err)
+		}
+		err = gocty.FromCtyValue(i, s.value)
+		if err != nil {
+			return fmt.Errorf("cannot convert value to bool: %s", err)
+		}
 	default:
 		return fmt.Errorf("cannot convert interface to bool: %T", value)
 	}
@@ -168,8 +208,17 @@ func (s *intValue) Set(value interface{}) error {
 		} else {
 			*s.value = 0
 		}
+	case cty.Value:
+		i, err := convert.Convert(t, cty.Number)
+		if err != nil {
+			return fmt.Errorf("cannot convert value to int: %s", err)
+		}
+		err = gocty.FromCtyValue(i, s.value)
+		if err != nil {
+			return fmt.Errorf("cannot convert value to int: %s", err)
+		}
 	default:
-		return fmt.Errorf("cannot convert interface to bool: %T", value)
+		return fmt.Errorf("cannot convert interface to int: %T", value)
 	}
 	return nil
 }
@@ -192,8 +241,17 @@ func (s *float64Value) Set(value interface{}) error {
 			return err
 		}
 		*s.value = f
+	case cty.Value:
+		i, err := convert.Convert(t, cty.Number)
+		if err != nil {
+			return fmt.Errorf("cannot convert value to float: %s", err)
+		}
+		err = gocty.FromCtyValue(i, s.value)
+		if err != nil {
+			return fmt.Errorf("cannot convert value to float: %s", err)
+		}
 	default:
-		return fmt.Errorf("cannot convert interface to bool: %T", value)
+		return fmt.Errorf("cannot convert interface to float: %T", value)
 	}
 	return nil
 }
@@ -210,8 +268,17 @@ func (s *stringMapValue) Set(value interface{}) error {
 	switch t := value.(type) {
 	case map[string]string:
 		*s.value = t
+	case cty.Value:
+		re, err := toStringMap(t)
+		if err != nil {
+			return fmt.Errorf("cannot convert value to map[string]string: %s", err)
+		}
+		for k := range *s.value {
+			delete(*s.value, k)
+		}
+		*s.value = re
 	default:
-		return fmt.Errorf("cannot convert interface to bool: %T", value)
+		return fmt.Errorf("cannot convert interface to map[string]string: %T", value)
 	}
 	return nil
 }

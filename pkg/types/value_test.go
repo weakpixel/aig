@@ -1,9 +1,11 @@
 package types
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/zclconf/go-cty/cty"
 )
 
 func TestStringValue(t *testing.T) {
@@ -34,6 +36,12 @@ func TestStringValue(t *testing.T) {
 		assert.Equal(t, "10", vv.Get())
 	}
 
+	err = vv.Set(cty.StringVal("cty-value"))
+	if assert.NoError(t, err) {
+		assert.Equal(t, "cty-value", val)
+		assert.Equal(t, "cty-value", vv.Get())
+	}
+
 }
 
 func TestStringArrayValue(t *testing.T) {
@@ -44,6 +52,63 @@ func TestStringArrayValue(t *testing.T) {
 		"b",
 	}
 	err := vv.Set(newVal)
+	if assert.NoError(t, err) {
+		assert.Equal(t, newVal, val)
+		assert.Equal(t, newVal, vv.Get())
+	}
+
+	tuple := cty.TupleVal([]cty.Value{
+		cty.StringVal("a"),
+		cty.StringVal("b"),
+	})
+
+	err = vv.Set(tuple)
+	if assert.NoError(t, err) {
+		assert.Equal(t, newVal, val)
+		assert.Equal(t, newVal, vv.Get())
+	}
+
+	list := cty.ListVal([]cty.Value{
+		cty.StringVal("a"),
+		cty.StringVal("b"),
+	})
+	err = vv.Set(list)
+	if assert.NoError(t, err) {
+		assert.Equal(t, newVal, val)
+		assert.Equal(t, newVal, vv.Get())
+	}
+
+}
+
+func TestIntArrayValue(t *testing.T) {
+	val := []int{}
+	vv := NewIntListValue(&val)
+	newVal := []int{
+		1,
+		2,
+	}
+	err := vv.Set(newVal)
+	if assert.NoError(t, err) {
+		assert.Equal(t, newVal, val)
+		assert.Equal(t, newVal, vv.Get())
+	}
+
+	tuple := cty.TupleVal([]cty.Value{
+		cty.NumberIntVal(1),
+		cty.NumberIntVal(2),
+	})
+
+	err = vv.Set(tuple)
+	if assert.NoError(t, err) {
+		assert.Equal(t, newVal, val)
+		assert.Equal(t, newVal, vv.Get())
+	}
+
+	list := cty.ListVal([]cty.Value{
+		cty.NumberIntVal(1),
+		cty.NumberIntVal(2),
+	})
+	err = vv.Set(list)
 	if assert.NoError(t, err) {
 		assert.Equal(t, newVal, val)
 		assert.Equal(t, newVal, vv.Get())
@@ -73,6 +138,12 @@ func TestBoolValue(t *testing.T) {
 	if assert.NoError(t, err) {
 		assert.Equal(t, false, val)
 	}
+
+	err = vv.Set(cty.BoolVal(true))
+	if assert.NoError(t, err) {
+		assert.Equal(t, true, val)
+	}
+
 }
 
 func TestIntValue(t *testing.T) {
@@ -97,6 +168,12 @@ func TestIntValue(t *testing.T) {
 	if assert.NoError(t, err) {
 		assert.Equal(t, 40, val)
 	}
+
+	err = vv.Set(cty.NumberIntVal(66))
+	if assert.NoError(t, err) {
+		assert.Equal(t, 66, val)
+	}
+
 }
 
 func TestFloat64Value(t *testing.T) {
@@ -111,4 +188,42 @@ func TestFloat64Value(t *testing.T) {
 	if assert.NoError(t, err) {
 		assert.Equal(t, 40.345, val)
 	}
+
+	err = vv.Set(cty.NumberFloatVal(111.345))
+	if assert.NoError(t, err) {
+		assert.Equal(t, 111.345, val)
+	}
+
+}
+
+func TestStringMapValue(t *testing.T) {
+	val := map[string]string{}
+	vv := NewStringMapValue(&val)
+	newVal := map[string]string{
+		"a": "a value",
+		"b": "b value",
+	}
+
+	err := vv.Set(newVal)
+	if assert.NoError(t, err) {
+		assert.Equal(t, newVal, val)
+		assert.Equal(t, newVal, vv.Get())
+	}
+
+	m := cty.MapVal(map[string]cty.Value{
+		"c": cty.StringVal("c value"),
+		"d": cty.StringVal("d value"),
+	})
+	newVal = map[string]string{
+		"c": "c value",
+		"d": "d value",
+	}
+
+	err = vv.Set(m)
+	if assert.NoError(t, err) {
+		assert.Equal(t, newVal, val)
+		assert.Equal(t, newVal, vv.Get())
+		fmt.Println(vv.Get())
+	}
+
 }
