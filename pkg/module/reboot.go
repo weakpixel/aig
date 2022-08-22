@@ -27,7 +27,7 @@ func NewReboot() *Reboot {
 	paramValues["pre_reboot_delay"] = types.NewIntValue(&module.Params.PreRebootDelay)
 	paramValues["reboot_command"] = types.NewStringValue(&module.Params.RebootCommand)
 	paramValues["reboot_timeout"] = types.NewIntValue(&module.Params.RebootTimeout)
-	paramValues["search_paths"] = types.NewStringArrayValue(&module.Params.SearchPaths)
+	paramValues["search_paths"] = types.NewStringListValue(&module.Params.SearchPaths)
 	paramValues["test_command"] = types.NewStringValue(&module.Params.TestCommand)
 	module.Params.values = paramValues
 
@@ -62,7 +62,7 @@ type RebootParams struct {
 	//
 	// Default: cat /proc/sys/kernel/random/boot_id
 	// Required: false
-	BootTimeCommand string `yaml:"boot_time_command,omitempty" json:"boot_time_command,omitempty"`
+	BootTimeCommand string `yaml:"boot_time_command,omitempty" json:"boot_time_command,omitempty" cty:"boot_time_command"`
 
 	// ConnectTimeout
 	// Maximum seconds to wait for a successful connection to the managed hosts before trying again.
@@ -70,14 +70,14 @@ type RebootParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	ConnectTimeout int `yaml:"connect_timeout,omitempty" json:"connect_timeout,omitempty"`
+	ConnectTimeout int `yaml:"connect_timeout,omitempty" json:"connect_timeout,omitempty" cty:"connect_timeout"`
 
 	// Msg
 	// Message to display to users before reboot.
 	//
 	// Default: Reboot initiated by Ansible
 	// Required: false
-	Msg string `yaml:"msg,omitempty" json:"msg,omitempty"`
+	Msg string `yaml:"msg,omitempty" json:"msg,omitempty" cty:"msg"`
 
 	// PostRebootDelay
 	// Seconds to wait after the reboot command was successful before attempting to validate the system rebooted successfully.
@@ -85,7 +85,7 @@ type RebootParams struct {
 	//
 	// Default: 0
 	// Required: false
-	PostRebootDelay int `yaml:"post_reboot_delay,omitempty" json:"post_reboot_delay,omitempty"`
+	PostRebootDelay int `yaml:"post_reboot_delay,omitempty" json:"post_reboot_delay,omitempty" cty:"post_reboot_delay"`
 
 	// PreRebootDelay
 	// Seconds to wait before reboot. Passed as a parameter to the reboot command.
@@ -94,7 +94,7 @@ type RebootParams struct {
 	//
 	// Default: 0
 	// Required: false
-	PreRebootDelay int `yaml:"pre_reboot_delay,omitempty" json:"pre_reboot_delay,omitempty"`
+	PreRebootDelay int `yaml:"pre_reboot_delay,omitempty" json:"pre_reboot_delay,omitempty" cty:"pre_reboot_delay"`
 
 	// RebootCommand
 	// Command to run that reboots the system, including any parameters passed to the command.
@@ -103,7 +103,7 @@ type RebootParams struct {
 	//
 	// Default: [determined based on target OS]
 	// Required: false
-	RebootCommand string `yaml:"reboot_command,omitempty" json:"reboot_command,omitempty"`
+	RebootCommand string `yaml:"reboot_command,omitempty" json:"reboot_command,omitempty" cty:"reboot_command"`
 
 	// RebootTimeout
 	// Maximum seconds to wait for machine to reboot and respond to a test command.
@@ -111,7 +111,7 @@ type RebootParams struct {
 	//
 	// Default: 600
 	// Required: false
-	RebootTimeout int `yaml:"reboot_timeout,omitempty" json:"reboot_timeout,omitempty"`
+	RebootTimeout int `yaml:"reboot_timeout,omitempty" json:"reboot_timeout,omitempty" cty:"reboot_timeout"`
 
 	// SearchPaths
 	// Paths to search on the remote machine for the C(shutdown) command.
@@ -119,14 +119,14 @@ type RebootParams struct {
 	//
 	// Default: [/sbin /bin /usr/sbin /usr/bin /usr/local/sbin]
 	// Required: false
-	SearchPaths []string `yaml:"search_paths,omitempty" json:"search_paths,omitempty"`
+	SearchPaths []string `yaml:"search_paths,omitempty" json:"search_paths,omitempty" cty:"search_paths"`
 
 	// TestCommand
 	// Command to run on the rebooted host and expect success from to determine the machine is ready for further tasks.
 	//
 	// Default: whoami
 	// Required: false
-	TestCommand string `yaml:"test_command,omitempty" json:"test_command,omitempty"`
+	TestCommand string `yaml:"test_command,omitempty" json:"test_command,omitempty" cty:"test_command"`
 
 	values map[string]types.Value
 }
@@ -161,11 +161,11 @@ type RebootResult struct {
 
 	// Elapsed
 	// The number of seconds that elapsed waiting for the system to be rebooted.
-	Elapsed int `yaml:"elapsed,omitempty" json:"elapsed,omitempty"`
+	Elapsed int `yaml:"elapsed,omitempty" json:"elapsed,omitempty" cty:"elapsed"`
 
 	// Rebooted
 	// true if the machine was rebooted
-	Rebooted bool `yaml:"rebooted,omitempty" json:"rebooted,omitempty"`
+	Rebooted bool `yaml:"rebooted,omitempty" json:"rebooted,omitempty" cty:"rebooted"`
 
 	values map[string]types.Value
 }

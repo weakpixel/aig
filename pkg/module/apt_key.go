@@ -33,8 +33,8 @@ func NewAptKey() *AptKey {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
-	// NOT SUPPORTED: after After []map[string]interface{}
-	// NOT SUPPORTED: before Before []map[string]interface{}
+	resultValues["after"] = types.NewStringListValue(&module.Result.After)
+	resultValues["before"] = types.NewStringListValue(&module.Result.Before)
 	resultValues["fp"] = types.NewStringValue(&module.Result.Fp)
 	resultValues["id"] = types.NewStringValue(&module.Result.Id)
 	resultValues["key_id"] = types.NewStringValue(&module.Result.KeyId)
@@ -62,14 +62,14 @@ type AptKeyParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Data string `yaml:"data,omitempty" json:"data,omitempty"`
+	Data string `yaml:"data,omitempty" json:"data,omitempty" cty:"data"`
 
 	// File
 	// The path to a keyfile on the remote server to add to the keyring.
 	//
 	// Default: <no value>
 	// Required: false
-	File string `yaml:"file,omitempty" json:"file,omitempty"`
+	File string `yaml:"file,omitempty" json:"file,omitempty" cty:"file"`
 
 	// Id
 	// The identifier of the key.
@@ -79,42 +79,42 @@ type AptKeyParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Id string `yaml:"id,omitempty" json:"id,omitempty"`
+	Id string `yaml:"id,omitempty" json:"id,omitempty" cty:"id"`
 
 	// Keyring
 	// The full path to specific keyring file in C(/etc/apt/trusted.gpg.d/).
 	//
 	// Default: <no value>
 	// Required: false
-	Keyring string `yaml:"keyring,omitempty" json:"keyring,omitempty"`
+	Keyring string `yaml:"keyring,omitempty" json:"keyring,omitempty" cty:"keyring"`
 
 	// Keyserver
 	// The keyserver to retrieve key from.
 	//
 	// Default: <no value>
 	// Required: false
-	Keyserver string `yaml:"keyserver,omitempty" json:"keyserver,omitempty"`
+	Keyserver string `yaml:"keyserver,omitempty" json:"keyserver,omitempty" cty:"keyserver"`
 
 	// State
 	// Ensures that the key is present (added) or absent (revoked).
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// Url
 	// The URL to retrieve key from.
 	//
 	// Default: <no value>
 	// Required: false
-	Url string `yaml:"url,omitempty" json:"url,omitempty"`
+	Url string `yaml:"url,omitempty" json:"url,omitempty" cty:"url"`
 
 	// ValidateCerts
 	// If C(no), SSL certificates for the target url will not be validated. This should only be used on personally controlled sites using self-signed certificates.
 	//
 	// Default: yes
 	// Required: false
-	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty"`
+	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty" cty:"validate_certs"`
 
 	values map[string]types.Value
 }
@@ -149,27 +149,27 @@ type AptKeyResult struct {
 
 	// After
 	// List of apt key ids or fingerprints after any modification
-	After []map[string]interface{} `yaml:"after,omitempty" json:"after,omitempty"`
+	After []string `yaml:"after,omitempty" json:"after,omitempty" cty:"after"`
 
 	// Before
 	// List of apt key ids or fingprints before any modifications
-	Before []map[string]interface{} `yaml:"before,omitempty" json:"before,omitempty"`
+	Before []string `yaml:"before,omitempty" json:"before,omitempty" cty:"before"`
 
 	// Fp
 	// Fingerprint of the key to import
-	Fp string `yaml:"fp,omitempty" json:"fp,omitempty"`
+	Fp string `yaml:"fp,omitempty" json:"fp,omitempty" cty:"fp"`
 
 	// Id
 	// key id from source
-	Id string `yaml:"id,omitempty" json:"id,omitempty"`
+	Id string `yaml:"id,omitempty" json:"id,omitempty" cty:"id"`
 
 	// KeyId
 	// calculated key id, it should be same as 'id', but can be different
-	KeyId string `yaml:"key_id,omitempty" json:"key_id,omitempty"`
+	KeyId string `yaml:"key_id,omitempty" json:"key_id,omitempty" cty:"key_id"`
 
 	// ShortId
 	// caclulated short key id
-	ShortId string `yaml:"short_id,omitempty" json:"short_id,omitempty"`
+	ShortId string `yaml:"short_id,omitempty" json:"short_id,omitempty" cty:"short_id"`
 
 	values map[string]types.Value
 }

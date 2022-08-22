@@ -62,28 +62,28 @@ type AssembleParams struct {
 	//
 	// Default: no
 	// Required: false
-	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
+	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty" cty:"backup"`
 
 	// Delimiter
 	// A delimiter to separate the file contents.
 	//
 	// Default: <no value>
 	// Required: false
-	Delimiter string `yaml:"delimiter,omitempty" json:"delimiter,omitempty"`
+	Delimiter string `yaml:"delimiter,omitempty" json:"delimiter,omitempty" cty:"delimiter"`
 
 	// Dest
 	// A file to create using the concatenation of all of the source files.
 	//
 	// Default: <no value>
 	// Required: true
-	Dest string `yaml:"dest,omitempty" json:"dest,omitempty"`
+	Dest string `yaml:"dest,omitempty" json:"dest,omitempty" cty:"dest"`
 
 	// IgnoreHidden
 	// A boolean that controls if files that start with a '.' will be included or not.
 	//
 	// Default: no
 	// Required: false
-	IgnoreHidden bool `yaml:"ignore_hidden,omitempty" json:"ignore_hidden,omitempty"`
+	IgnoreHidden bool `yaml:"ignore_hidden,omitempty" json:"ignore_hidden,omitempty" cty:"ignore_hidden"`
 
 	// Regexp
 	// Assemble files only if C(regex) matches the filename.
@@ -93,7 +93,7 @@ type AssembleParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Regexp string `yaml:"regexp,omitempty" json:"regexp,omitempty"`
+	Regexp string `yaml:"regexp,omitempty" json:"regexp,omitempty" cty:"regexp"`
 
 	// RemoteSrc
 	// If C(no), it will search for src at originating/master machine.
@@ -101,14 +101,14 @@ type AssembleParams struct {
 	//
 	// Default: yes
 	// Required: false
-	RemoteSrc bool `yaml:"remote_src,omitempty" json:"remote_src,omitempty"`
+	RemoteSrc bool `yaml:"remote_src,omitempty" json:"remote_src,omitempty" cty:"remote_src"`
 
 	// Src
 	// An already existing directory full of source files.
 	//
 	// Default: <no value>
 	// Required: true
-	Src string `yaml:"src,omitempty" json:"src,omitempty"`
+	Src string `yaml:"src,omitempty" json:"src,omitempty" cty:"src"`
 
 	// Validate
 	// The validation command to run before copying into place.
@@ -117,7 +117,7 @@ type AssembleParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Validate string `yaml:"validate,omitempty" json:"validate,omitempty"`
+	Validate string `yaml:"validate,omitempty" json:"validate,omitempty" cty:"validate"`
 
 	values map[string]types.Value
 }

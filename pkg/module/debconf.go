@@ -55,28 +55,28 @@ type DebconfParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// Question
 	// A debconf configuration setting.
 	//
 	// Default: <no value>
 	// Required: false
-	Question string `yaml:"question,omitempty" json:"question,omitempty"`
+	Question string `yaml:"question,omitempty" json:"question,omitempty" cty:"question"`
 
 	// Unseen
 	// Do not set 'seen' flag when pre-seeding.
 	//
 	// Default: false
 	// Required: false
-	Unseen bool `yaml:"unseen,omitempty" json:"unseen,omitempty"`
+	Unseen bool `yaml:"unseen,omitempty" json:"unseen,omitempty" cty:"unseen"`
 
 	// Value
 	// Value to set the configuration to.
 	//
 	// Default: <no value>
 	// Required: false
-	Value string `yaml:"value,omitempty" json:"value,omitempty"`
+	Value string `yaml:"value,omitempty" json:"value,omitempty" cty:"value"`
 
 	// Vtype
 	// The type of the value supplied.
@@ -85,7 +85,7 @@ type DebconfParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Vtype string `yaml:"vtype,omitempty" json:"vtype,omitempty"`
+	Vtype string `yaml:"vtype,omitempty" json:"vtype,omitempty" cty:"vtype"`
 
 	values map[string]types.Value
 }

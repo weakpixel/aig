@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"path"
 	"text/template"
 	"time"
 
@@ -138,4 +139,22 @@ func ExecuteLocal(module types.Module) (string, error) {
 	}
 	return rawResult, nil
 
+}
+
+func ExecuteRemote(r *Remote, module types.Module) (string, error) {
+	pkg, err := newRemotePackage(r.PythonBin, module)
+	if err != nil {
+		return "", err
+	}
+	pkgBin, err := writeRemoteBinTmp(pkg)
+	if err != nil {
+		return "", err
+	}
+	defer os.RemoveAll(pkgBin)
+	moduleFile := path.Join("/tmp", fmt.Sprintf("ansible-module-%s.py", module.GetType()))
+	err = r.Conn.Upload(pkgBin, moduleFile)
+	if err != nil {
+		return "", err
+	}
+	return r.Conn.ExecOutput(fmt.Sprintf("chmod +x %s && %s; res=$?; rm -f %s; exit $res", moduleFile, moduleFile, moduleFile))
 }

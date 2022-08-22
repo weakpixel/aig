@@ -38,7 +38,7 @@ func TestStringValue(t *testing.T) {
 
 func TestStringArrayValue(t *testing.T) {
 	val := []string{}
-	vv := NewStringArrayValue(&val)
+	vv := NewStringListValue(&val)
 	newVal := []string{
 		"a",
 		"b",

@@ -57,49 +57,49 @@ type ExpectParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Chdir string `yaml:"chdir,omitempty" json:"chdir,omitempty"`
+	Chdir string `yaml:"chdir,omitempty" json:"chdir,omitempty" cty:"chdir"`
 
 	// Command
 	// The command module takes command to run.
 	//
 	// Default: <no value>
 	// Required: true
-	Command string `yaml:"command,omitempty" json:"command,omitempty"`
+	Command string `yaml:"command,omitempty" json:"command,omitempty" cty:"command"`
 
 	// Creates
 	// A filename, when it already exists, this step will B(not) be run.
 	//
 	// Default: <no value>
 	// Required: false
-	Creates string `yaml:"creates,omitempty" json:"creates,omitempty"`
+	Creates string `yaml:"creates,omitempty" json:"creates,omitempty" cty:"creates"`
 
 	// Echo
 	// Whether or not to echo out your response strings.
 	//
 	// Default: false
 	// Required: false
-	Echo bool `yaml:"echo,omitempty" json:"echo,omitempty"`
+	Echo bool `yaml:"echo,omitempty" json:"echo,omitempty" cty:"echo"`
 
 	// Removes
 	// A filename, when it does not exist, this step will B(not) be run.
 	//
 	// Default: <no value>
 	// Required: false
-	Removes string `yaml:"removes,omitempty" json:"removes,omitempty"`
+	Removes string `yaml:"removes,omitempty" json:"removes,omitempty" cty:"removes"`
 
 	// Responses
 	// Mapping of expected string/regex and string to respond with. If the response is a list, successive matches return successive responses. List functionality is new in 2.1.
 	//
 	// Default: <no value>
 	// Required: true
-	Responses map[string]string `yaml:"responses,omitempty" json:"responses,omitempty"`
+	Responses map[string]string `yaml:"responses,omitempty" json:"responses,omitempty" cty:"responses"`
 
 	// Timeout
 	// Amount of time in seconds to wait for the expected strings. Use C(null) to disable timeout.
 	//
 	// Default: 30
 	// Required: false
-	Timeout int `yaml:"timeout,omitempty" json:"timeout,omitempty"`
+	Timeout int `yaml:"timeout,omitempty" json:"timeout,omitempty" cty:"timeout"`
 
 	values map[string]types.Value
 }

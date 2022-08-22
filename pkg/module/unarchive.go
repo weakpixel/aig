@@ -23,9 +23,9 @@ func NewUnarchive() *Unarchive {
 	paramValues["copy"] = types.NewBoolValue(&module.Params.Copy)
 	paramValues["creates"] = types.NewStringValue(&module.Params.Creates)
 	paramValues["dest"] = types.NewStringValue(&module.Params.Dest)
-	paramValues["exclude"] = types.NewStringArrayValue(&module.Params.Exclude)
-	paramValues["extra_opts"] = types.NewStringArrayValue(&module.Params.ExtraOpts)
-	paramValues["include"] = types.NewStringArrayValue(&module.Params.Include)
+	paramValues["exclude"] = types.NewStringListValue(&module.Params.Exclude)
+	paramValues["extra_opts"] = types.NewStringListValue(&module.Params.ExtraOpts)
+	paramValues["include"] = types.NewStringListValue(&module.Params.Include)
 	paramValues["io_buffer_size"] = types.NewIntValue(&module.Params.IoBufferSize)
 	paramValues["keep_newer"] = types.NewBoolValue(&module.Params.KeepNewer)
 	paramValues["list_files"] = types.NewBoolValue(&module.Params.ListFiles)
@@ -38,7 +38,7 @@ func NewUnarchive() *Unarchive {
 	resultValues := map[string]types.Value{}
 
 	resultValues["dest"] = types.NewStringValue(&module.Result.Dest)
-	// NOT SUPPORTED: files Files []map[string]interface{}
+	resultValues["files"] = types.NewStringListValue(&module.Result.Files)
 	resultValues["gid"] = types.NewIntValue(&module.Result.Gid)
 	resultValues["group"] = types.NewStringValue(&module.Result.Group)
 	resultValues["handler"] = types.NewStringValue(&module.Result.Handler)
@@ -81,21 +81,21 @@ type UnarchiveParams struct {
 	//
 	// Default: yes
 	// Required: false
-	Copy bool `yaml:"copy,omitempty" json:"copy,omitempty"`
+	Copy bool `yaml:"copy,omitempty" json:"copy,omitempty" cty:"copy"`
 
 	// Creates
 	// If the specified absolute path (file or directory) already exists, this step will B(not) be run.
 	//
 	// Default: <no value>
 	// Required: false
-	Creates string `yaml:"creates,omitempty" json:"creates,omitempty"`
+	Creates string `yaml:"creates,omitempty" json:"creates,omitempty" cty:"creates"`
 
 	// Dest
 	// Remote absolute path where the archive should be unpacked.
 	//
 	// Default: <no value>
 	// Required: true
-	Dest string `yaml:"dest,omitempty" json:"dest,omitempty"`
+	Dest string `yaml:"dest,omitempty" json:"dest,omitempty" cty:"dest"`
 
 	// Exclude
 	// List the directory and file entries that you would like to exclude from the unarchive action.
@@ -103,7 +103,7 @@ type UnarchiveParams struct {
 	//
 	// Default: []
 	// Required: false
-	Exclude []string `yaml:"exclude,omitempty" json:"exclude,omitempty"`
+	Exclude []string `yaml:"exclude,omitempty" json:"exclude,omitempty" cty:"exclude"`
 
 	// ExtraOpts
 	// Specify additional options by passing in an array.
@@ -112,7 +112,7 @@ type UnarchiveParams struct {
 	//
 	// Default:
 	// Required: false
-	ExtraOpts []string `yaml:"extra_opts,omitempty" json:"extra_opts,omitempty"`
+	ExtraOpts []string `yaml:"extra_opts,omitempty" json:"extra_opts,omitempty" cty:"extra_opts"`
 
 	// Include
 	// List of directory and file entries that you would like to extract from the archive. If C(include) is not empty, only files listed here will be extracted.
@@ -120,28 +120,28 @@ type UnarchiveParams struct {
 	//
 	// Default: []
 	// Required: false
-	Include []string `yaml:"include,omitempty" json:"include,omitempty"`
+	Include []string `yaml:"include,omitempty" json:"include,omitempty" cty:"include"`
 
 	// IoBufferSize
 	// Size of the volatile memory buffer that is used for extracting files from the archive in bytes.
 	//
 	// Default: 65536
 	// Required: false
-	IoBufferSize int `yaml:"io_buffer_size,omitempty" json:"io_buffer_size,omitempty"`
+	IoBufferSize int `yaml:"io_buffer_size,omitempty" json:"io_buffer_size,omitempty" cty:"io_buffer_size"`
 
 	// KeepNewer
 	// Do not replace existing files that are newer than files from the archive.
 	//
 	// Default: no
 	// Required: false
-	KeepNewer bool `yaml:"keep_newer,omitempty" json:"keep_newer,omitempty"`
+	KeepNewer bool `yaml:"keep_newer,omitempty" json:"keep_newer,omitempty" cty:"keep_newer"`
 
 	// ListFiles
 	// If set to True, return the list of files that are contained in the tarball.
 	//
 	// Default: no
 	// Required: false
-	ListFiles bool `yaml:"list_files,omitempty" json:"list_files,omitempty"`
+	ListFiles bool `yaml:"list_files,omitempty" json:"list_files,omitempty" cty:"list_files"`
 
 	// RemoteSrc
 	// Set to C(yes) to indicate the archived file is already on the remote system and not local to the Ansible controller.
@@ -149,7 +149,7 @@ type UnarchiveParams struct {
 	//
 	// Default: no
 	// Required: false
-	RemoteSrc bool `yaml:"remote_src,omitempty" json:"remote_src,omitempty"`
+	RemoteSrc bool `yaml:"remote_src,omitempty" json:"remote_src,omitempty" cty:"remote_src"`
 
 	// Src
 	// If C(remote_src=no) (default), local path to archive file to copy to the target server; can be absolute or relative. If C(remote_src=yes), path on the target server to existing archive file to unpack.
@@ -157,7 +157,7 @@ type UnarchiveParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Src string `yaml:"src,omitempty" json:"src,omitempty"`
+	Src string `yaml:"src,omitempty" json:"src,omitempty" cty:"src"`
 
 	// ValidateCerts
 	// This only applies if using a https URL as the source of the file.
@@ -166,7 +166,7 @@ type UnarchiveParams struct {
 	//
 	// Default: yes
 	// Required: false
-	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty"`
+	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty" cty:"validate_certs"`
 
 	values map[string]types.Value
 }
@@ -201,46 +201,46 @@ type UnarchiveResult struct {
 
 	// Dest
 	// Path to the destination directory.
-	Dest string `yaml:"dest,omitempty" json:"dest,omitempty"`
+	Dest string `yaml:"dest,omitempty" json:"dest,omitempty" cty:"dest"`
 
 	// Files
 	// List of all the files in the archive.
-	Files []map[string]interface{} `yaml:"files,omitempty" json:"files,omitempty"`
+	Files []string `yaml:"files,omitempty" json:"files,omitempty" cty:"files"`
 
 	// Gid
 	// Numerical ID of the group that owns the destination directory.
-	Gid int `yaml:"gid,omitempty" json:"gid,omitempty"`
+	Gid int `yaml:"gid,omitempty" json:"gid,omitempty" cty:"gid"`
 
 	// Group
 	// Name of the group that owns the destination directory.
-	Group string `yaml:"group,omitempty" json:"group,omitempty"`
+	Group string `yaml:"group,omitempty" json:"group,omitempty" cty:"group"`
 
 	// Handler
 	// Archive software handler used to extract and decompress the archive.
-	Handler string `yaml:"handler,omitempty" json:"handler,omitempty"`
+	Handler string `yaml:"handler,omitempty" json:"handler,omitempty" cty:"handler"`
 
 	// Mode
 	// String that represents the octal permissions of the destination directory.
-	Mode string `yaml:"mode,omitempty" json:"mode,omitempty"`
+	Mode string `yaml:"mode,omitempty" json:"mode,omitempty" cty:"mode"`
 
 	// Owner
 	// Name of the user that owns the destination directory.
-	Owner string `yaml:"owner,omitempty" json:"owner,omitempty"`
+	Owner string `yaml:"owner,omitempty" json:"owner,omitempty" cty:"owner"`
 
 	// Size
 	// The size of destination directory in bytes. Does not include the size of files or subdirectories contained within.
-	Size int `yaml:"size,omitempty" json:"size,omitempty"`
+	Size int `yaml:"size,omitempty" json:"size,omitempty" cty:"size"`
 
 	// Src
-	Src string `yaml:"src,omitempty" json:"src,omitempty"`
+	Src string `yaml:"src,omitempty" json:"src,omitempty" cty:"src"`
 
 	// State
 	// State of the destination. Effectively always "directory".
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// Uid
 	// Numerical ID of the user that owns the destination directory.
-	Uid int `yaml:"uid,omitempty" json:"uid,omitempty"`
+	Uid int `yaml:"uid,omitempty" json:"uid,omitempty" cty:"uid"`
 
 	values map[string]types.Value
 }

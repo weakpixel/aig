@@ -25,7 +25,7 @@ func NewSysvinit() *Sysvinit {
 	paramValues["enabled"] = types.NewBoolValue(&module.Params.Enabled)
 	paramValues["name"] = types.NewStringValue(&module.Params.Name)
 	paramValues["pattern"] = types.NewStringValue(&module.Params.Pattern)
-	paramValues["runlevels"] = types.NewStringArrayValue(&module.Params.Runlevels)
+	paramValues["runlevels"] = types.NewStringListValue(&module.Params.Runlevels)
 	paramValues["sleep"] = types.NewIntValue(&module.Params.Sleep)
 	paramValues["state"] = types.NewStringValue(&module.Params.State)
 	module.Params.values = paramValues
@@ -33,7 +33,8 @@ func NewSysvinit() *Sysvinit {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
-	// NOT SUPPORTED: results Results interface{}
+	// NOT SUPPORTED: results Results interface{} complex
+	// resultValues["results"] = types.New???Value(&module.Params.Results)
 	module.Result.values = resultValues
 
 	return &module
@@ -57,7 +58,7 @@ type SysvinitParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Arguments string `yaml:"arguments,omitempty" json:"arguments,omitempty"`
+	Arguments string `yaml:"arguments,omitempty" json:"arguments,omitempty" cty:"arguments"`
 
 	// Daemonize
 	// Have the module daemonize as the service itself might not do so properly.
@@ -65,21 +66,21 @@ type SysvinitParams struct {
 	//
 	// Default: no
 	// Required: false
-	Daemonize bool `yaml:"daemonize,omitempty" json:"daemonize,omitempty"`
+	Daemonize bool `yaml:"daemonize,omitempty" json:"daemonize,omitempty" cty:"daemonize"`
 
 	// Enabled
 	// Whether the service should start on boot. B(At least one of state and enabled are required.)
 	//
 	// Default: <no value>
 	// Required: false
-	Enabled bool `yaml:"enabled,omitempty" json:"enabled,omitempty"`
+	Enabled bool `yaml:"enabled,omitempty" json:"enabled,omitempty" cty:"enabled"`
 
 	// Name
 	// Name of the service.
 	//
 	// Default: <no value>
 	// Required: true
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// Pattern
 	// A substring to look for as would be found in the output of the I(ps) command as a stand-in for a status result.
@@ -88,7 +89,7 @@ type SysvinitParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Pattern string `yaml:"pattern,omitempty" json:"pattern,omitempty"`
+	Pattern string `yaml:"pattern,omitempty" json:"pattern,omitempty" cty:"pattern"`
 
 	// Runlevels
 	// The runlevels this script should be enabled/disabled from.
@@ -96,21 +97,21 @@ type SysvinitParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Runlevels []string `yaml:"runlevels,omitempty" json:"runlevels,omitempty"`
+	Runlevels []string `yaml:"runlevels,omitempty" json:"runlevels,omitempty" cty:"runlevels"`
 
 	// Sleep
 	// If the service is being C(restarted) or C(reloaded) then sleep this many seconds between the stop and start command. This helps to workaround badly behaving services.
 	//
 	// Default: 1
 	// Required: false
-	Sleep int `yaml:"sleep,omitempty" json:"sleep,omitempty"`
+	Sleep int `yaml:"sleep,omitempty" json:"sleep,omitempty" cty:"sleep"`
 
 	// State
 	// C(started)/C(stopped) are idempotent actions that will not run commands unless necessary. Not all init scripts support C(restarted) nor C(reloaded) natively, so these will both trigger a stop and start as needed.
 	//
 	// Default: <no value>
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	values map[string]types.Value
 }
@@ -145,7 +146,7 @@ type SysvinitResult struct {
 
 	// Results
 	// results from actions taken
-	Results interface{} `yaml:"results,omitempty" json:"results,omitempty"`
+	Results interface{} `yaml:"results,omitempty" json:"results,omitempty" cty:"results"`
 
 	values map[string]types.Value
 }

@@ -27,19 +27,19 @@ func NewYum() *Yum {
 	paramValues["conf_file"] = types.NewStringValue(&module.Params.ConfFile)
 	paramValues["disable_excludes"] = types.NewStringValue(&module.Params.DisableExcludes)
 	paramValues["disable_gpg_check"] = types.NewBoolValue(&module.Params.DisableGpgCheck)
-	paramValues["disable_plugin"] = types.NewStringArrayValue(&module.Params.DisablePlugin)
-	paramValues["disablerepo"] = types.NewStringArrayValue(&module.Params.Disablerepo)
+	paramValues["disable_plugin"] = types.NewStringListValue(&module.Params.DisablePlugin)
+	paramValues["disablerepo"] = types.NewStringListValue(&module.Params.Disablerepo)
 	paramValues["download_dir"] = types.NewStringValue(&module.Params.DownloadDir)
 	paramValues["download_only"] = types.NewBoolValue(&module.Params.DownloadOnly)
-	paramValues["enable_plugin"] = types.NewStringArrayValue(&module.Params.EnablePlugin)
-	paramValues["enablerepo"] = types.NewStringArrayValue(&module.Params.Enablerepo)
-	paramValues["exclude"] = types.NewStringArrayValue(&module.Params.Exclude)
+	paramValues["enable_plugin"] = types.NewStringListValue(&module.Params.EnablePlugin)
+	paramValues["enablerepo"] = types.NewStringListValue(&module.Params.Enablerepo)
+	paramValues["exclude"] = types.NewStringListValue(&module.Params.Exclude)
 	paramValues["install_repoquery"] = types.NewBoolValue(&module.Params.InstallRepoquery)
 	paramValues["install_weak_deps"] = types.NewBoolValue(&module.Params.InstallWeakDeps)
 	paramValues["installroot"] = types.NewStringValue(&module.Params.Installroot)
 	paramValues["list"] = types.NewStringValue(&module.Params.List)
 	paramValues["lock_timeout"] = types.NewIntValue(&module.Params.LockTimeout)
-	paramValues["name"] = types.NewStringArrayValue(&module.Params.Name)
+	paramValues["name"] = types.NewStringListValue(&module.Params.Name)
 	paramValues["releasever"] = types.NewStringValue(&module.Params.Releasever)
 	paramValues["security"] = types.NewBoolValue(&module.Params.Security)
 	paramValues["skip_broken"] = types.NewBoolValue(&module.Params.SkipBroken)
@@ -79,7 +79,7 @@ type YumParams struct {
 	//
 	// Default: no
 	// Required: false
-	AllowDowngrade bool `yaml:"allow_downgrade,omitempty" json:"allow_downgrade,omitempty"`
+	AllowDowngrade bool `yaml:"allow_downgrade,omitempty" json:"allow_downgrade,omitempty" cty:"allow_downgrade"`
 
 	// Autoremove
 	// If C(yes), removes all "leaf" packages from the system that were originally installed as dependencies of user-installed packages but which are no longer required by any such package. Should be used alone or when state is I(absent)
@@ -87,28 +87,28 @@ type YumParams struct {
 	//
 	// Default: no
 	// Required: false
-	Autoremove bool `yaml:"autoremove,omitempty" json:"autoremove,omitempty"`
+	Autoremove bool `yaml:"autoremove,omitempty" json:"autoremove,omitempty" cty:"autoremove"`
 
 	// Bugfix
 	// If set to C(yes), and C(state=latest) then only installs updates that have been marked bugfix related.
 	//
 	// Default: no
 	// Required: false
-	Bugfix bool `yaml:"bugfix,omitempty" json:"bugfix,omitempty"`
+	Bugfix bool `yaml:"bugfix,omitempty" json:"bugfix,omitempty" cty:"bugfix"`
 
 	// Cacheonly
 	// Tells yum to run entirely from system cache; does not download or update metadata.
 	//
 	// Default: no
 	// Required: false
-	Cacheonly bool `yaml:"cacheonly,omitempty" json:"cacheonly,omitempty"`
+	Cacheonly bool `yaml:"cacheonly,omitempty" json:"cacheonly,omitempty" cty:"cacheonly"`
 
 	// ConfFile
 	// The remote yum configuration file to use for the transaction.
 	//
 	// Default: <no value>
 	// Required: false
-	ConfFile string `yaml:"conf_file,omitempty" json:"conf_file,omitempty"`
+	ConfFile string `yaml:"conf_file,omitempty" json:"conf_file,omitempty" cty:"conf_file"`
 
 	// DisableExcludes
 	// Disable the excludes defined in YUM config files.
@@ -118,21 +118,21 @@ type YumParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	DisableExcludes string `yaml:"disable_excludes,omitempty" json:"disable_excludes,omitempty"`
+	DisableExcludes string `yaml:"disable_excludes,omitempty" json:"disable_excludes,omitempty" cty:"disable_excludes"`
 
 	// DisableGpgCheck
 	// Whether to disable the GPG checking of signatures of packages being installed. Has an effect only if state is I(present) or I(latest).
 	//
 	// Default: no
 	// Required: false
-	DisableGpgCheck bool `yaml:"disable_gpg_check,omitempty" json:"disable_gpg_check,omitempty"`
+	DisableGpgCheck bool `yaml:"disable_gpg_check,omitempty" json:"disable_gpg_check,omitempty" cty:"disable_gpg_check"`
 
 	// DisablePlugin
 	// I(Plugin) name to disable for the install/update operation. The disabled plugins will not persist beyond the transaction.
 	//
 	// Default: <no value>
 	// Required: false
-	DisablePlugin []string `yaml:"disable_plugin,omitempty" json:"disable_plugin,omitempty"`
+	DisablePlugin []string `yaml:"disable_plugin,omitempty" json:"disable_plugin,omitempty" cty:"disable_plugin"`
 
 	// Disablerepo
 	// I(Repoid) of repositories to disable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a C(",").
@@ -140,7 +140,7 @@ type YumParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Disablerepo []string `yaml:"disablerepo,omitempty" json:"disablerepo,omitempty"`
+	Disablerepo []string `yaml:"disablerepo,omitempty" json:"disablerepo,omitempty" cty:"disablerepo"`
 
 	// DownloadDir
 	// Specifies an alternate directory to store packages.
@@ -148,21 +148,21 @@ type YumParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	DownloadDir string `yaml:"download_dir,omitempty" json:"download_dir,omitempty"`
+	DownloadDir string `yaml:"download_dir,omitempty" json:"download_dir,omitempty" cty:"download_dir"`
 
 	// DownloadOnly
 	// Only download the packages, do not install them.
 	//
 	// Default: no
 	// Required: false
-	DownloadOnly bool `yaml:"download_only,omitempty" json:"download_only,omitempty"`
+	DownloadOnly bool `yaml:"download_only,omitempty" json:"download_only,omitempty" cty:"download_only"`
 
 	// EnablePlugin
 	// I(Plugin) name to enable for the install/update operation. The enabled plugin will not persist beyond the transaction.
 	//
 	// Default: <no value>
 	// Required: false
-	EnablePlugin []string `yaml:"enable_plugin,omitempty" json:"enable_plugin,omitempty"`
+	EnablePlugin []string `yaml:"enable_plugin,omitempty" json:"enable_plugin,omitempty" cty:"enable_plugin"`
 
 	// Enablerepo
 	// I(Repoid) of repositories to enable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a C(",").
@@ -170,14 +170,14 @@ type YumParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Enablerepo []string `yaml:"enablerepo,omitempty" json:"enablerepo,omitempty"`
+	Enablerepo []string `yaml:"enablerepo,omitempty" json:"enablerepo,omitempty" cty:"enablerepo"`
 
 	// Exclude
 	// Package name(s) to exclude when state=present, or latest
 	//
 	// Default: <no value>
 	// Required: false
-	Exclude []string `yaml:"exclude,omitempty" json:"exclude,omitempty"`
+	Exclude []string `yaml:"exclude,omitempty" json:"exclude,omitempty" cty:"exclude"`
 
 	// InstallRepoquery
 	// If repoquery is not available, install yum-utils. If the system is registered to RHN or an RHN Satellite, repoquery allows for querying all channels assigned to the system. It is also required to use the 'list' parameter.
@@ -186,7 +186,7 @@ type YumParams struct {
 	//
 	// Default: yes
 	// Required: false
-	InstallRepoquery bool `yaml:"install_repoquery,omitempty" json:"install_repoquery,omitempty"`
+	InstallRepoquery bool `yaml:"install_repoquery,omitempty" json:"install_repoquery,omitempty" cty:"install_repoquery"`
 
 	// InstallWeakDeps
 	// Will also install all packages linked by a weak dependency relation.
@@ -194,14 +194,14 @@ type YumParams struct {
 	//
 	// Default: yes
 	// Required: false
-	InstallWeakDeps bool `yaml:"install_weak_deps,omitempty" json:"install_weak_deps,omitempty"`
+	InstallWeakDeps bool `yaml:"install_weak_deps,omitempty" json:"install_weak_deps,omitempty" cty:"install_weak_deps"`
 
 	// Installroot
 	// Specifies an alternative installroot, relative to which all packages will be installed.
 	//
 	// Default: /
 	// Required: false
-	Installroot string `yaml:"installroot,omitempty" json:"installroot,omitempty"`
+	Installroot string `yaml:"installroot,omitempty" json:"installroot,omitempty" cty:"installroot"`
 
 	// List
 	// Package name to run the equivalent of yum list C(--show-duplicates <package>) against. In addition to listing packages, use can also list the following: C(installed), C(updates), C(available) and C(repos).
@@ -209,14 +209,14 @@ type YumParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	List string `yaml:"list,omitempty" json:"list,omitempty"`
+	List string `yaml:"list,omitempty" json:"list,omitempty" cty:"list"`
 
 	// LockTimeout
 	// Amount of time to wait for the yum lockfile to be freed.
 	//
 	// Default: 30
 	// Required: false
-	LockTimeout int `yaml:"lock_timeout,omitempty" json:"lock_timeout,omitempty"`
+	LockTimeout int `yaml:"lock_timeout,omitempty" json:"lock_timeout,omitempty" cty:"lock_timeout"`
 
 	// Name
 	// A package name or package specifier with version, like C(name-1.0).
@@ -227,28 +227,28 @@ type YumParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Name []string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name []string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// Releasever
 	// Specifies an alternative release from which all packages will be installed.
 	//
 	// Default: <no value>
 	// Required: false
-	Releasever string `yaml:"releasever,omitempty" json:"releasever,omitempty"`
+	Releasever string `yaml:"releasever,omitempty" json:"releasever,omitempty" cty:"releasever"`
 
 	// Security
 	// If set to C(yes), and C(state=latest) then only installs updates that have been marked security related.
 	//
 	// Default: no
 	// Required: false
-	Security bool `yaml:"security,omitempty" json:"security,omitempty"`
+	Security bool `yaml:"security,omitempty" json:"security,omitempty" cty:"security"`
 
 	// SkipBroken
 	// Skip all unavailable packages or packages with broken dependencies without raising an error. Equivalent to passing the --skip-broken option.
 	//
 	// Default: no
 	// Required: false
-	SkipBroken bool `yaml:"skip_broken,omitempty" json:"skip_broken,omitempty"`
+	SkipBroken bool `yaml:"skip_broken,omitempty" json:"skip_broken,omitempty" cty:"skip_broken"`
 
 	// Sslverify
 	// Disables SSL validation of the repository server for this transaction.
@@ -256,7 +256,7 @@ type YumParams struct {
 	//
 	// Default: yes
 	// Required: false
-	Sslverify bool `yaml:"sslverify,omitempty" json:"sslverify,omitempty"`
+	Sslverify bool `yaml:"sslverify,omitempty" json:"sslverify,omitempty" cty:"sslverify"`
 
 	// State
 	// Whether to install (C(present) or C(installed), C(latest)), or remove (C(absent) or C(removed)) a package.
@@ -267,14 +267,14 @@ type YumParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// UpdateCache
 	// Force yum to check if cache is out of date and redownload if needed. Has an effect only if state is I(present) or I(latest).
 	//
 	// Default: no
 	// Required: false
-	UpdateCache bool `yaml:"update_cache,omitempty" json:"update_cache,omitempty"`
+	UpdateCache bool `yaml:"update_cache,omitempty" json:"update_cache,omitempty" cty:"update_cache"`
 
 	// UpdateOnly
 	// When using latest, only update installed packages. Do not install packages.
@@ -282,7 +282,7 @@ type YumParams struct {
 	//
 	// Default: no
 	// Required: false
-	UpdateOnly bool `yaml:"update_only,omitempty" json:"update_only,omitempty"`
+	UpdateOnly bool `yaml:"update_only,omitempty" json:"update_only,omitempty" cty:"update_only"`
 
 	// UseBackend
 	// This module supports C(yum) (as it always has), this is known as C(yum3)/C(YUM3)/C(yum-deprecated) by upstream yum developers. As of Ansible 2.7+, this module also supports C(YUM4), which is the "new yum" and it has an C(dnf) backend.
@@ -290,7 +290,7 @@ type YumParams struct {
 	//
 	// Default: auto
 	// Required: false
-	UseBackend string `yaml:"use_backend,omitempty" json:"use_backend,omitempty"`
+	UseBackend string `yaml:"use_backend,omitempty" json:"use_backend,omitempty" cty:"use_backend"`
 
 	// ValidateCerts
 	// This only applies if using a https url as the source of the rpm. e.g. for localinstall. If set to C(no), the SSL certificates will not be validated.
@@ -299,7 +299,7 @@ type YumParams struct {
 	//
 	// Default: yes
 	// Required: false
-	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty"`
+	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty" cty:"validate_certs"`
 
 	values map[string]types.Value
 }

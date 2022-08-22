@@ -53,21 +53,21 @@ type RpmKeyParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Fingerprint string `yaml:"fingerprint,omitempty" json:"fingerprint,omitempty"`
+	Fingerprint string `yaml:"fingerprint,omitempty" json:"fingerprint,omitempty" cty:"fingerprint"`
 
 	// Key
 	// Key that will be modified. Can be a url, a file on the managed node, or a keyid if the key already exists in the database.
 	//
 	// Default: <no value>
 	// Required: true
-	Key string `yaml:"key,omitempty" json:"key,omitempty"`
+	Key string `yaml:"key,omitempty" json:"key,omitempty" cty:"key"`
 
 	// State
 	// If the key will be imported or removed from the rpm db.
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// ValidateCerts
 	// If C(no) and the C(key) is a url starting with https, SSL certificates will not be validated.
@@ -75,7 +75,7 @@ type RpmKeyParams struct {
 	//
 	// Default: yes
 	// Required: false
-	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty"`
+	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty" cty:"validate_certs"`
 
 	values map[string]types.Value
 }

@@ -70,7 +70,7 @@ type CronParams struct {
 	//
 	// Default: no
 	// Required: false
-	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
+	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty" cty:"backup"`
 
 	// CronFile
 	// If specified, uses this file instead of an individual user's crontab. The assumption is that this file is exclusively managed by the module, do not use if the file contains multiple entries, NEVER use for /etc/crontab.
@@ -81,14 +81,14 @@ type CronParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	CronFile string `yaml:"cron_file,omitempty" json:"cron_file,omitempty"`
+	CronFile string `yaml:"cron_file,omitempty" json:"cron_file,omitempty" cty:"cron_file"`
 
 	// Day
 	// Day of the month the job should run (C(1-31), C(*), C(*/2), and so on).
 	//
 	// Default: *
 	// Required: false
-	Day string `yaml:"day,omitempty" json:"day,omitempty"`
+	Day string `yaml:"day,omitempty" json:"day,omitempty" cty:"day"`
 
 	// Disabled
 	// If the job should be disabled (commented out) in the crontab.
@@ -96,7 +96,7 @@ type CronParams struct {
 	//
 	// Default: no
 	// Required: false
-	Disabled bool `yaml:"disabled,omitempty" json:"disabled,omitempty"`
+	Disabled bool `yaml:"disabled,omitempty" json:"disabled,omitempty" cty:"disabled"`
 
 	// Env
 	// If set, manages a crontab's environment variable.
@@ -105,14 +105,14 @@ type CronParams struct {
 	//
 	// Default: false
 	// Required: false
-	Env bool `yaml:"env,omitempty" json:"env,omitempty"`
+	Env bool `yaml:"env,omitempty" json:"env,omitempty" cty:"env"`
 
 	// Hour
 	// Hour when the job should run (C(0-23), C(*), C(*/2), and so on).
 	//
 	// Default: *
 	// Required: false
-	Hour string `yaml:"hour,omitempty" json:"hour,omitempty"`
+	Hour string `yaml:"hour,omitempty" json:"hour,omitempty" cty:"hour"`
 
 	// Insertafter
 	// Used with I(state=present) and I(env).
@@ -120,7 +120,7 @@ type CronParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Insertafter string `yaml:"insertafter,omitempty" json:"insertafter,omitempty"`
+	Insertafter string `yaml:"insertafter,omitempty" json:"insertafter,omitempty" cty:"insertafter"`
 
 	// Insertbefore
 	// Used with I(state=present) and I(env).
@@ -128,7 +128,7 @@ type CronParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Insertbefore string `yaml:"insertbefore,omitempty" json:"insertbefore,omitempty"`
+	Insertbefore string `yaml:"insertbefore,omitempty" json:"insertbefore,omitempty" cty:"insertbefore"`
 
 	// Job
 	// The command to execute or, if env is set, the value of environment variable.
@@ -137,21 +137,21 @@ type CronParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Job string `yaml:"job,omitempty" json:"job,omitempty"`
+	Job string `yaml:"job,omitempty" json:"job,omitempty" cty:"job"`
 
 	// Minute
 	// Minute when the job should run (C(0-59), C(*), C(*/2), and so on).
 	//
 	// Default: *
 	// Required: false
-	Minute string `yaml:"minute,omitempty" json:"minute,omitempty"`
+	Minute string `yaml:"minute,omitempty" json:"minute,omitempty" cty:"minute"`
 
 	// Month
 	// Month of the year the job should run (C(1-12), C(*), C(*/2), and so on).
 	//
 	// Default: *
 	// Required: false
-	Month string `yaml:"month,omitempty" json:"month,omitempty"`
+	Month string `yaml:"month,omitempty" json:"month,omitempty" cty:"month"`
 
 	// Name
 	// Description of a crontab entry or, if env is set, the name of environment variable.
@@ -159,21 +159,21 @@ type CronParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// SpecialTime
 	// Special time specification nickname.
 	//
 	// Default: <no value>
 	// Required: false
-	SpecialTime string `yaml:"special_time,omitempty" json:"special_time,omitempty"`
+	SpecialTime string `yaml:"special_time,omitempty" json:"special_time,omitempty" cty:"special_time"`
 
 	// State
 	// Whether to ensure the job or environment variable is present or absent.
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// User
 	// The specific user whose crontab should be modified.
@@ -181,14 +181,14 @@ type CronParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	User string `yaml:"user,omitempty" json:"user,omitempty"`
+	User string `yaml:"user,omitempty" json:"user,omitempty" cty:"user"`
 
 	// Weekday
 	// Day of the week that the job should run (C(0-6) for Sunday-Saturday, C(*), and so on).
 	//
 	// Default: *
 	// Required: false
-	Weekday string `yaml:"weekday,omitempty" json:"weekday,omitempty"`
+	Weekday string `yaml:"weekday,omitempty" json:"weekday,omitempty" cty:"weekday"`
 
 	values map[string]types.Value
 }

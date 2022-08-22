@@ -20,10 +20,10 @@ func NewWaitFor() *WaitFor {
 	module := WaitFor{}
 	// Create dynamic param values
 	paramValues := map[string]types.Value{}
-	paramValues["active_connection_states"] = types.NewStringArrayValue(&module.Params.ActiveConnectionStates)
+	paramValues["active_connection_states"] = types.NewStringListValue(&module.Params.ActiveConnectionStates)
 	paramValues["connect_timeout"] = types.NewIntValue(&module.Params.ConnectTimeout)
 	paramValues["delay"] = types.NewIntValue(&module.Params.Delay)
-	paramValues["exclude_hosts"] = types.NewStringArrayValue(&module.Params.ExcludeHosts)
+	paramValues["exclude_hosts"] = types.NewStringListValue(&module.Params.ExcludeHosts)
 	paramValues["host"] = types.NewStringValue(&module.Params.Host)
 	paramValues["msg"] = types.NewStringValue(&module.Params.Msg)
 	paramValues["path"] = types.NewStringValue(&module.Params.Path)
@@ -39,7 +39,7 @@ func NewWaitFor() *WaitFor {
 
 	resultValues["elapsed"] = types.NewIntValue(&module.Result.Elapsed)
 	resultValues["match_groupdict"] = types.NewStringMapValue(&module.Result.MatchGroupdict)
-	// NOT SUPPORTED: match_groups MatchGroups []map[string]interface{}
+	resultValues["match_groups"] = types.NewStringListValue(&module.Result.MatchGroups)
 	module.Result.values = resultValues
 
 	return &module
@@ -75,42 +75,42 @@ type WaitForParams struct {
 	//
 	// Default: [ESTABLISHED FIN_WAIT1 FIN_WAIT2 SYN_RECV SYN_SENT TIME_WAIT]
 	// Required: false
-	ActiveConnectionStates []string `yaml:"active_connection_states,omitempty" json:"active_connection_states,omitempty"`
+	ActiveConnectionStates []string `yaml:"active_connection_states,omitempty" json:"active_connection_states,omitempty" cty:"active_connection_states"`
 
 	// ConnectTimeout
 	// Maximum number of seconds to wait for a connection to happen before closing and retrying.
 	//
 	// Default: 5
 	// Required: false
-	ConnectTimeout int `yaml:"connect_timeout,omitempty" json:"connect_timeout,omitempty"`
+	ConnectTimeout int `yaml:"connect_timeout,omitempty" json:"connect_timeout,omitempty" cty:"connect_timeout"`
 
 	// Delay
 	// Number of seconds to wait before starting to poll.
 	//
 	// Default: 0
 	// Required: false
-	Delay int `yaml:"delay,omitempty" json:"delay,omitempty"`
+	Delay int `yaml:"delay,omitempty" json:"delay,omitempty" cty:"delay"`
 
 	// ExcludeHosts
 	// List of hosts or IPs to ignore when looking for active TCP connections for C(drained) state.
 	//
 	// Default: <no value>
 	// Required: false
-	ExcludeHosts []string `yaml:"exclude_hosts,omitempty" json:"exclude_hosts,omitempty"`
+	ExcludeHosts []string `yaml:"exclude_hosts,omitempty" json:"exclude_hosts,omitempty" cty:"exclude_hosts"`
 
 	// Host
 	// A resolvable hostname or IP address to wait for.
 	//
 	// Default: 127.0.0.1
 	// Required: false
-	Host string `yaml:"host,omitempty" json:"host,omitempty"`
+	Host string `yaml:"host,omitempty" json:"host,omitempty" cty:"host"`
 
 	// Msg
 	// This overrides the normal error message from a failure to meet the required conditions.
 	//
 	// Default: <no value>
 	// Required: false
-	Msg string `yaml:"msg,omitempty" json:"msg,omitempty"`
+	Msg string `yaml:"msg,omitempty" json:"msg,omitempty" cty:"msg"`
 
 	// Path
 	// Path to a file on the filesystem that must exist before continuing.
@@ -118,7 +118,7 @@ type WaitForParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Path string `yaml:"path,omitempty" json:"path,omitempty"`
+	Path string `yaml:"path,omitempty" json:"path,omitempty" cty:"path"`
 
 	// Port
 	// Port number to poll.
@@ -126,7 +126,7 @@ type WaitForParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Port int `yaml:"port,omitempty" json:"port,omitempty"`
+	Port int `yaml:"port,omitempty" json:"port,omitempty" cty:"port"`
 
 	// SearchRegex
 	// Can be used to match a string in either a file or a socket connection.
@@ -134,7 +134,7 @@ type WaitForParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	SearchRegex string `yaml:"search_regex,omitempty" json:"search_regex,omitempty"`
+	SearchRegex string `yaml:"search_regex,omitempty" json:"search_regex,omitempty" cty:"search_regex"`
 
 	// Sleep
 	// Number of seconds to sleep between checks.
@@ -142,7 +142,7 @@ type WaitForParams struct {
 	//
 	// Default: 1
 	// Required: false
-	Sleep int `yaml:"sleep,omitempty" json:"sleep,omitempty"`
+	Sleep int `yaml:"sleep,omitempty" json:"sleep,omitempty" cty:"sleep"`
 
 	// State
 	// Either C(present), C(started), or C(stopped), C(absent), or C(drained).
@@ -151,7 +151,7 @@ type WaitForParams struct {
 	//
 	// Default: started
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// Timeout
 	// Maximum number of seconds to wait for, when used with another condition it will force an error.
@@ -159,7 +159,7 @@ type WaitForParams struct {
 	//
 	// Default: 300
 	// Required: false
-	Timeout int `yaml:"timeout,omitempty" json:"timeout,omitempty"`
+	Timeout int `yaml:"timeout,omitempty" json:"timeout,omitempty" cty:"timeout"`
 
 	values map[string]types.Value
 }
@@ -194,15 +194,15 @@ type WaitForResult struct {
 
 	// Elapsed
 	// The number of seconds that elapsed while waiting
-	Elapsed int `yaml:"elapsed,omitempty" json:"elapsed,omitempty"`
+	Elapsed int `yaml:"elapsed,omitempty" json:"elapsed,omitempty" cty:"elapsed"`
 
 	// MatchGroupdict
 	// Dictionary containing all the named subgroups of the match, keyed by the subgroup name, as returned by U(https://docs.python.org/3/library/re.html#re.MatchObject.groupdict)
-	MatchGroupdict map[string]string `yaml:"match_groupdict,omitempty" json:"match_groupdict,omitempty"`
+	MatchGroupdict map[string]string `yaml:"match_groupdict,omitempty" json:"match_groupdict,omitempty" cty:"match_groupdict"`
 
 	// MatchGroups
 	// Tuple containing all the subgroups of the match as returned by U(https://docs.python.org/3/library/re.html#re.MatchObject.groups)
-	MatchGroups []map[string]interface{} `yaml:"match_groups,omitempty" json:"match_groups,omitempty"`
+	MatchGroups []string `yaml:"match_groups,omitempty" json:"match_groups,omitempty" cty:"match_groups"`
 
 	values map[string]types.Value
 }

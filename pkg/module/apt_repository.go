@@ -58,14 +58,14 @@ type AptRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Codename string `yaml:"codename,omitempty" json:"codename,omitempty"`
+	Codename string `yaml:"codename,omitempty" json:"codename,omitempty" cty:"codename"`
 
 	// Filename
 	// Sets the name of the source list file in sources.list.d. Defaults to a file name based on the repository source url. The .list extension will be automatically added.
 	//
 	// Default: <no value>
 	// Required: false
-	Filename string `yaml:"filename,omitempty" json:"filename,omitempty"`
+	Filename string `yaml:"filename,omitempty" json:"filename,omitempty" cty:"filename"`
 
 	// InstallPythonApt
 	// Whether to automatically try to install the Python apt library or not, if it is not already installed. Without this library, the module does not work.
@@ -74,7 +74,7 @@ type AptRepositoryParams struct {
 	//
 	// Default: true
 	// Required: false
-	InstallPythonApt bool `yaml:"install_python_apt,omitempty" json:"install_python_apt,omitempty"`
+	InstallPythonApt bool `yaml:"install_python_apt,omitempty" json:"install_python_apt,omitempty" cty:"install_python_apt"`
 
 	// Mode
 	// The octal mode for newly created files in sources.list.d.
@@ -82,49 +82,49 @@ type AptRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Mode string `yaml:"mode,omitempty" json:"mode,omitempty"`
+	Mode string `yaml:"mode,omitempty" json:"mode,omitempty" cty:"mode"`
 
 	// Repo
 	// A source string for the repository.
 	//
 	// Default: <no value>
 	// Required: true
-	Repo string `yaml:"repo,omitempty" json:"repo,omitempty"`
+	Repo string `yaml:"repo,omitempty" json:"repo,omitempty" cty:"repo"`
 
 	// State
 	// A source string state.
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// UpdateCache
 	// Run the equivalent of C(apt-get update) when a change occurs.  Cache updates are run after making changes.
 	//
 	// Default: yes
 	// Required: false
-	UpdateCache bool `yaml:"update_cache,omitempty" json:"update_cache,omitempty"`
+	UpdateCache bool `yaml:"update_cache,omitempty" json:"update_cache,omitempty" cty:"update_cache"`
 
 	// UpdateCacheRetries
 	// Amount of retries if the cache update fails. Also see I(update_cache_retry_max_delay).
 	//
 	// Default: 5
 	// Required: false
-	UpdateCacheRetries int `yaml:"update_cache_retries,omitempty" json:"update_cache_retries,omitempty"`
+	UpdateCacheRetries int `yaml:"update_cache_retries,omitempty" json:"update_cache_retries,omitempty" cty:"update_cache_retries"`
 
 	// UpdateCacheRetryMaxDelay
 	// Use an exponential backoff delay for each retry (see I(update_cache_retries)) up to this max delay in seconds.
 	//
 	// Default: 12
 	// Required: false
-	UpdateCacheRetryMaxDelay int `yaml:"update_cache_retry_max_delay,omitempty" json:"update_cache_retry_max_delay,omitempty"`
+	UpdateCacheRetryMaxDelay int `yaml:"update_cache_retry_max_delay,omitempty" json:"update_cache_retry_max_delay,omitempty" cty:"update_cache_retry_max_delay"`
 
 	// ValidateCerts
 	// If C(no), SSL certificates for the target repo will not be validated. This should only be used on personally controlled sites using self-signed certificates.
 	//
 	// Default: yes
 	// Required: false
-	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty"`
+	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty" cty:"validate_certs"`
 
 	values map[string]types.Value
 }

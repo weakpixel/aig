@@ -30,7 +30,7 @@ func NewGit() *Git {
 	paramValues["dest"] = types.NewStringValue(&module.Params.Dest)
 	paramValues["executable"] = types.NewStringValue(&module.Params.Executable)
 	paramValues["force"] = types.NewBoolValue(&module.Params.Force)
-	paramValues["gpg_whitelist"] = types.NewStringArrayValue(&module.Params.GpgWhitelist)
+	paramValues["gpg_whitelist"] = types.NewStringListValue(&module.Params.GpgWhitelist)
 	paramValues["key_file"] = types.NewStringValue(&module.Params.KeyFile)
 	paramValues["recursive"] = types.NewBoolValue(&module.Params.Recursive)
 	paramValues["reference"] = types.NewStringValue(&module.Params.Reference)
@@ -81,14 +81,14 @@ type GitParams struct {
 	//
 	// Default: no
 	// Required: false
-	AcceptHostkey bool `yaml:"accept_hostkey,omitempty" json:"accept_hostkey,omitempty"`
+	AcceptHostkey bool `yaml:"accept_hostkey,omitempty" json:"accept_hostkey,omitempty" cty:"accept_hostkey"`
 
 	// AcceptNewhostkey
 	// As of OpenSSH 7.5, "-o StrictHostKeyChecking=accept-new" can be used which is safer and will only accepts host keys which are not present or are the same. if C(yes), ensure that "-o StrictHostKeyChecking=accept-new" is present as an ssh option.
 	//
 	// Default: no
 	// Required: false
-	AcceptNewhostkey bool `yaml:"accept_newhostkey,omitempty" json:"accept_newhostkey,omitempty"`
+	AcceptNewhostkey bool `yaml:"accept_newhostkey,omitempty" json:"accept_newhostkey,omitempty" cty:"accept_newhostkey"`
 
 	// Archive
 	// Specify archive file path with extension. If specified, creates an archive file of the specified format containing the tree structure for the source tree. Allowed archive formats ["zip", "tar.gz", "tar", "tgz"].
@@ -96,56 +96,56 @@ type GitParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Archive string `yaml:"archive,omitempty" json:"archive,omitempty"`
+	Archive string `yaml:"archive,omitempty" json:"archive,omitempty" cty:"archive"`
 
 	// ArchivePrefix
 	// Specify a prefix to add to each file path in archive. Requires I(archive) to be specified.
 	//
 	// Default: <no value>
 	// Required: false
-	ArchivePrefix string `yaml:"archive_prefix,omitempty" json:"archive_prefix,omitempty"`
+	ArchivePrefix string `yaml:"archive_prefix,omitempty" json:"archive_prefix,omitempty" cty:"archive_prefix"`
 
 	// Bare
 	// If C(yes), repository will be created as a bare repo, otherwise it will be a standard repo with a workspace.
 	//
 	// Default: no
 	// Required: false
-	Bare bool `yaml:"bare,omitempty" json:"bare,omitempty"`
+	Bare bool `yaml:"bare,omitempty" json:"bare,omitempty" cty:"bare"`
 
 	// Clone
 	// If C(no), do not clone the repository even if it does not exist locally.
 	//
 	// Default: yes
 	// Required: false
-	Clone bool `yaml:"clone,omitempty" json:"clone,omitempty"`
+	Clone bool `yaml:"clone,omitempty" json:"clone,omitempty" cty:"clone"`
 
 	// Depth
 	// Create a shallow clone with a history truncated to the specified number or revisions. The minimum possible value is C(1), otherwise ignored. Needs I(git>=1.9.1) to work correctly.
 	//
 	// Default: <no value>
 	// Required: false
-	Depth int `yaml:"depth,omitempty" json:"depth,omitempty"`
+	Depth int `yaml:"depth,omitempty" json:"depth,omitempty" cty:"depth"`
 
 	// Dest
 	// The path of where the repository should be checked out. This is equivalent to C(git clone [repo_url] [directory]). The repository named in I(repo) is not appended to this path and the destination directory must be empty. This parameter is required, unless I(clone) is set to C(no).
 	//
 	// Default: <no value>
 	// Required: true
-	Dest string `yaml:"dest,omitempty" json:"dest,omitempty"`
+	Dest string `yaml:"dest,omitempty" json:"dest,omitempty" cty:"dest"`
 
 	// Executable
 	// Path to git executable to use. If not supplied, the normal mechanism for resolving binary paths will be used.
 	//
 	// Default: <no value>
 	// Required: false
-	Executable string `yaml:"executable,omitempty" json:"executable,omitempty"`
+	Executable string `yaml:"executable,omitempty" json:"executable,omitempty" cty:"executable"`
 
 	// Force
 	// If C(yes), any modified files in the working repository will be discarded.  Prior to 0.7, this was always C(yes) and could not be disabled.  Prior to 1.9, the default was C(yes).
 	//
 	// Default: no
 	// Required: false
-	Force bool `yaml:"force,omitempty" json:"force,omitempty"`
+	Force bool `yaml:"force,omitempty" json:"force,omitempty" cty:"force"`
 
 	// GpgWhitelist
 	// A list of trusted GPG fingerprints to compare to the fingerprint of the GPG-signed commit.
@@ -154,7 +154,7 @@ type GitParams struct {
 	//
 	// Default: []
 	// Required: false
-	GpgWhitelist []string `yaml:"gpg_whitelist,omitempty" json:"gpg_whitelist,omitempty"`
+	GpgWhitelist []string `yaml:"gpg_whitelist,omitempty" json:"gpg_whitelist,omitempty" cty:"gpg_whitelist"`
 
 	// KeyFile
 	// Specify an optional private key file path, on the target host, to use for the checkout.
@@ -162,56 +162,56 @@ type GitParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	KeyFile string `yaml:"key_file,omitempty" json:"key_file,omitempty"`
+	KeyFile string `yaml:"key_file,omitempty" json:"key_file,omitempty" cty:"key_file"`
 
 	// Recursive
 	// If C(no), repository will be cloned without the --recursive option, skipping sub-modules.
 	//
 	// Default: yes
 	// Required: false
-	Recursive bool `yaml:"recursive,omitempty" json:"recursive,omitempty"`
+	Recursive bool `yaml:"recursive,omitempty" json:"recursive,omitempty" cty:"recursive"`
 
 	// Reference
 	// Reference repository (see "git clone --reference ...").
 	//
 	// Default: <no value>
 	// Required: false
-	Reference string `yaml:"reference,omitempty" json:"reference,omitempty"`
+	Reference string `yaml:"reference,omitempty" json:"reference,omitempty" cty:"reference"`
 
 	// Refspec
 	// Add an additional refspec to be fetched. If version is set to a I(SHA-1) not reachable from any branch or tag, this option may be necessary to specify the ref containing the I(SHA-1). Uses the same syntax as the C(git fetch) command. An example value could be "refs/meta/config".
 	//
 	// Default: <no value>
 	// Required: false
-	Refspec string `yaml:"refspec,omitempty" json:"refspec,omitempty"`
+	Refspec string `yaml:"refspec,omitempty" json:"refspec,omitempty" cty:"refspec"`
 
 	// Remote
 	// Name of the remote.
 	//
 	// Default: origin
 	// Required: false
-	Remote string `yaml:"remote,omitempty" json:"remote,omitempty"`
+	Remote string `yaml:"remote,omitempty" json:"remote,omitempty" cty:"remote"`
 
 	// Repo
 	// git, SSH, or HTTP(S) protocol address of the git repository.
 	//
 	// Default: <no value>
 	// Required: true
-	Repo string `yaml:"repo,omitempty" json:"repo,omitempty"`
+	Repo string `yaml:"repo,omitempty" json:"repo,omitempty" cty:"repo"`
 
 	// SeparateGitDir
 	// The path to place the cloned repository. If specified, Git repository can be separated from working tree.
 	//
 	// Default: <no value>
 	// Required: false
-	SeparateGitDir string `yaml:"separate_git_dir,omitempty" json:"separate_git_dir,omitempty"`
+	SeparateGitDir string `yaml:"separate_git_dir,omitempty" json:"separate_git_dir,omitempty" cty:"separate_git_dir"`
 
 	// SingleBranch
 	// Clone only the history leading to the tip of the specified revision.
 	//
 	// Default: no
 	// Required: false
-	SingleBranch bool `yaml:"single_branch,omitempty" json:"single_branch,omitempty"`
+	SingleBranch bool `yaml:"single_branch,omitempty" json:"single_branch,omitempty" cty:"single_branch"`
 
 	// SshOpts
 	// Options git will pass to ssh when used as protocol, it works via C(git)'s GIT_SSH/GIT_SSH_COMMAND environment variables.
@@ -222,21 +222,21 @@ type GitParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	SshOpts string `yaml:"ssh_opts,omitempty" json:"ssh_opts,omitempty"`
+	SshOpts string `yaml:"ssh_opts,omitempty" json:"ssh_opts,omitempty" cty:"ssh_opts"`
 
 	// TrackSubmodules
 	// If C(yes), submodules will track the latest commit on their master branch (or other branch specified in .gitmodules).  If C(no), submodules will be kept at the revision specified by the main project. This is equivalent to specifying the --remote flag to git submodule update.
 	//
 	// Default: no
 	// Required: false
-	TrackSubmodules bool `yaml:"track_submodules,omitempty" json:"track_submodules,omitempty"`
+	TrackSubmodules bool `yaml:"track_submodules,omitempty" json:"track_submodules,omitempty" cty:"track_submodules"`
 
 	// Umask
 	// The umask to set before doing any checkouts, or any other repository maintenance.
 	//
 	// Default: <no value>
 	// Required: false
-	Umask string `yaml:"umask,omitempty" json:"umask,omitempty"`
+	Umask string `yaml:"umask,omitempty" json:"umask,omitempty" cty:"umask"`
 
 	// Update
 	// If C(no), do not retrieve new revisions from the origin repository.
@@ -244,21 +244,21 @@ type GitParams struct {
 	//
 	// Default: yes
 	// Required: false
-	Update bool `yaml:"update,omitempty" json:"update,omitempty"`
+	Update bool `yaml:"update,omitempty" json:"update,omitempty" cty:"update"`
 
 	// VerifyCommit
 	// If C(yes), when cloning or checking out a I(version) verify the signature of a GPG signed commit. This requires git version>=2.1.0 to be installed. The commit MUST be signed and the public key MUST be present in the GPG keyring.
 	//
 	// Default: no
 	// Required: false
-	VerifyCommit bool `yaml:"verify_commit,omitempty" json:"verify_commit,omitempty"`
+	VerifyCommit bool `yaml:"verify_commit,omitempty" json:"verify_commit,omitempty" cty:"verify_commit"`
 
 	// Version
 	// What version of the repository to check out. This can be the literal string C(HEAD), a branch name, a tag name. It can also be a I(SHA-1) hash, in which case I(refspec) needs to be specified if the given revision is not already available.
 	//
 	// Default: HEAD
 	// Required: false
-	Version string `yaml:"version,omitempty" json:"version,omitempty"`
+	Version string `yaml:"version,omitempty" json:"version,omitempty" cty:"version"`
 
 	values map[string]types.Value
 }
@@ -293,27 +293,27 @@ type GitResult struct {
 
 	// After
 	// Last commit revision of the repository retrieved during the update.
-	After string `yaml:"after,omitempty" json:"after,omitempty"`
+	After string `yaml:"after,omitempty" json:"after,omitempty" cty:"after"`
 
 	// Before
 	// Commit revision before the repository was updated, "null" for new repository.
-	Before string `yaml:"before,omitempty" json:"before,omitempty"`
+	Before string `yaml:"before,omitempty" json:"before,omitempty" cty:"before"`
 
 	// GitDirBefore
 	// Contains the original path of .git directory if it is changed.
-	GitDirBefore string `yaml:"git_dir_before,omitempty" json:"git_dir_before,omitempty"`
+	GitDirBefore string `yaml:"git_dir_before,omitempty" json:"git_dir_before,omitempty" cty:"git_dir_before"`
 
 	// GitDirNow
 	// Contains the new path of .git directory if it is changed.
-	GitDirNow string `yaml:"git_dir_now,omitempty" json:"git_dir_now,omitempty"`
+	GitDirNow string `yaml:"git_dir_now,omitempty" json:"git_dir_now,omitempty" cty:"git_dir_now"`
 
 	// RemoteUrlChanged
 	// Contains True or False whether or not the remote URL was changed.
-	RemoteUrlChanged bool `yaml:"remote_url_changed,omitempty" json:"remote_url_changed,omitempty"`
+	RemoteUrlChanged bool `yaml:"remote_url_changed,omitempty" json:"remote_url_changed,omitempty" cty:"remote_url_changed"`
 
 	// Warnings
 	// List of warnings if requested features were not available due to a too old git version.
-	Warnings string `yaml:"warnings,omitempty" json:"warnings,omitempty"`
+	Warnings string `yaml:"warnings,omitempty" json:"warnings,omitempty" cty:"warnings"`
 
 	values map[string]types.Value
 }

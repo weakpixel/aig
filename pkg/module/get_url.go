@@ -32,7 +32,7 @@ func NewGetUrl() *GetUrl {
 	paramValues["sha256sum"] = types.NewStringValue(&module.Params.Sha256sum)
 	paramValues["timeout"] = types.NewIntValue(&module.Params.Timeout)
 	paramValues["tmp_dest"] = types.NewStringValue(&module.Params.TmpDest)
-	paramValues["unredirected_headers"] = types.NewStringArrayValue(&module.Params.UnredirectedHeaders)
+	paramValues["unredirected_headers"] = types.NewStringListValue(&module.Params.UnredirectedHeaders)
 	paramValues["url"] = types.NewStringValue(&module.Params.Url)
 	paramValues["url_password"] = types.NewStringValue(&module.Params.UrlPassword)
 	paramValues["url_username"] = types.NewStringValue(&module.Params.UrlUsername)
@@ -93,7 +93,7 @@ type GetUrlParams struct {
 	//
 	// Default: no
 	// Required: false
-	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
+	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty" cty:"backup"`
 
 	// Checksum
 	// If a checksum is passed to this parameter, the digest of the destination file will be calculated after it is downloaded to ensure its integrity and verify that the transfer completed successfully. Format: <algorithm>:<checksum|url>, e.g. checksum="sha256:D98291AC[...]B6DC7B97", checksum="sha256:http://example.com/path/sha256sum.txt"
@@ -103,7 +103,7 @@ type GetUrlParams struct {
 	//
 	// Default:
 	// Required: false
-	Checksum string `yaml:"checksum,omitempty" json:"checksum,omitempty"`
+	Checksum string `yaml:"checksum,omitempty" json:"checksum,omitempty" cty:"checksum"`
 
 	// ClientCert
 	// PEM formatted certificate chain file to be used for SSL client authentication.
@@ -111,7 +111,7 @@ type GetUrlParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	ClientCert string `yaml:"client_cert,omitempty" json:"client_cert,omitempty"`
+	ClientCert string `yaml:"client_cert,omitempty" json:"client_cert,omitempty" cty:"client_cert"`
 
 	// ClientKey
 	// PEM formatted file that contains your private key to be used for SSL client authentication.
@@ -119,7 +119,7 @@ type GetUrlParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	ClientKey string `yaml:"client_key,omitempty" json:"client_key,omitempty"`
+	ClientKey string `yaml:"client_key,omitempty" json:"client_key,omitempty" cty:"client_key"`
 
 	// Dest
 	// Absolute path of where to download the file to.
@@ -128,7 +128,7 @@ type GetUrlParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Dest string `yaml:"dest,omitempty" json:"dest,omitempty"`
+	Dest string `yaml:"dest,omitempty" json:"dest,omitempty" cty:"dest"`
 
 	// Force
 	// If C(yes) and C(dest) is not a directory, will download the file every time and replace the file if the contents change. If C(no), the file will only be downloaded if the destination does not exist. Generally should be C(yes) only for small local files.
@@ -136,7 +136,7 @@ type GetUrlParams struct {
 	//
 	// Default: no
 	// Required: false
-	Force bool `yaml:"force,omitempty" json:"force,omitempty"`
+	Force bool `yaml:"force,omitempty" json:"force,omitempty" cty:"force"`
 
 	// ForceBasicAuth
 	// Force the sending of the Basic authentication header upon initial request.
@@ -144,7 +144,7 @@ type GetUrlParams struct {
 	//
 	// Default: no
 	// Required: false
-	ForceBasicAuth bool `yaml:"force_basic_auth,omitempty" json:"force_basic_auth,omitempty"`
+	ForceBasicAuth bool `yaml:"force_basic_auth,omitempty" json:"force_basic_auth,omitempty" cty:"force_basic_auth"`
 
 	// Headers
 	// Add custom HTTP headers to a request in hash/dict format.
@@ -154,28 +154,28 @@ type GetUrlParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Headers map[string]string `yaml:"headers,omitempty" json:"headers,omitempty"`
+	Headers map[string]string `yaml:"headers,omitempty" json:"headers,omitempty" cty:"headers"`
 
 	// HttpAgent
 	// Header to identify as, generally appears in web server logs.
 	//
 	// Default: ansible-httpget
 	// Required: false
-	HttpAgent string `yaml:"http_agent,omitempty" json:"http_agent,omitempty"`
+	HttpAgent string `yaml:"http_agent,omitempty" json:"http_agent,omitempty" cty:"http_agent"`
 
 	// Sha256sum
 	// If a SHA-256 checksum is passed to this parameter, the digest of the destination file will be calculated after it is downloaded to ensure its integrity and verify that the transfer completed successfully. This option is deprecated and will be removed in version 2.14. Use option C(checksum) instead.
 	//
 	// Default:
 	// Required: false
-	Sha256sum string `yaml:"sha256sum,omitempty" json:"sha256sum,omitempty"`
+	Sha256sum string `yaml:"sha256sum,omitempty" json:"sha256sum,omitempty" cty:"sha256sum"`
 
 	// Timeout
 	// Timeout in seconds for URL request.
 	//
 	// Default: 10
 	// Required: false
-	Timeout int `yaml:"timeout,omitempty" json:"timeout,omitempty"`
+	Timeout int `yaml:"timeout,omitempty" json:"timeout,omitempty" cty:"timeout"`
 
 	// TmpDest
 	// Absolute path of where temporary file is downloaded to.
@@ -185,21 +185,21 @@ type GetUrlParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	TmpDest string `yaml:"tmp_dest,omitempty" json:"tmp_dest,omitempty"`
+	TmpDest string `yaml:"tmp_dest,omitempty" json:"tmp_dest,omitempty" cty:"tmp_dest"`
 
 	// UnredirectedHeaders
 	// A list of header names that will not be sent on subsequent redirected requests. This list is case insensitive. By default all headers will be redirected. In some cases it may be beneficial to list headers such as C(Authorization) here to avoid potential credential exposure.
 	//
 	// Default: []
 	// Required: false
-	UnredirectedHeaders []string `yaml:"unredirected_headers,omitempty" json:"unredirected_headers,omitempty"`
+	UnredirectedHeaders []string `yaml:"unredirected_headers,omitempty" json:"unredirected_headers,omitempty" cty:"unredirected_headers"`
 
 	// Url
 	// HTTP, HTTPS, or FTP URL in the form (http|https|ftp)://[user[:pass]]@host.domain[:port]/path
 	//
 	// Default: <no value>
 	// Required: true
-	Url string `yaml:"url,omitempty" json:"url,omitempty"`
+	Url string `yaml:"url,omitempty" json:"url,omitempty" cty:"url"`
 
 	// UrlPassword
 	// The password for use in HTTP basic authentication.
@@ -208,7 +208,7 @@ type GetUrlParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	UrlPassword string `yaml:"url_password,omitempty" json:"url_password,omitempty"`
+	UrlPassword string `yaml:"url_password,omitempty" json:"url_password,omitempty" cty:"url_password"`
 
 	// UrlUsername
 	// The username for use in HTTP basic authentication.
@@ -217,7 +217,7 @@ type GetUrlParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	UrlUsername string `yaml:"url_username,omitempty" json:"url_username,omitempty"`
+	UrlUsername string `yaml:"url_username,omitempty" json:"url_username,omitempty" cty:"url_username"`
 
 	// UseGssapi
 	// Use GSSAPI to perform the authentication, typically this is for Kerberos or Kerberos through Negotiate authentication.
@@ -227,14 +227,14 @@ type GetUrlParams struct {
 	//
 	// Default: no
 	// Required: false
-	UseGssapi bool `yaml:"use_gssapi,omitempty" json:"use_gssapi,omitempty"`
+	UseGssapi bool `yaml:"use_gssapi,omitempty" json:"use_gssapi,omitempty" cty:"use_gssapi"`
 
 	// UseProxy
 	// if C(no), it will not use a proxy, even if one is defined in an environment variable on the target hosts.
 	//
 	// Default: yes
 	// Required: false
-	UseProxy bool `yaml:"use_proxy,omitempty" json:"use_proxy,omitempty"`
+	UseProxy bool `yaml:"use_proxy,omitempty" json:"use_proxy,omitempty" cty:"use_proxy"`
 
 	// ValidateCerts
 	// If C(no), SSL certificates will not be validated.
@@ -242,7 +242,7 @@ type GetUrlParams struct {
 	//
 	// Default: yes
 	// Required: false
-	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty"`
+	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty" cty:"validate_certs"`
 
 	values map[string]types.Value
 }
@@ -277,75 +277,75 @@ type GetUrlResult struct {
 
 	// BackupFile
 	// name of backup file created after download
-	BackupFile string `yaml:"backup_file,omitempty" json:"backup_file,omitempty"`
+	BackupFile string `yaml:"backup_file,omitempty" json:"backup_file,omitempty" cty:"backup_file"`
 
 	// ChecksumDest
 	// sha1 checksum of the file after copy
-	ChecksumDest string `yaml:"checksum_dest,omitempty" json:"checksum_dest,omitempty"`
+	ChecksumDest string `yaml:"checksum_dest,omitempty" json:"checksum_dest,omitempty" cty:"checksum_dest"`
 
 	// ChecksumSrc
 	// sha1 checksum of the file
-	ChecksumSrc string `yaml:"checksum_src,omitempty" json:"checksum_src,omitempty"`
+	ChecksumSrc string `yaml:"checksum_src,omitempty" json:"checksum_src,omitempty" cty:"checksum_src"`
 
 	// Dest
 	// destination file/path
-	Dest string `yaml:"dest,omitempty" json:"dest,omitempty"`
+	Dest string `yaml:"dest,omitempty" json:"dest,omitempty" cty:"dest"`
 
 	// Elapsed
 	// The number of seconds that elapsed while performing the download
-	Elapsed int `yaml:"elapsed,omitempty" json:"elapsed,omitempty"`
+	Elapsed int `yaml:"elapsed,omitempty" json:"elapsed,omitempty" cty:"elapsed"`
 
 	// Gid
 	// group id of the file
-	Gid int `yaml:"gid,omitempty" json:"gid,omitempty"`
+	Gid int `yaml:"gid,omitempty" json:"gid,omitempty" cty:"gid"`
 
 	// Group
 	// group of the file
-	Group string `yaml:"group,omitempty" json:"group,omitempty"`
+	Group string `yaml:"group,omitempty" json:"group,omitempty" cty:"group"`
 
 	// Md5sum
 	// md5 checksum of the file after download
-	Md5sum string `yaml:"md5sum,omitempty" json:"md5sum,omitempty"`
+	Md5sum string `yaml:"md5sum,omitempty" json:"md5sum,omitempty" cty:"md5sum"`
 
 	// Mode
 	// permissions of the target
-	Mode string `yaml:"mode,omitempty" json:"mode,omitempty"`
+	Mode string `yaml:"mode,omitempty" json:"mode,omitempty" cty:"mode"`
 
 	// Msg
 	// the HTTP message from the request
-	Msg string `yaml:"msg,omitempty" json:"msg,omitempty"`
+	Msg string `yaml:"msg,omitempty" json:"msg,omitempty" cty:"msg"`
 
 	// Owner
 	// owner of the file
-	Owner string `yaml:"owner,omitempty" json:"owner,omitempty"`
+	Owner string `yaml:"owner,omitempty" json:"owner,omitempty" cty:"owner"`
 
 	// Secontext
 	// the SELinux security context of the file
-	Secontext string `yaml:"secontext,omitempty" json:"secontext,omitempty"`
+	Secontext string `yaml:"secontext,omitempty" json:"secontext,omitempty" cty:"secontext"`
 
 	// Size
 	// size of the target
-	Size int `yaml:"size,omitempty" json:"size,omitempty"`
+	Size int `yaml:"size,omitempty" json:"size,omitempty" cty:"size"`
 
 	// Src
 	// source file used after download
-	Src string `yaml:"src,omitempty" json:"src,omitempty"`
+	Src string `yaml:"src,omitempty" json:"src,omitempty" cty:"src"`
 
 	// State
 	// state of the target
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// StatusCode
 	// the HTTP status code from the request
-	StatusCode int `yaml:"status_code,omitempty" json:"status_code,omitempty"`
+	StatusCode int `yaml:"status_code,omitempty" json:"status_code,omitempty" cty:"status_code"`
 
 	// Uid
 	// owner id of the file, after execution
-	Uid int `yaml:"uid,omitempty" json:"uid,omitempty"`
+	Uid int `yaml:"uid,omitempty" json:"uid,omitempty" cty:"uid"`
 
 	// Url
 	// the actual URL used for the request
-	Url string `yaml:"url,omitempty" json:"url,omitempty"`
+	Url string `yaml:"url,omitempty" json:"url,omitempty" cty:"url"`
 
 	values map[string]types.Value
 }

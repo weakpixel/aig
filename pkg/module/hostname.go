@@ -53,7 +53,7 @@ type HostnameParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// Use
 	// Which strategy to use to update the hostname.
@@ -62,7 +62,7 @@ type HostnameParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Use string `yaml:"use,omitempty" json:"use,omitempty"`
+	Use string `yaml:"use,omitempty" json:"use,omitempty" cty:"use"`
 
 	values map[string]types.Value
 }

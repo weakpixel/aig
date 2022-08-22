@@ -21,8 +21,8 @@ func NewSetup() *Setup {
 	// Create dynamic param values
 	paramValues := map[string]types.Value{}
 	paramValues["fact_path"] = types.NewStringValue(&module.Params.FactPath)
-	paramValues["filter"] = types.NewStringArrayValue(&module.Params.Filter)
-	paramValues["gather_subset"] = types.NewStringArrayValue(&module.Params.GatherSubset)
+	paramValues["filter"] = types.NewStringListValue(&module.Params.Filter)
+	paramValues["gather_subset"] = types.NewStringListValue(&module.Params.GatherSubset)
 	paramValues["gather_timeout"] = types.NewIntValue(&module.Params.GatherTimeout)
 	module.Params.values = paramValues
 
@@ -55,28 +55,28 @@ type SetupParams struct {
 	//
 	// Default: /etc/ansible/facts.d
 	// Required: false
-	FactPath string `yaml:"fact_path,omitempty" json:"fact_path,omitempty"`
+	FactPath string `yaml:"fact_path,omitempty" json:"fact_path,omitempty" cty:"fact_path"`
 
 	// Filter
 	// If supplied, only return facts that match one of the shell-style (fnmatch) pattern. An empty list basically means 'no filter'. As of Ansible 2.11, the type has changed from string to list and the default has became an empty list. A simple string is still accepted and works as a single pattern. The behaviour prior to Ansible 2.11 remains.
 	//
 	// Default: []
 	// Required: false
-	Filter []string `yaml:"filter,omitempty" json:"filter,omitempty"`
+	Filter []string `yaml:"filter,omitempty" json:"filter,omitempty" cty:"filter"`
 
 	// GatherSubset
 	// If supplied, restrict the additional facts collected to the given subset. Possible values: C(all), C(min), C(hardware), C(network), C(virtual), C(ohai), and C(facter). Can specify a list of values to specify a larger subset. Values can also be used with an initial C(!) to specify that that specific subset should not be collected.  For instance: C(!hardware,!network,!virtual,!ohai,!facter). If C(!all) is specified then only the min subset is collected. To avoid collecting even the min subset, specify C(!all,!min). To collect only specific facts, use C(!all,!min), and specify the particular fact subsets. Use the filter parameter if you do not want to display some collected facts.
 	//
 	// Default: all
 	// Required: false
-	GatherSubset []string `yaml:"gather_subset,omitempty" json:"gather_subset,omitempty"`
+	GatherSubset []string `yaml:"gather_subset,omitempty" json:"gather_subset,omitempty" cty:"gather_subset"`
 
 	// GatherTimeout
 	// Set the default timeout in seconds for individual fact gathering.
 	//
 	// Default: 10
 	// Required: false
-	GatherTimeout int `yaml:"gather_timeout,omitempty" json:"gather_timeout,omitempty"`
+	GatherTimeout int `yaml:"gather_timeout,omitempty" json:"gather_timeout,omitempty" cty:"gather_timeout"`
 
 	values map[string]types.Value
 }

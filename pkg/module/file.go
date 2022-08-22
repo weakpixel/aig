@@ -68,7 +68,7 @@ type FileParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	AccessTime string `yaml:"access_time,omitempty" json:"access_time,omitempty"`
+	AccessTime string `yaml:"access_time,omitempty" json:"access_time,omitempty" cty:"access_time"`
 
 	// AccessTimeFormat
 	// When used with C(access_time), indicates the time format that must be used.
@@ -76,7 +76,7 @@ type FileParams struct {
 	//
 	// Default: %Y%m%d%H%M.%S
 	// Required: false
-	AccessTimeFormat string `yaml:"access_time_format,omitempty" json:"access_time_format,omitempty"`
+	AccessTimeFormat string `yaml:"access_time_format,omitempty" json:"access_time_format,omitempty" cty:"access_time_format"`
 
 	// Follow
 	// This flag indicates that filesystem links, if they exist, should be followed.
@@ -84,7 +84,7 @@ type FileParams struct {
 	//
 	// Default: yes
 	// Required: false
-	Follow bool `yaml:"follow,omitempty" json:"follow,omitempty"`
+	Follow bool `yaml:"follow,omitempty" json:"follow,omitempty" cty:"follow"`
 
 	// Force
 	// Force the creation of the symlinks in two cases: the source file does not exist (but will appear later); the destination exists and is a file (so, we need to unlink the C(path) file and create symlink to the C(src) file in place of it).
@@ -92,7 +92,7 @@ type FileParams struct {
 	//
 	// Default: no
 	// Required: false
-	Force bool `yaml:"force,omitempty" json:"force,omitempty"`
+	Force bool `yaml:"force,omitempty" json:"force,omitempty" cty:"force"`
 
 	// ModificationTime
 	// This parameter indicates the time the file's modification time should be set to.
@@ -101,7 +101,7 @@ type FileParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	ModificationTime string `yaml:"modification_time,omitempty" json:"modification_time,omitempty"`
+	ModificationTime string `yaml:"modification_time,omitempty" json:"modification_time,omitempty" cty:"modification_time"`
 
 	// ModificationTimeFormat
 	// When used with C(modification_time), indicates the time format that must be used.
@@ -109,14 +109,14 @@ type FileParams struct {
 	//
 	// Default: %Y%m%d%H%M.%S
 	// Required: false
-	ModificationTimeFormat string `yaml:"modification_time_format,omitempty" json:"modification_time_format,omitempty"`
+	ModificationTimeFormat string `yaml:"modification_time_format,omitempty" json:"modification_time_format,omitempty" cty:"modification_time_format"`
 
 	// Path
 	// Path to the file being managed.
 	//
 	// Default: <no value>
 	// Required: true
-	Path string `yaml:"path,omitempty" json:"path,omitempty"`
+	Path string `yaml:"path,omitempty" json:"path,omitempty" cty:"path"`
 
 	// Recurse
 	// Recursively set the specified file attributes on directory contents.
@@ -124,7 +124,7 @@ type FileParams struct {
 	//
 	// Default: no
 	// Required: false
-	Recurse bool `yaml:"recurse,omitempty" json:"recurse,omitempty"`
+	Recurse bool `yaml:"recurse,omitempty" json:"recurse,omitempty" cty:"recurse"`
 
 	// Src
 	// Path of the file to link to.
@@ -134,7 +134,7 @@ type FileParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Src string `yaml:"src,omitempty" json:"src,omitempty"`
+	Src string `yaml:"src,omitempty" json:"src,omitempty" cty:"src"`
 
 	// State
 	// If C(absent), directories will be recursively deleted, and files or symlinks will be unlinked. In the case of a directory, if C(diff) is declared, you will see the files and folders deleted listed under C(path_contents). Note that C(absent) will not cause C(file) to fail if the C(path) does not exist as the state did not change.
@@ -147,7 +147,7 @@ type FileParams struct {
 	//
 	// Default: file
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	values map[string]types.Value
 }
@@ -182,11 +182,11 @@ type FileResult struct {
 
 	// Dest
 	// Destination file/path, equal to the value passed to I(path).
-	Dest string `yaml:"dest,omitempty" json:"dest,omitempty"`
+	Dest string `yaml:"dest,omitempty" json:"dest,omitempty" cty:"dest"`
 
 	// Path
 	// Destination file/path, equal to the value passed to I(path).
-	Path string `yaml:"path,omitempty" json:"path,omitempty"`
+	Path string `yaml:"path,omitempty" json:"path,omitempty" cty:"path"`
 
 	values map[string]types.Value
 }

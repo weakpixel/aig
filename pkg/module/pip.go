@@ -24,7 +24,7 @@ func NewPip() *Pip {
 	paramValues["editable"] = types.NewBoolValue(&module.Params.Editable)
 	paramValues["executable"] = types.NewStringValue(&module.Params.Executable)
 	paramValues["extra_args"] = types.NewStringValue(&module.Params.ExtraArgs)
-	paramValues["name"] = types.NewStringArrayValue(&module.Params.Name)
+	paramValues["name"] = types.NewStringListValue(&module.Params.Name)
 	paramValues["requirements"] = types.NewStringValue(&module.Params.Requirements)
 	paramValues["state"] = types.NewStringValue(&module.Params.State)
 	paramValues["umask"] = types.NewStringValue(&module.Params.Umask)
@@ -39,7 +39,7 @@ func NewPip() *Pip {
 	resultValues := map[string]types.Value{}
 
 	resultValues["cmd"] = types.NewStringValue(&module.Result.Cmd)
-	// NOT SUPPORTED: name Name []map[string]interface{}
+	resultValues["name"] = types.NewStringListValue(&module.Result.Name)
 	resultValues["requirements"] = types.NewStringValue(&module.Result.Requirements)
 	resultValues["version"] = types.NewStringValue(&module.Result.Version)
 	resultValues["virtualenv"] = types.NewStringValue(&module.Result.Virtualenv)
@@ -66,14 +66,14 @@ type PipParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Chdir string `yaml:"chdir,omitempty" json:"chdir,omitempty"`
+	Chdir string `yaml:"chdir,omitempty" json:"chdir,omitempty" cty:"chdir"`
 
 	// Editable
 	// Pass the editable flag.
 	//
 	// Default: no
 	// Required: false
-	Editable bool `yaml:"editable,omitempty" json:"editable,omitempty"`
+	Editable bool `yaml:"editable,omitempty" json:"editable,omitempty" cty:"editable"`
 
 	// Executable
 	// The explicit executable or pathname for the pip executable, if different from the Ansible Python interpreter. For example C(pip3.3), if there are both Python 2.7 and 3.3 installations in the system and you want to run pip for the Python 3.3 installation.
@@ -83,14 +83,14 @@ type PipParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Executable string `yaml:"executable,omitempty" json:"executable,omitempty"`
+	Executable string `yaml:"executable,omitempty" json:"executable,omitempty" cty:"executable"`
 
 	// ExtraArgs
 	// Extra arguments passed to pip.
 	//
 	// Default: <no value>
 	// Required: false
-	ExtraArgs string `yaml:"extra_args,omitempty" json:"extra_args,omitempty"`
+	ExtraArgs string `yaml:"extra_args,omitempty" json:"extra_args,omitempty" cty:"extra_args"`
 
 	// Name
 	// The name of a Python library to install or the url(bzr+,hg+,git+,svn+) of the remote package.
@@ -98,14 +98,14 @@ type PipParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Name []string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name []string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// Requirements
 	// The path to a pip requirements file, which should be local to the remote system. File can be specified as a relative path if using the chdir option.
 	//
 	// Default: <no value>
 	// Required: false
-	Requirements string `yaml:"requirements,omitempty" json:"requirements,omitempty"`
+	Requirements string `yaml:"requirements,omitempty" json:"requirements,omitempty" cty:"requirements"`
 
 	// State
 	// The state of module
@@ -113,49 +113,49 @@ type PipParams struct {
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// Umask
 	// The system umask to apply before installing the pip package. This is useful, for example, when installing on systems that have a very restrictive umask by default (e.g., "0077") and you want to pip install packages which are to be used by all users. Note that this requires you to specify desired umask mode as an octal string, (e.g., "0022").
 	//
 	// Default: <no value>
 	// Required: false
-	Umask string `yaml:"umask,omitempty" json:"umask,omitempty"`
+	Umask string `yaml:"umask,omitempty" json:"umask,omitempty" cty:"umask"`
 
 	// Version
 	// The version number to install of the Python library specified in the I(name) parameter.
 	//
 	// Default: <no value>
 	// Required: false
-	Version string `yaml:"version,omitempty" json:"version,omitempty"`
+	Version string `yaml:"version,omitempty" json:"version,omitempty" cty:"version"`
 
 	// Virtualenv
 	// An optional path to a I(virtualenv) directory to install into. It cannot be specified together with the 'executable' parameter (added in 2.1). If the virtualenv does not exist, it will be created before installing packages. The optional virtualenv_site_packages, virtualenv_command, and virtualenv_python options affect the creation of the virtualenv.
 	//
 	// Default: <no value>
 	// Required: false
-	Virtualenv string `yaml:"virtualenv,omitempty" json:"virtualenv,omitempty"`
+	Virtualenv string `yaml:"virtualenv,omitempty" json:"virtualenv,omitempty" cty:"virtualenv"`
 
 	// VirtualenvCommand
 	// The command or a pathname to the command to create the virtual environment with. For example C(pyvenv), C(virtualenv), C(virtualenv2), C(~/bin/virtualenv), C(/usr/local/bin/virtualenv).
 	//
 	// Default: virtualenv
 	// Required: false
-	VirtualenvCommand string `yaml:"virtualenv_command,omitempty" json:"virtualenv_command,omitempty"`
+	VirtualenvCommand string `yaml:"virtualenv_command,omitempty" json:"virtualenv_command,omitempty" cty:"virtualenv_command"`
 
 	// VirtualenvPython
 	// The Python executable used for creating the virtual environment. For example C(python3.5), C(python2.7). When not specified, the Python version used to run the ansible module is used. This parameter should not be used when C(virtualenv_command) is using C(pyvenv) or the C(-m venv) module.
 	//
 	// Default: <no value>
 	// Required: false
-	VirtualenvPython string `yaml:"virtualenv_python,omitempty" json:"virtualenv_python,omitempty"`
+	VirtualenvPython string `yaml:"virtualenv_python,omitempty" json:"virtualenv_python,omitempty" cty:"virtualenv_python"`
 
 	// VirtualenvSitePackages
 	// Whether the virtual environment will inherit packages from the global site-packages directory.  Note that if this setting is changed on an already existing virtual environment it will not have any effect, the environment must be deleted and newly created.
 	//
 	// Default: no
 	// Required: false
-	VirtualenvSitePackages bool `yaml:"virtualenv_site_packages,omitempty" json:"virtualenv_site_packages,omitempty"`
+	VirtualenvSitePackages bool `yaml:"virtualenv_site_packages,omitempty" json:"virtualenv_site_packages,omitempty" cty:"virtualenv_site_packages"`
 
 	values map[string]types.Value
 }
@@ -190,23 +190,23 @@ type PipResult struct {
 
 	// Cmd
 	// pip command used by the module
-	Cmd string `yaml:"cmd,omitempty" json:"cmd,omitempty"`
+	Cmd string `yaml:"cmd,omitempty" json:"cmd,omitempty" cty:"cmd"`
 
 	// Name
 	// list of python modules targetted by pip
-	Name []map[string]interface{} `yaml:"name,omitempty" json:"name,omitempty"`
+	Name []string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// Requirements
 	// Path to the requirements file
-	Requirements string `yaml:"requirements,omitempty" json:"requirements,omitempty"`
+	Requirements string `yaml:"requirements,omitempty" json:"requirements,omitempty" cty:"requirements"`
 
 	// Version
 	// Version of the package specified in 'name'
-	Version string `yaml:"version,omitempty" json:"version,omitempty"`
+	Version string `yaml:"version,omitempty" json:"version,omitempty" cty:"version"`
 
 	// Virtualenv
 	// Path to the virtualenv
-	Virtualenv string `yaml:"virtualenv,omitempty" json:"virtualenv,omitempty"`
+	Virtualenv string `yaml:"virtualenv,omitempty" json:"virtualenv,omitempty" cty:"virtualenv"`
 
 	values map[string]types.Value
 }

@@ -24,13 +24,13 @@ func NewFind() *Find {
 	paramValues["age_stamp"] = types.NewStringValue(&module.Params.AgeStamp)
 	paramValues["contains"] = types.NewStringValue(&module.Params.Contains)
 	paramValues["depth"] = types.NewIntValue(&module.Params.Depth)
-	paramValues["excludes"] = types.NewStringArrayValue(&module.Params.Excludes)
+	paramValues["excludes"] = types.NewStringListValue(&module.Params.Excludes)
 	paramValues["file_type"] = types.NewStringValue(&module.Params.FileType)
 	paramValues["follow"] = types.NewBoolValue(&module.Params.Follow)
 	paramValues["get_checksum"] = types.NewBoolValue(&module.Params.GetChecksum)
 	paramValues["hidden"] = types.NewBoolValue(&module.Params.Hidden)
-	paramValues["paths"] = types.NewStringArrayValue(&module.Params.Paths)
-	paramValues["patterns"] = types.NewStringArrayValue(&module.Params.Patterns)
+	paramValues["paths"] = types.NewStringListValue(&module.Params.Paths)
+	paramValues["patterns"] = types.NewStringListValue(&module.Params.Patterns)
 	paramValues["read_whole_file"] = types.NewBoolValue(&module.Params.ReadWholeFile)
 	paramValues["recurse"] = types.NewBoolValue(&module.Params.Recurse)
 	paramValues["size"] = types.NewStringValue(&module.Params.Size)
@@ -41,7 +41,7 @@ func NewFind() *Find {
 	resultValues := map[string]types.Value{}
 
 	resultValues["examined"] = types.NewIntValue(&module.Result.Examined)
-	// NOT SUPPORTED: files Files []map[string]interface{}
+	resultValues["files"] = types.NewStringListValue(&module.Result.Files)
 	resultValues["matched"] = types.NewIntValue(&module.Result.Matched)
 	resultValues["skipped_paths"] = types.NewStringMapValue(&module.Result.SkippedPaths)
 	module.Result.values = resultValues
@@ -71,14 +71,14 @@ type FindParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Age string `yaml:"age,omitempty" json:"age,omitempty"`
+	Age string `yaml:"age,omitempty" json:"age,omitempty" cty:"age"`
 
 	// AgeStamp
 	// Choose the file property against which we compare age.
 	//
 	// Default: mtime
 	// Required: false
-	AgeStamp string `yaml:"age_stamp,omitempty" json:"age_stamp,omitempty"`
+	AgeStamp string `yaml:"age_stamp,omitempty" json:"age_stamp,omitempty" cty:"age_stamp"`
 
 	// Contains
 	// A regular expression or pattern which should be matched against the file content.
@@ -86,7 +86,7 @@ type FindParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Contains string `yaml:"contains,omitempty" json:"contains,omitempty"`
+	Contains string `yaml:"contains,omitempty" json:"contains,omitempty" cty:"contains"`
 
 	// Depth
 	// Set the maximum number of levels to descend into.
@@ -95,7 +95,7 @@ type FindParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Depth int `yaml:"depth,omitempty" json:"depth,omitempty"`
+	Depth int `yaml:"depth,omitempty" json:"depth,omitempty" cty:"depth"`
 
 	// Excludes
 	// One or more (shell or regex) patterns, which type is controlled by C(use_regex) option.
@@ -103,7 +103,7 @@ type FindParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Excludes []string `yaml:"excludes,omitempty" json:"excludes,omitempty"`
+	Excludes []string `yaml:"excludes,omitempty" json:"excludes,omitempty" cty:"excludes"`
 
 	// FileType
 	// Type of file to select.
@@ -111,35 +111,35 @@ type FindParams struct {
 	//
 	// Default: file
 	// Required: false
-	FileType string `yaml:"file_type,omitempty" json:"file_type,omitempty"`
+	FileType string `yaml:"file_type,omitempty" json:"file_type,omitempty" cty:"file_type"`
 
 	// Follow
 	// Set this to C(yes) to follow symlinks in path for systems with python 2.6+.
 	//
 	// Default: no
 	// Required: false
-	Follow bool `yaml:"follow,omitempty" json:"follow,omitempty"`
+	Follow bool `yaml:"follow,omitempty" json:"follow,omitempty" cty:"follow"`
 
 	// GetChecksum
 	// Set this to C(yes) to retrieve a file's SHA1 checksum.
 	//
 	// Default: no
 	// Required: false
-	GetChecksum bool `yaml:"get_checksum,omitempty" json:"get_checksum,omitempty"`
+	GetChecksum bool `yaml:"get_checksum,omitempty" json:"get_checksum,omitempty" cty:"get_checksum"`
 
 	// Hidden
 	// Set this to C(yes) to include hidden files, otherwise they will be ignored.
 	//
 	// Default: no
 	// Required: false
-	Hidden bool `yaml:"hidden,omitempty" json:"hidden,omitempty"`
+	Hidden bool `yaml:"hidden,omitempty" json:"hidden,omitempty" cty:"hidden"`
 
 	// Paths
 	// List of paths of directories to search. All paths must be fully qualified.
 	//
 	// Default: <no value>
 	// Required: true
-	Paths []string `yaml:"paths,omitempty" json:"paths,omitempty"`
+	Paths []string `yaml:"paths,omitempty" json:"paths,omitempty" cty:"paths"`
 
 	// Patterns
 	// One or more (shell or regex) patterns, which type is controlled by C(use_regex) option.
@@ -151,7 +151,7 @@ type FindParams struct {
 	//
 	// Default: []
 	// Required: false
-	Patterns []string `yaml:"patterns,omitempty" json:"patterns,omitempty"`
+	Patterns []string `yaml:"patterns,omitempty" json:"patterns,omitempty" cty:"patterns"`
 
 	// ReadWholeFile
 	// When doing a C(contains) search, determines whether the whole file should be read into memory or if the regex should be applied to the file line-by-line.
@@ -160,14 +160,14 @@ type FindParams struct {
 	//
 	// Default: false
 	// Required: false
-	ReadWholeFile bool `yaml:"read_whole_file,omitempty" json:"read_whole_file,omitempty"`
+	ReadWholeFile bool `yaml:"read_whole_file,omitempty" json:"read_whole_file,omitempty" cty:"read_whole_file"`
 
 	// Recurse
 	// If target is a directory, recursively descend into the directory looking for files.
 	//
 	// Default: no
 	// Required: false
-	Recurse bool `yaml:"recurse,omitempty" json:"recurse,omitempty"`
+	Recurse bool `yaml:"recurse,omitempty" json:"recurse,omitempty" cty:"recurse"`
 
 	// Size
 	// Select files whose size is equal to or greater than the specified size.
@@ -177,7 +177,7 @@ type FindParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Size string `yaml:"size,omitempty" json:"size,omitempty"`
+	Size string `yaml:"size,omitempty" json:"size,omitempty" cty:"size"`
 
 	// UseRegex
 	// If C(no), the patterns are file globs (shell).
@@ -185,7 +185,7 @@ type FindParams struct {
 	//
 	// Default: no
 	// Required: false
-	UseRegex bool `yaml:"use_regex,omitempty" json:"use_regex,omitempty"`
+	UseRegex bool `yaml:"use_regex,omitempty" json:"use_regex,omitempty" cty:"use_regex"`
 
 	values map[string]types.Value
 }
@@ -220,19 +220,19 @@ type FindResult struct {
 
 	// Examined
 	// Number of filesystem objects looked at
-	Examined int `yaml:"examined,omitempty" json:"examined,omitempty"`
+	Examined int `yaml:"examined,omitempty" json:"examined,omitempty" cty:"examined"`
 
 	// Files
 	// All matches found with the specified criteria (see stat module for full output of each dictionary)
-	Files []map[string]interface{} `yaml:"files,omitempty" json:"files,omitempty"`
+	Files []string `yaml:"files,omitempty" json:"files,omitempty" cty:"files"`
 
 	// Matched
 	// Number of matches
-	Matched int `yaml:"matched,omitempty" json:"matched,omitempty"`
+	Matched int `yaml:"matched,omitempty" json:"matched,omitempty" cty:"matched"`
 
 	// SkippedPaths
 	// skipped paths and reasons they were skipped
-	SkippedPaths map[string]string `yaml:"skipped_paths,omitempty" json:"skipped_paths,omitempty"`
+	SkippedPaths map[string]string `yaml:"skipped_paths,omitempty" json:"skipped_paths,omitempty" cty:"skipped_paths"`
 
 	values map[string]types.Value
 }

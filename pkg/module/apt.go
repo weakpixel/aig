@@ -35,7 +35,7 @@ func NewApt() *Apt {
 	paramValues["force_apt_get"] = types.NewBoolValue(&module.Params.ForceAptGet)
 	paramValues["install_recommends"] = types.NewBoolValue(&module.Params.InstallRecommends)
 	paramValues["lock_timeout"] = types.NewIntValue(&module.Params.LockTimeout)
-	paramValues["name"] = types.NewStringArrayValue(&module.Params.Name)
+	paramValues["name"] = types.NewStringListValue(&module.Params.Name)
 	paramValues["only_upgrade"] = types.NewBoolValue(&module.Params.OnlyUpgrade)
 	paramValues["policy_rc_d"] = types.NewIntValue(&module.Params.PolicyRcD)
 	paramValues["purge"] = types.NewBoolValue(&module.Params.Purge)
@@ -76,7 +76,7 @@ type AptParams struct {
 	//
 	// Default: no
 	// Required: false
-	AllowChangeHeldPackages bool `yaml:"allow_change_held_packages,omitempty" json:"allow_change_held_packages,omitempty"`
+	AllowChangeHeldPackages bool `yaml:"allow_change_held_packages,omitempty" json:"allow_change_held_packages,omitempty" cty:"allow_change_held_packages"`
 
 	// AllowDowngrade
 	// Corresponds to the C(--allow-downgrades) option for I(apt).
@@ -86,7 +86,7 @@ type AptParams struct {
 	//
 	// Default: no
 	// Required: false
-	AllowDowngrade bool `yaml:"allow_downgrade,omitempty" json:"allow_downgrade,omitempty"`
+	AllowDowngrade bool `yaml:"allow_downgrade,omitempty" json:"allow_downgrade,omitempty" cty:"allow_downgrade"`
 
 	// AllowUnauthenticated
 	// Ignore if packages cannot be authenticated. This is useful for bootstrapping environments that manage their own apt-key setup.
@@ -94,14 +94,14 @@ type AptParams struct {
 	//
 	// Default: no
 	// Required: false
-	AllowUnauthenticated bool `yaml:"allow_unauthenticated,omitempty" json:"allow_unauthenticated,omitempty"`
+	AllowUnauthenticated bool `yaml:"allow_unauthenticated,omitempty" json:"allow_unauthenticated,omitempty" cty:"allow_unauthenticated"`
 
 	// Autoclean
 	// If C(yes), cleans the local repository of retrieved package files that can no longer be downloaded.
 	//
 	// Default: no
 	// Required: false
-	Autoclean bool `yaml:"autoclean,omitempty" json:"autoclean,omitempty"`
+	Autoclean bool `yaml:"autoclean,omitempty" json:"autoclean,omitempty" cty:"autoclean"`
 
 	// Autoremove
 	// If C(yes), remove unused dependency packages for all module states except I(build-dep). It can also be used as the only option.
@@ -109,7 +109,7 @@ type AptParams struct {
 	//
 	// Default: no
 	// Required: false
-	Autoremove bool `yaml:"autoremove,omitempty" json:"autoremove,omitempty"`
+	Autoremove bool `yaml:"autoremove,omitempty" json:"autoremove,omitempty" cty:"autoremove"`
 
 	// CacheValidTime
 	// Update the apt cache if it is older than the I(cache_valid_time). This option is set in seconds.
@@ -117,7 +117,7 @@ type AptParams struct {
 	//
 	// Default: 0
 	// Required: false
-	CacheValidTime int `yaml:"cache_valid_time,omitempty" json:"cache_valid_time,omitempty"`
+	CacheValidTime int `yaml:"cache_valid_time,omitempty" json:"cache_valid_time,omitempty" cty:"cache_valid_time"`
 
 	// Clean
 	// Run the equivalent of C(apt-get clean) to clear out the local repository of retrieved package files. It removes everything but the lock file from /var/cache/apt/archives/ and /var/cache/apt/archives/partial/.
@@ -125,7 +125,7 @@ type AptParams struct {
 	//
 	// Default: no
 	// Required: false
-	Clean bool `yaml:"clean,omitempty" json:"clean,omitempty"`
+	Clean bool `yaml:"clean,omitempty" json:"clean,omitempty" cty:"clean"`
 
 	// Deb
 	// Path to a .deb package on the remote machine.
@@ -134,14 +134,14 @@ type AptParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Deb string `yaml:"deb,omitempty" json:"deb,omitempty"`
+	Deb string `yaml:"deb,omitempty" json:"deb,omitempty" cty:"deb"`
 
 	// DefaultRelease
 	// Corresponds to the C(-t) option for I(apt) and sets pin priorities
 	//
 	// Default: <no value>
 	// Required: false
-	DefaultRelease string `yaml:"default_release,omitempty" json:"default_release,omitempty"`
+	DefaultRelease string `yaml:"default_release,omitempty" json:"default_release,omitempty" cty:"default_release"`
 
 	// DpkgOptions
 	// Add dpkg options to apt command. Defaults to '-o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold"'
@@ -149,7 +149,7 @@ type AptParams struct {
 	//
 	// Default: force-confdef,force-confold
 	// Required: false
-	DpkgOptions string `yaml:"dpkg_options,omitempty" json:"dpkg_options,omitempty"`
+	DpkgOptions string `yaml:"dpkg_options,omitempty" json:"dpkg_options,omitempty" cty:"dpkg_options"`
 
 	// FailOnAutoremove
 	// Corresponds to the C(--no-remove) option for C(apt).
@@ -158,7 +158,7 @@ type AptParams struct {
 	//
 	// Default: no
 	// Required: false
-	FailOnAutoremove bool `yaml:"fail_on_autoremove,omitempty" json:"fail_on_autoremove,omitempty"`
+	FailOnAutoremove bool `yaml:"fail_on_autoremove,omitempty" json:"fail_on_autoremove,omitempty" cty:"fail_on_autoremove"`
 
 	// Force
 	// Corresponds to the C(--force-yes) to I(apt-get) and implies C(allow_unauthenticated: yes) and C(allow_downgrade: yes)
@@ -168,21 +168,21 @@ type AptParams struct {
 	//
 	// Default: no
 	// Required: false
-	Force bool `yaml:"force,omitempty" json:"force,omitempty"`
+	Force bool `yaml:"force,omitempty" json:"force,omitempty" cty:"force"`
 
 	// ForceAptGet
 	// Force usage of apt-get instead of aptitude
 	//
 	// Default: no
 	// Required: false
-	ForceAptGet bool `yaml:"force_apt_get,omitempty" json:"force_apt_get,omitempty"`
+	ForceAptGet bool `yaml:"force_apt_get,omitempty" json:"force_apt_get,omitempty" cty:"force_apt_get"`
 
 	// InstallRecommends
 	// Corresponds to the C(--no-install-recommends) option for I(apt). C(yes) installs recommended packages.  C(no) does not install recommended packages. By default, Ansible will use the same defaults as the operating system. Suggested packages are never installed.
 	//
 	// Default: <no value>
 	// Required: false
-	InstallRecommends bool `yaml:"install_recommends,omitempty" json:"install_recommends,omitempty"`
+	InstallRecommends bool `yaml:"install_recommends,omitempty" json:"install_recommends,omitempty" cty:"install_recommends"`
 
 	// LockTimeout
 	// How many seconds will this action wait to acquire a lock on the apt db.
@@ -190,21 +190,21 @@ type AptParams struct {
 	//
 	// Default: 60
 	// Required: false
-	LockTimeout int `yaml:"lock_timeout,omitempty" json:"lock_timeout,omitempty"`
+	LockTimeout int `yaml:"lock_timeout,omitempty" json:"lock_timeout,omitempty" cty:"lock_timeout"`
 
 	// Name
 	// A list of package names, like C(foo), or package specifier with version, like C(foo=1.0) or C(foo>=1.0). Name wildcards (fnmatch) like C(apt*) and version wildcards like C(foo=1.0*) are also supported.
 	//
 	// Default: <no value>
 	// Required: false
-	Name []string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name []string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// OnlyUpgrade
 	// Only upgrade a package if it is already installed.
 	//
 	// Default: no
 	// Required: false
-	OnlyUpgrade bool `yaml:"only_upgrade,omitempty" json:"only_upgrade,omitempty"`
+	OnlyUpgrade bool `yaml:"only_upgrade,omitempty" json:"only_upgrade,omitempty" cty:"only_upgrade"`
 
 	// PolicyRcD
 	// Force the exit code of /usr/sbin/policy-rc.d.
@@ -214,21 +214,21 @@ type AptParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	PolicyRcD int `yaml:"policy_rc_d,omitempty" json:"policy_rc_d,omitempty"`
+	PolicyRcD int `yaml:"policy_rc_d,omitempty" json:"policy_rc_d,omitempty" cty:"policy_rc_d"`
 
 	// Purge
 	// Will force purging of configuration files if the module state is set to I(absent).
 	//
 	// Default: no
 	// Required: false
-	Purge bool `yaml:"purge,omitempty" json:"purge,omitempty"`
+	Purge bool `yaml:"purge,omitempty" json:"purge,omitempty" cty:"purge"`
 
 	// State
 	// Indicates the desired package state. C(latest) ensures that the latest version is installed. C(build-dep) ensures the package build dependencies are installed. C(fixed) attempt to correct a system with broken dependencies in place.
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// UpdateCache
 	// Run the equivalent of C(apt-get update) before the operation. Can be run as part of the package installation or as a separate step.
@@ -236,21 +236,21 @@ type AptParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	UpdateCache bool `yaml:"update_cache,omitempty" json:"update_cache,omitempty"`
+	UpdateCache bool `yaml:"update_cache,omitempty" json:"update_cache,omitempty" cty:"update_cache"`
 
 	// UpdateCacheRetries
 	// Amount of retries if the cache update fails. Also see I(update_cache_retry_max_delay).
 	//
 	// Default: 5
 	// Required: false
-	UpdateCacheRetries int `yaml:"update_cache_retries,omitempty" json:"update_cache_retries,omitempty"`
+	UpdateCacheRetries int `yaml:"update_cache_retries,omitempty" json:"update_cache_retries,omitempty" cty:"update_cache_retries"`
 
 	// UpdateCacheRetryMaxDelay
 	// Use an exponential backoff delay for each retry (see I(update_cache_retries)) up to this max delay in seconds.
 	//
 	// Default: 12
 	// Required: false
-	UpdateCacheRetryMaxDelay int `yaml:"update_cache_retry_max_delay,omitempty" json:"update_cache_retry_max_delay,omitempty"`
+	UpdateCacheRetryMaxDelay int `yaml:"update_cache_retry_max_delay,omitempty" json:"update_cache_retry_max_delay,omitempty" cty:"update_cache_retry_max_delay"`
 
 	// Upgrade
 	// If yes or safe, performs an aptitude safe-upgrade.
@@ -261,7 +261,7 @@ type AptParams struct {
 	//
 	// Default: no
 	// Required: false
-	Upgrade string `yaml:"upgrade,omitempty" json:"upgrade,omitempty"`
+	Upgrade string `yaml:"upgrade,omitempty" json:"upgrade,omitempty" cty:"upgrade"`
 
 	values map[string]types.Value
 }
@@ -296,19 +296,19 @@ type AptResult struct {
 
 	// CacheUpdateTime
 	// time of the last cache update (0 if unknown)
-	CacheUpdateTime int `yaml:"cache_update_time,omitempty" json:"cache_update_time,omitempty"`
+	CacheUpdateTime int `yaml:"cache_update_time,omitempty" json:"cache_update_time,omitempty" cty:"cache_update_time"`
 
 	// CacheUpdated
 	// if the cache was updated or not
-	CacheUpdated bool `yaml:"cache_updated,omitempty" json:"cache_updated,omitempty"`
+	CacheUpdated bool `yaml:"cache_updated,omitempty" json:"cache_updated,omitempty" cty:"cache_updated"`
 
 	// Stderr
 	// error output from apt
-	Stderr string `yaml:"stderr,omitempty" json:"stderr,omitempty"`
+	Stderr string `yaml:"stderr,omitempty" json:"stderr,omitempty" cty:"stderr"`
 
 	// Stdout
 	// output from apt
-	Stdout string `yaml:"stdout,omitempty" json:"stdout,omitempty"`
+	Stdout string `yaml:"stdout,omitempty" json:"stdout,omitempty" cty:"stdout"`
 
 	values map[string]types.Value
 }

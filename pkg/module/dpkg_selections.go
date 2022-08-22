@@ -50,14 +50,14 @@ type DpkgSelectionsParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// Selection
 	// The selection state to set the package to.
 	//
 	// Default: <no value>
 	// Required: true
-	Selection string `yaml:"selection,omitempty" json:"selection,omitempty"`
+	Selection string `yaml:"selection,omitempty" json:"selection,omitempty" cty:"selection"`
 
 	values map[string]types.Value
 }

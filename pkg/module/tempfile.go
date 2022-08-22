@@ -56,28 +56,28 @@ type TempfileParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Path string `yaml:"path,omitempty" json:"path,omitempty"`
+	Path string `yaml:"path,omitempty" json:"path,omitempty" cty:"path"`
 
 	// Prefix
 	// Prefix of file/directory name created by module.
 	//
 	// Default: ansible.
 	// Required: false
-	Prefix string `yaml:"prefix,omitempty" json:"prefix,omitempty"`
+	Prefix string `yaml:"prefix,omitempty" json:"prefix,omitempty" cty:"prefix"`
 
 	// State
 	// Whether to create file or directory.
 	//
 	// Default: file
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// Suffix
 	// Suffix of file/directory name created by module.
 	//
 	// Default:
 	// Required: false
-	Suffix string `yaml:"suffix,omitempty" json:"suffix,omitempty"`
+	Suffix string `yaml:"suffix,omitempty" json:"suffix,omitempty" cty:"suffix"`
 
 	values map[string]types.Value
 }
@@ -112,7 +112,7 @@ type TempfileResult struct {
 
 	// Path
 	// Path to created file or directory.
-	Path string `yaml:"path,omitempty" json:"path,omitempty"`
+	Path string `yaml:"path,omitempty" json:"path,omitempty" cty:"path"`
 
 	values map[string]types.Value
 }

@@ -20,7 +20,7 @@ func NewCommand() *Command {
 	module := Command{}
 	// Create dynamic param values
 	paramValues := map[string]types.Value{}
-	paramValues["argv"] = types.NewStringArrayValue(&module.Params.Argv)
+	paramValues["argv"] = types.NewStringListValue(&module.Params.Argv)
 	paramValues["chdir"] = types.NewStringValue(&module.Params.Chdir)
 	paramValues["cmd"] = types.NewStringValue(&module.Params.Cmd)
 	paramValues["creates"] = types.NewStringValue(&module.Params.Creates)
@@ -35,16 +35,16 @@ func NewCommand() *Command {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
-	// NOT SUPPORTED: cmd Cmd []map[string]interface{}
+	resultValues["cmd"] = types.NewStringListValue(&module.Result.Cmd)
 	resultValues["delta"] = types.NewStringValue(&module.Result.Delta)
 	resultValues["end"] = types.NewStringValue(&module.Result.End)
 	resultValues["msg"] = types.NewBoolValue(&module.Result.Msg)
 	resultValues["rc"] = types.NewIntValue(&module.Result.Rc)
 	resultValues["start"] = types.NewStringValue(&module.Result.Start)
 	resultValues["stderr"] = types.NewStringValue(&module.Result.Stderr)
-	// NOT SUPPORTED: stderr_lines StderrLines []map[string]interface{}
+	resultValues["stderr_lines"] = types.NewStringListValue(&module.Result.StderrLines)
 	resultValues["stdout"] = types.NewStringValue(&module.Result.Stdout)
-	// NOT SUPPORTED: stdout_lines StdoutLines []map[string]interface{}
+	resultValues["stdout_lines"] = types.NewStringListValue(&module.Result.StdoutLines)
 	module.Result.values = resultValues
 
 	return &module
@@ -80,21 +80,21 @@ type CommandParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Argv []string `yaml:"argv,omitempty" json:"argv,omitempty"`
+	Argv []string `yaml:"argv,omitempty" json:"argv,omitempty" cty:"argv"`
 
 	// Chdir
 	// Change into this directory before running the command.
 	//
 	// Default: <no value>
 	// Required: false
-	Chdir string `yaml:"chdir,omitempty" json:"chdir,omitempty"`
+	Chdir string `yaml:"chdir,omitempty" json:"chdir,omitempty" cty:"chdir"`
 
 	// Cmd
 	// The command to run.
 	//
 	// Default: <no value>
 	// Required: false
-	Cmd string `yaml:"cmd,omitempty" json:"cmd,omitempty"`
+	Cmd string `yaml:"cmd,omitempty" json:"cmd,omitempty" cty:"cmd"`
 
 	// Creates
 	// A filename or (since 2.0) glob pattern. If a matching file already exists, this step B(will not) be run.
@@ -102,7 +102,7 @@ type CommandParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Creates string `yaml:"creates,omitempty" json:"creates,omitempty"`
+	Creates string `yaml:"creates,omitempty" json:"creates,omitempty" cty:"creates"`
 
 	// FreeForm
 	// The command module takes a free form string as a command to run.
@@ -110,7 +110,7 @@ type CommandParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	FreeForm string `yaml:"free_form,omitempty" json:"free_form,omitempty"`
+	FreeForm string `yaml:"free_form,omitempty" json:"free_form,omitempty" cty:"free_form"`
 
 	// Removes
 	// A filename or (since 2.0) glob pattern. If a matching file exists, this step B(will) be run.
@@ -118,28 +118,28 @@ type CommandParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Removes string `yaml:"removes,omitempty" json:"removes,omitempty"`
+	Removes string `yaml:"removes,omitempty" json:"removes,omitempty" cty:"removes"`
 
 	// Stdin
 	// Set the stdin of the command directly to the specified value.
 	//
 	// Default: <no value>
 	// Required: false
-	Stdin string `yaml:"stdin,omitempty" json:"stdin,omitempty"`
+	Stdin string `yaml:"stdin,omitempty" json:"stdin,omitempty" cty:"stdin"`
 
 	// StdinAddNewline
 	// If set to C(yes), append a newline to stdin data.
 	//
 	// Default: yes
 	// Required: false
-	StdinAddNewline bool `yaml:"stdin_add_newline,omitempty" json:"stdin_add_newline,omitempty"`
+	StdinAddNewline bool `yaml:"stdin_add_newline,omitempty" json:"stdin_add_newline,omitempty" cty:"stdin_add_newline"`
 
 	// StripEmptyEnds
 	// Strip empty lines from the end of stdout/stderr in result.
 	//
 	// Default: yes
 	// Required: false
-	StripEmptyEnds bool `yaml:"strip_empty_ends,omitempty" json:"strip_empty_ends,omitempty"`
+	StripEmptyEnds bool `yaml:"strip_empty_ends,omitempty" json:"strip_empty_ends,omitempty" cty:"strip_empty_ends"`
 
 	// Warn
 	// (deprecated) Enable or disable task warnings.
@@ -148,7 +148,7 @@ type CommandParams struct {
 	//
 	// Default: no
 	// Required: false
-	Warn bool `yaml:"warn,omitempty" json:"warn,omitempty"`
+	Warn bool `yaml:"warn,omitempty" json:"warn,omitempty" cty:"warn"`
 
 	values map[string]types.Value
 }
@@ -183,43 +183,43 @@ type CommandResult struct {
 
 	// Cmd
 	// The command executed by the task.
-	Cmd []map[string]interface{} `yaml:"cmd,omitempty" json:"cmd,omitempty"`
+	Cmd []string `yaml:"cmd,omitempty" json:"cmd,omitempty" cty:"cmd"`
 
 	// Delta
 	// The command execution delta time.
-	Delta string `yaml:"delta,omitempty" json:"delta,omitempty"`
+	Delta string `yaml:"delta,omitempty" json:"delta,omitempty" cty:"delta"`
 
 	// End
 	// The command execution end time.
-	End string `yaml:"end,omitempty" json:"end,omitempty"`
+	End string `yaml:"end,omitempty" json:"end,omitempty" cty:"end"`
 
 	// Msg
 	// changed
-	Msg bool `yaml:"msg,omitempty" json:"msg,omitempty"`
+	Msg bool `yaml:"msg,omitempty" json:"msg,omitempty" cty:"msg"`
 
 	// Rc
 	// The command return code (0 means success).
-	Rc int `yaml:"rc,omitempty" json:"rc,omitempty"`
+	Rc int `yaml:"rc,omitempty" json:"rc,omitempty" cty:"rc"`
 
 	// Start
 	// The command execution start time.
-	Start string `yaml:"start,omitempty" json:"start,omitempty"`
+	Start string `yaml:"start,omitempty" json:"start,omitempty" cty:"start"`
 
 	// Stderr
 	// The command standard error.
-	Stderr string `yaml:"stderr,omitempty" json:"stderr,omitempty"`
+	Stderr string `yaml:"stderr,omitempty" json:"stderr,omitempty" cty:"stderr"`
 
 	// StderrLines
 	// The command standard error split in lines.
-	StderrLines []map[string]interface{} `yaml:"stderr_lines,omitempty" json:"stderr_lines,omitempty"`
+	StderrLines []string `yaml:"stderr_lines,omitempty" json:"stderr_lines,omitempty" cty:"stderr_lines"`
 
 	// Stdout
 	// The command standard output.
-	Stdout string `yaml:"stdout,omitempty" json:"stdout,omitempty"`
+	Stdout string `yaml:"stdout,omitempty" json:"stdout,omitempty" cty:"stdout"`
 
 	// StdoutLines
 	// The command standard output split in lines.
-	StdoutLines []map[string]interface{} `yaml:"stdout_lines,omitempty" json:"stdout_lines,omitempty"`
+	StdoutLines []string `yaml:"stdout_lines,omitempty" json:"stdout_lines,omitempty" cty:"stdout_lines"`
 
 	values map[string]types.Value
 }

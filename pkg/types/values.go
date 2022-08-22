@@ -34,8 +34,14 @@ func NewFloat64Value(v *float64) Value {
 	}
 }
 
-func NewStringArrayValue(v *[]string) Value {
-	return &stringArrayValue{
+func NewStringListValue(v *[]string) Value {
+	return &stringListValue{
+		value: v,
+	}
+}
+
+func NewIntListValue(v *[]int) Value {
+	return &intListValue{
 		value: v,
 	}
 }
@@ -72,17 +78,35 @@ func (s *stringValue) Set(value interface{}) error {
 	return nil
 }
 
-type stringArrayValue struct {
+type stringListValue struct {
 	value *[]string
 }
 
-func (s *stringArrayValue) Get() interface{} {
+func (s *stringListValue) Get() interface{} {
 	return *s.value
 }
 
-func (s *stringArrayValue) Set(value interface{}) error {
+func (s *stringListValue) Set(value interface{}) error {
 	switch t := value.(type) {
 	case []string:
+		*s.value = t
+	default:
+		return fmt.Errorf("cannot convert interface to []string: %T", value)
+	}
+	return nil
+}
+
+type intListValue struct {
+	value *[]int
+}
+
+func (s *intListValue) Get() interface{} {
+	return *s.value
+}
+
+func (s *intListValue) Set(value interface{}) error {
+	switch t := value.(type) {
+	case []int:
 		*s.value = t
 	default:
 		return fmt.Errorf("cannot convert interface to []string: %T", value)

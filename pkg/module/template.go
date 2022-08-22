@@ -50,7 +50,7 @@ type TemplateParams struct {
 	//
 	// Default: no
 	// Required: false
-	Follow bool `yaml:"follow,omitempty" json:"follow,omitempty"`
+	Follow bool `yaml:"follow,omitempty" json:"follow,omitempty" cty:"follow"`
 
 	values map[string]types.Value
 }

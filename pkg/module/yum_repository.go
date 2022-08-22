@@ -22,22 +22,22 @@ func NewYumRepository() *YumRepository {
 	paramValues := map[string]types.Value{}
 	paramValues["async"] = types.NewBoolValue(&module.Params.Async)
 	paramValues["bandwidth"] = types.NewStringValue(&module.Params.Bandwidth)
-	paramValues["baseurl"] = types.NewStringArrayValue(&module.Params.Baseurl)
+	paramValues["baseurl"] = types.NewStringListValue(&module.Params.Baseurl)
 	paramValues["cost"] = types.NewStringValue(&module.Params.Cost)
 	paramValues["deltarpm_metadata_percentage"] = types.NewStringValue(&module.Params.DeltarpmMetadataPercentage)
 	paramValues["deltarpm_percentage"] = types.NewStringValue(&module.Params.DeltarpmPercentage)
 	paramValues["description"] = types.NewStringValue(&module.Params.Description)
 	paramValues["enabled"] = types.NewBoolValue(&module.Params.Enabled)
 	paramValues["enablegroups"] = types.NewBoolValue(&module.Params.Enablegroups)
-	paramValues["exclude"] = types.NewStringArrayValue(&module.Params.Exclude)
+	paramValues["exclude"] = types.NewStringListValue(&module.Params.Exclude)
 	paramValues["failovermethod"] = types.NewStringValue(&module.Params.Failovermethod)
 	paramValues["file"] = types.NewStringValue(&module.Params.File)
 	paramValues["gpgcakey"] = types.NewStringValue(&module.Params.Gpgcakey)
 	paramValues["gpgcheck"] = types.NewBoolValue(&module.Params.Gpgcheck)
-	paramValues["gpgkey"] = types.NewStringArrayValue(&module.Params.Gpgkey)
+	paramValues["gpgkey"] = types.NewStringListValue(&module.Params.Gpgkey)
 	paramValues["http_caching"] = types.NewStringValue(&module.Params.HttpCaching)
 	paramValues["include"] = types.NewStringValue(&module.Params.Include)
-	paramValues["includepkgs"] = types.NewStringArrayValue(&module.Params.Includepkgs)
+	paramValues["includepkgs"] = types.NewStringListValue(&module.Params.Includepkgs)
 	paramValues["ip_resolve"] = types.NewStringValue(&module.Params.IpResolve)
 	paramValues["keepalive"] = types.NewBoolValue(&module.Params.Keepalive)
 	paramValues["keepcache"] = types.NewStringValue(&module.Params.Keepcache)
@@ -101,7 +101,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: yes
 	// Required: false
-	Async bool `yaml:"async,omitempty" json:"async,omitempty"`
+	Async bool `yaml:"async,omitempty" json:"async,omitempty" cty:"async"`
 
 	// Bandwidth
 	// Maximum available network bandwidth in bytes/second. Used with the I(throttle) option.
@@ -109,7 +109,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: 0
 	// Required: false
-	Bandwidth string `yaml:"bandwidth,omitempty" json:"bandwidth,omitempty"`
+	Bandwidth string `yaml:"bandwidth,omitempty" json:"bandwidth,omitempty" cty:"bandwidth"`
 
 	// Baseurl
 	// URL to the directory where the yum repository's 'repodata' directory lives.
@@ -118,28 +118,28 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Baseurl []string `yaml:"baseurl,omitempty" json:"baseurl,omitempty"`
+	Baseurl []string `yaml:"baseurl,omitempty" json:"baseurl,omitempty" cty:"baseurl"`
 
 	// Cost
 	// Relative cost of accessing this repository. Useful for weighing one repo's packages as greater/less than any other.
 	//
 	// Default: 1000
 	// Required: false
-	Cost string `yaml:"cost,omitempty" json:"cost,omitempty"`
+	Cost string `yaml:"cost,omitempty" json:"cost,omitempty" cty:"cost"`
 
 	// DeltarpmMetadataPercentage
 	// When the relative size of deltarpm metadata vs pkgs is larger than this, deltarpm metadata is not downloaded from the repo. Note that you can give values over C(100), so C(200) means that the metadata is required to be half the size of the packages. Use C(0) to turn off this check, and always download metadata.
 	//
 	// Default: 100
 	// Required: false
-	DeltarpmMetadataPercentage string `yaml:"deltarpm_metadata_percentage,omitempty" json:"deltarpm_metadata_percentage,omitempty"`
+	DeltarpmMetadataPercentage string `yaml:"deltarpm_metadata_percentage,omitempty" json:"deltarpm_metadata_percentage,omitempty" cty:"deltarpm_metadata_percentage"`
 
 	// DeltarpmPercentage
 	// When the relative size of delta vs pkg is larger than this, delta is not used. Use C(0) to turn off delta rpm processing. Local repositories (with file:// I(baseurl)) have delta rpms turned off by default.
 	//
 	// Default: 75
 	// Required: false
-	DeltarpmPercentage string `yaml:"deltarpm_percentage,omitempty" json:"deltarpm_percentage,omitempty"`
+	DeltarpmPercentage string `yaml:"deltarpm_percentage,omitempty" json:"deltarpm_percentage,omitempty" cty:"deltarpm_percentage"`
 
 	// Description
 	// A human readable string describing the repository. This option corresponds to the "name" property in the repo file.
@@ -147,7 +147,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Description string `yaml:"description,omitempty" json:"description,omitempty"`
+	Description string `yaml:"description,omitempty" json:"description,omitempty" cty:"description"`
 
 	// Enabled
 	// This tells yum whether or not use this repository.
@@ -155,7 +155,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Enabled bool `yaml:"enabled,omitempty" json:"enabled,omitempty"`
+	Enabled bool `yaml:"enabled,omitempty" json:"enabled,omitempty" cty:"enabled"`
 
 	// Enablegroups
 	// Determines whether yum will allow the use of package groups for this repository.
@@ -163,7 +163,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Enablegroups bool `yaml:"enablegroups,omitempty" json:"enablegroups,omitempty"`
+	Enablegroups bool `yaml:"enablegroups,omitempty" json:"enablegroups,omitempty" cty:"enablegroups"`
 
 	// Exclude
 	// List of packages to exclude from updates or installs. This should be a space separated list. Shell globs using wildcards (eg. C(*) and C(?)) are allowed.
@@ -171,7 +171,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Exclude []string `yaml:"exclude,omitempty" json:"exclude,omitempty"`
+	Exclude []string `yaml:"exclude,omitempty" json:"exclude,omitempty" cty:"exclude"`
 
 	// Failovermethod
 	// C(roundrobin) randomly selects a URL out of the list of URLs to start with and proceeds through each of them as it encounters a failure contacting the host.
@@ -179,21 +179,21 @@ type YumRepositoryParams struct {
 	//
 	// Default: roundrobin
 	// Required: false
-	Failovermethod string `yaml:"failovermethod,omitempty" json:"failovermethod,omitempty"`
+	Failovermethod string `yaml:"failovermethod,omitempty" json:"failovermethod,omitempty" cty:"failovermethod"`
 
 	// File
 	// File name without the C(.repo) extension to save the repo in. Defaults to the value of I(name).
 	//
 	// Default: <no value>
 	// Required: false
-	File string `yaml:"file,omitempty" json:"file,omitempty"`
+	File string `yaml:"file,omitempty" json:"file,omitempty" cty:"file"`
 
 	// Gpgcakey
 	// A URL pointing to the ASCII-armored CA key file for the repository.
 	//
 	// Default: <no value>
 	// Required: false
-	Gpgcakey string `yaml:"gpgcakey,omitempty" json:"gpgcakey,omitempty"`
+	Gpgcakey string `yaml:"gpgcakey,omitempty" json:"gpgcakey,omitempty" cty:"gpgcakey"`
 
 	// Gpgcheck
 	// Tells yum whether or not it should perform a GPG signature check on packages.
@@ -201,7 +201,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Gpgcheck bool `yaml:"gpgcheck,omitempty" json:"gpgcheck,omitempty"`
+	Gpgcheck bool `yaml:"gpgcheck,omitempty" json:"gpgcheck,omitempty" cty:"gpgcheck"`
 
 	// Gpgkey
 	// A URL pointing to the ASCII-armored GPG key file for the repository.
@@ -209,7 +209,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Gpgkey []string `yaml:"gpgkey,omitempty" json:"gpgkey,omitempty"`
+	Gpgkey []string `yaml:"gpgkey,omitempty" json:"gpgkey,omitempty" cty:"gpgkey"`
 
 	// HttpCaching
 	// Determines how upstream HTTP caches are instructed to handle any HTTP downloads that Yum does.
@@ -219,14 +219,14 @@ type YumRepositoryParams struct {
 	//
 	// Default: all
 	// Required: false
-	HttpCaching string `yaml:"http_caching,omitempty" json:"http_caching,omitempty"`
+	HttpCaching string `yaml:"http_caching,omitempty" json:"http_caching,omitempty" cty:"http_caching"`
 
 	// Include
 	// Include external configuration file. Both, local path and URL is supported. Configuration file will be inserted at the position of the I(include=) line. Included files may contain further include lines. Yum will abort with an error if an inclusion loop is detected.
 	//
 	// Default: <no value>
 	// Required: false
-	Include string `yaml:"include,omitempty" json:"include,omitempty"`
+	Include string `yaml:"include,omitempty" json:"include,omitempty" cty:"include"`
 
 	// Includepkgs
 	// List of packages you want to only use from a repository. This should be a space separated list. Shell globs using wildcards (eg. C(*) and C(?)) are allowed. Substitution variables (e.g. C($releasever)) are honored here.
@@ -234,7 +234,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Includepkgs []string `yaml:"includepkgs,omitempty" json:"includepkgs,omitempty"`
+	Includepkgs []string `yaml:"includepkgs,omitempty" json:"includepkgs,omitempty" cty:"includepkgs"`
 
 	// IpResolve
 	// Determines how yum resolves host names.
@@ -243,21 +243,21 @@ type YumRepositoryParams struct {
 	//
 	// Default: whatever
 	// Required: false
-	IpResolve string `yaml:"ip_resolve,omitempty" json:"ip_resolve,omitempty"`
+	IpResolve string `yaml:"ip_resolve,omitempty" json:"ip_resolve,omitempty" cty:"ip_resolve"`
 
 	// Keepalive
 	// This tells yum whether or not HTTP/1.1 keepalive should be used with this repository. This can improve transfer speeds by using one connection when downloading multiple files from a repository.
 	//
 	// Default: no
 	// Required: false
-	Keepalive bool `yaml:"keepalive,omitempty" json:"keepalive,omitempty"`
+	Keepalive bool `yaml:"keepalive,omitempty" json:"keepalive,omitempty" cty:"keepalive"`
 
 	// Keepcache
 	// Either C(1) or C(0). Determines whether or not yum keeps the cache of headers and packages after successful installation.
 	//
 	// Default: 1
 	// Required: false
-	Keepcache string `yaml:"keepcache,omitempty" json:"keepcache,omitempty"`
+	Keepcache string `yaml:"keepcache,omitempty" json:"keepcache,omitempty" cty:"keepcache"`
 
 	// MetadataExpire
 	// Time (in seconds) after which the metadata will expire.
@@ -265,7 +265,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: 21600
 	// Required: false
-	MetadataExpire string `yaml:"metadata_expire,omitempty" json:"metadata_expire,omitempty"`
+	MetadataExpire string `yaml:"metadata_expire,omitempty" json:"metadata_expire,omitempty" cty:"metadata_expire"`
 
 	// MetadataExpireFilter
 	// Filter the I(metadata_expire) time, allowing a trade of speed for accuracy if a command doesn't require it. Each yum command can specify that it requires a certain level of timeliness quality from the remote repos. from "I'm about to install/upgrade, so this better be current" to "Anything that's available is good enough".
@@ -277,7 +277,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: read-only:present
 	// Required: false
-	MetadataExpireFilter string `yaml:"metadata_expire_filter,omitempty" json:"metadata_expire_filter,omitempty"`
+	MetadataExpireFilter string `yaml:"metadata_expire_filter,omitempty" json:"metadata_expire_filter,omitempty" cty:"metadata_expire_filter"`
 
 	// Metalink
 	// Specifies a URL to a metalink file for the repomd.xml, a list of mirrors for the entire repository are generated by converting the mirrors for the repomd.xml file to a I(baseurl).
@@ -285,7 +285,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Metalink string `yaml:"metalink,omitempty" json:"metalink,omitempty"`
+	Metalink string `yaml:"metalink,omitempty" json:"metalink,omitempty" cty:"metalink"`
 
 	// Mirrorlist
 	// Specifies a URL to a file containing a list of baseurls.
@@ -293,7 +293,7 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Mirrorlist string `yaml:"mirrorlist,omitempty" json:"mirrorlist,omitempty"`
+	Mirrorlist string `yaml:"mirrorlist,omitempty" json:"mirrorlist,omitempty" cty:"mirrorlist"`
 
 	// MirrorlistExpire
 	// Time (in seconds) after which the mirrorlist locally cached will expire.
@@ -301,14 +301,14 @@ type YumRepositoryParams struct {
 	//
 	// Default: 21600
 	// Required: false
-	MirrorlistExpire string `yaml:"mirrorlist_expire,omitempty" json:"mirrorlist_expire,omitempty"`
+	MirrorlistExpire string `yaml:"mirrorlist_expire,omitempty" json:"mirrorlist_expire,omitempty" cty:"mirrorlist_expire"`
 
 	// ModuleHotfixes
 	// Disable module RPM filtering and make all RPMs from the repository available. The default is C(None).
 	//
 	// Default: <no value>
 	// Required: false
-	ModuleHotfixes bool `yaml:"module_hotfixes,omitempty" json:"module_hotfixes,omitempty"`
+	ModuleHotfixes bool `yaml:"module_hotfixes,omitempty" json:"module_hotfixes,omitempty" cty:"module_hotfixes"`
 
 	// Name
 	// Unique repository ID. This option builds the section name of the repository in the repo file.
@@ -316,14 +316,14 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// Password
 	// Password to use with the username for basic authentication.
 	//
 	// Default: <no value>
 	// Required: false
-	Password string `yaml:"password,omitempty" json:"password,omitempty"`
+	Password string `yaml:"password,omitempty" json:"password,omitempty" cty:"password"`
 
 	// Priority
 	// Enforce ordered protection of repositories. The value is an integer from 1 to 99.
@@ -331,56 +331,56 @@ type YumRepositoryParams struct {
 	//
 	// Default: 99
 	// Required: false
-	Priority string `yaml:"priority,omitempty" json:"priority,omitempty"`
+	Priority string `yaml:"priority,omitempty" json:"priority,omitempty" cty:"priority"`
 
 	// Protect
 	// Protect packages from updates from other repositories.
 	//
 	// Default: no
 	// Required: false
-	Protect bool `yaml:"protect,omitempty" json:"protect,omitempty"`
+	Protect bool `yaml:"protect,omitempty" json:"protect,omitempty" cty:"protect"`
 
 	// Proxy
 	// URL to the proxy server that yum should use. Set to C(_none_) to disable the global proxy setting.
 	//
 	// Default: <no value>
 	// Required: false
-	Proxy string `yaml:"proxy,omitempty" json:"proxy,omitempty"`
+	Proxy string `yaml:"proxy,omitempty" json:"proxy,omitempty" cty:"proxy"`
 
 	// ProxyPassword
 	// Password for this proxy.
 	//
 	// Default: <no value>
 	// Required: false
-	ProxyPassword string `yaml:"proxy_password,omitempty" json:"proxy_password,omitempty"`
+	ProxyPassword string `yaml:"proxy_password,omitempty" json:"proxy_password,omitempty" cty:"proxy_password"`
 
 	// ProxyUsername
 	// Username to use for proxy.
 	//
 	// Default: <no value>
 	// Required: false
-	ProxyUsername string `yaml:"proxy_username,omitempty" json:"proxy_username,omitempty"`
+	ProxyUsername string `yaml:"proxy_username,omitempty" json:"proxy_username,omitempty" cty:"proxy_username"`
 
 	// RepoGpgcheck
 	// This tells yum whether or not it should perform a GPG signature check on the repodata from this repository.
 	//
 	// Default: no
 	// Required: false
-	RepoGpgcheck bool `yaml:"repo_gpgcheck,omitempty" json:"repo_gpgcheck,omitempty"`
+	RepoGpgcheck bool `yaml:"repo_gpgcheck,omitempty" json:"repo_gpgcheck,omitempty" cty:"repo_gpgcheck"`
 
 	// Reposdir
 	// Directory where the C(.repo) files will be stored.
 	//
 	// Default: /etc/yum.repos.d
 	// Required: false
-	Reposdir string `yaml:"reposdir,omitempty" json:"reposdir,omitempty"`
+	Reposdir string `yaml:"reposdir,omitempty" json:"reposdir,omitempty" cty:"reposdir"`
 
 	// Retries
 	// Set the number of times any attempt to retrieve a file should retry before returning an error. Setting this to C(0) makes yum try forever.
 	//
 	// Default: 10
 	// Required: false
-	Retries string `yaml:"retries,omitempty" json:"retries,omitempty"`
+	Retries string `yaml:"retries,omitempty" json:"retries,omitempty" cty:"retries"`
 
 	// S3Enabled
 	// Enables support for S3 repositories.
@@ -388,14 +388,14 @@ type YumRepositoryParams struct {
 	//
 	// Default: no
 	// Required: false
-	S3Enabled bool `yaml:"s3_enabled,omitempty" json:"s3_enabled,omitempty"`
+	S3Enabled bool `yaml:"s3_enabled,omitempty" json:"s3_enabled,omitempty" cty:"s3_enabled"`
 
 	// SkipIfUnavailable
 	// If set to C(yes) yum will continue running if this repository cannot be contacted for any reason. This should be set carefully as all repos are consulted for any given command.
 	//
 	// Default: no
 	// Required: false
-	SkipIfUnavailable bool `yaml:"skip_if_unavailable,omitempty" json:"skip_if_unavailable,omitempty"`
+	SkipIfUnavailable bool `yaml:"skip_if_unavailable,omitempty" json:"skip_if_unavailable,omitempty" cty:"skip_if_unavailable"`
 
 	// SslCheckCertPermissions
 	// Whether yum should check the permissions on the paths for the certificates on the repository (both remote and local).
@@ -403,42 +403,42 @@ type YumRepositoryParams struct {
 	//
 	// Default: no
 	// Required: false
-	SslCheckCertPermissions bool `yaml:"ssl_check_cert_permissions,omitempty" json:"ssl_check_cert_permissions,omitempty"`
+	SslCheckCertPermissions bool `yaml:"ssl_check_cert_permissions,omitempty" json:"ssl_check_cert_permissions,omitempty" cty:"ssl_check_cert_permissions"`
 
 	// Sslcacert
 	// Path to the directory containing the databases of the certificate authorities yum should use to verify SSL certificates.
 	//
 	// Default: <no value>
 	// Required: false
-	Sslcacert string `yaml:"sslcacert,omitempty" json:"sslcacert,omitempty"`
+	Sslcacert string `yaml:"sslcacert,omitempty" json:"sslcacert,omitempty" cty:"sslcacert"`
 
 	// Sslclientcert
 	// Path to the SSL client certificate yum should use to connect to repos/remote sites.
 	//
 	// Default: <no value>
 	// Required: false
-	Sslclientcert string `yaml:"sslclientcert,omitempty" json:"sslclientcert,omitempty"`
+	Sslclientcert string `yaml:"sslclientcert,omitempty" json:"sslclientcert,omitempty" cty:"sslclientcert"`
 
 	// Sslclientkey
 	// Path to the SSL client key yum should use to connect to repos/remote sites.
 	//
 	// Default: <no value>
 	// Required: false
-	Sslclientkey string `yaml:"sslclientkey,omitempty" json:"sslclientkey,omitempty"`
+	Sslclientkey string `yaml:"sslclientkey,omitempty" json:"sslclientkey,omitempty" cty:"sslclientkey"`
 
 	// Sslverify
 	// Defines whether yum should verify SSL certificates/hosts at all.
 	//
 	// Default: yes
 	// Required: false
-	Sslverify bool `yaml:"sslverify,omitempty" json:"sslverify,omitempty"`
+	Sslverify bool `yaml:"sslverify,omitempty" json:"sslverify,omitempty" cty:"sslverify"`
 
 	// State
 	// State of the repo file.
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// Throttle
 	// Enable bandwidth throttling for downloads.
@@ -446,28 +446,28 @@ type YumRepositoryParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Throttle string `yaml:"throttle,omitempty" json:"throttle,omitempty"`
+	Throttle string `yaml:"throttle,omitempty" json:"throttle,omitempty" cty:"throttle"`
 
 	// Timeout
 	// Number of seconds to wait for a connection before timing out.
 	//
 	// Default: 30
 	// Required: false
-	Timeout string `yaml:"timeout,omitempty" json:"timeout,omitempty"`
+	Timeout string `yaml:"timeout,omitempty" json:"timeout,omitempty" cty:"timeout"`
 
 	// UiRepoidVars
 	// When a repository id is displayed, append these yum variables to the string if they are used in the I(baseurl)/etc. Variables are appended in the order listed (and found).
 	//
 	// Default: releasever basearch
 	// Required: false
-	UiRepoidVars string `yaml:"ui_repoid_vars,omitempty" json:"ui_repoid_vars,omitempty"`
+	UiRepoidVars string `yaml:"ui_repoid_vars,omitempty" json:"ui_repoid_vars,omitempty" cty:"ui_repoid_vars"`
 
 	// Username
 	// Username to use for basic authentication to a repo or really any url.
 	//
 	// Default: <no value>
 	// Required: false
-	Username string `yaml:"username,omitempty" json:"username,omitempty"`
+	Username string `yaml:"username,omitempty" json:"username,omitempty" cty:"username"`
 
 	values map[string]types.Value
 }
@@ -502,11 +502,11 @@ type YumRepositoryResult struct {
 
 	// Repo
 	// repository name
-	Repo string `yaml:"repo,omitempty" json:"repo,omitempty"`
+	Repo string `yaml:"repo,omitempty" json:"repo,omitempty" cty:"repo"`
 
 	// State
 	// state of the target, after execution
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	values map[string]types.Value
 }

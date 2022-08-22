@@ -61,14 +61,14 @@ type ReplaceParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	After string `yaml:"after,omitempty" json:"after,omitempty"`
+	After string `yaml:"after,omitempty" json:"after,omitempty" cty:"after"`
 
 	// Backup
 	// Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
 	//
 	// Default: no
 	// Required: false
-	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
+	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty" cty:"backup"`
 
 	// Before
 	// If specified, only content before this match will be replaced/removed.
@@ -78,21 +78,21 @@ type ReplaceParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Before string `yaml:"before,omitempty" json:"before,omitempty"`
+	Before string `yaml:"before,omitempty" json:"before,omitempty" cty:"before"`
 
 	// Encoding
 	// The character encoding for reading and writing the file.
 	//
 	// Default: utf-8
 	// Required: false
-	Encoding string `yaml:"encoding,omitempty" json:"encoding,omitempty"`
+	Encoding string `yaml:"encoding,omitempty" json:"encoding,omitempty" cty:"encoding"`
 
 	// Others
 	// All arguments accepted by the M(ansible.builtin.file) module also work here.
 	//
 	// Default: <no value>
 	// Required: false
-	Others string `yaml:"others,omitempty" json:"others,omitempty"`
+	Others string `yaml:"others,omitempty" json:"others,omitempty" cty:"others"`
 
 	// Path
 	// The file to modify.
@@ -100,7 +100,7 @@ type ReplaceParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Path string `yaml:"path,omitempty" json:"path,omitempty"`
+	Path string `yaml:"path,omitempty" json:"path,omitempty" cty:"path"`
 
 	// Regexp
 	// The regular expression to look for in the contents of the file.
@@ -112,7 +112,7 @@ type ReplaceParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Regexp string `yaml:"regexp,omitempty" json:"regexp,omitempty"`
+	Regexp string `yaml:"regexp,omitempty" json:"regexp,omitempty" cty:"regexp"`
 
 	// Replace
 	// The string to replace regexp matches.
@@ -122,7 +122,7 @@ type ReplaceParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Replace string `yaml:"replace,omitempty" json:"replace,omitempty"`
+	Replace string `yaml:"replace,omitempty" json:"replace,omitempty" cty:"replace"`
 
 	values map[string]types.Value
 }

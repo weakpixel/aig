@@ -60,7 +60,7 @@ type GroupParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Gid int `yaml:"gid,omitempty" json:"gid,omitempty"`
+	Gid int `yaml:"gid,omitempty" json:"gid,omitempty" cty:"gid"`
 
 	// Local
 	// Forces the use of "local" command alternatives on platforms that implement it.
@@ -69,14 +69,14 @@ type GroupParams struct {
 	//
 	// Default: no
 	// Required: false
-	Local bool `yaml:"local,omitempty" json:"local,omitempty"`
+	Local bool `yaml:"local,omitempty" json:"local,omitempty" cty:"local"`
 
 	// Name
 	// Name of the group to manage.
 	//
 	// Default: <no value>
 	// Required: true
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// NonUnique
 	// This option allows to change the group ID to a non-unique value. Requires C(gid).
@@ -84,21 +84,21 @@ type GroupParams struct {
 	//
 	// Default: no
 	// Required: false
-	NonUnique bool `yaml:"non_unique,omitempty" json:"non_unique,omitempty"`
+	NonUnique bool `yaml:"non_unique,omitempty" json:"non_unique,omitempty" cty:"non_unique"`
 
 	// State
 	// Whether the group should be present or not on the remote host.
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// System
 	// If I(yes), indicates that the group created is a system group.
 	//
 	// Default: no
 	// Required: false
-	System bool `yaml:"system,omitempty" json:"system,omitempty"`
+	System bool `yaml:"system,omitempty" json:"system,omitempty" cty:"system"`
 
 	values map[string]types.Value
 }
@@ -133,19 +133,19 @@ type GroupResult struct {
 
 	// Gid
 	// Group ID of the group.
-	Gid int `yaml:"gid,omitempty" json:"gid,omitempty"`
+	Gid int `yaml:"gid,omitempty" json:"gid,omitempty" cty:"gid"`
 
 	// Name
 	// Group name.
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// State
 	// Whether the group is present or not.
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// System
 	// Whether the group is a system group or not.
-	System bool `yaml:"system,omitempty" json:"system,omitempty"`
+	System bool `yaml:"system,omitempty" json:"system,omitempty" cty:"system"`
 
 	values map[string]types.Value
 }

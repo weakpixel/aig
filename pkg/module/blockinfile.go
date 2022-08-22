@@ -58,7 +58,7 @@ type BlockinfileParams struct {
 	//
 	// Default: no
 	// Required: false
-	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
+	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty" cty:"backup"`
 
 	// Block
 	// The text to insert inside the marker lines.
@@ -66,14 +66,14 @@ type BlockinfileParams struct {
 	//
 	// Default:
 	// Required: false
-	Block string `yaml:"block,omitempty" json:"block,omitempty"`
+	Block string `yaml:"block,omitempty" json:"block,omitempty" cty:"block"`
 
 	// Create
 	// Create a new file if it does not exist.
 	//
 	// Default: no
 	// Required: false
-	Create bool `yaml:"create,omitempty" json:"create,omitempty"`
+	Create bool `yaml:"create,omitempty" json:"create,omitempty" cty:"create"`
 
 	// Insertafter
 	// If specified and no begin/ending C(marker) lines are found, the block will be inserted after the last match of specified regular expression.
@@ -82,7 +82,7 @@ type BlockinfileParams struct {
 	//
 	// Default: EOF
 	// Required: false
-	Insertafter string `yaml:"insertafter,omitempty" json:"insertafter,omitempty"`
+	Insertafter string `yaml:"insertafter,omitempty" json:"insertafter,omitempty" cty:"insertafter"`
 
 	// Insertbefore
 	// If specified and no begin/ending C(marker) lines are found, the block will be inserted before the last match of specified regular expression.
@@ -91,7 +91,7 @@ type BlockinfileParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Insertbefore string `yaml:"insertbefore,omitempty" json:"insertbefore,omitempty"`
+	Insertbefore string `yaml:"insertbefore,omitempty" json:"insertbefore,omitempty" cty:"insertbefore"`
 
 	// Marker
 	// The marker line template.
@@ -100,21 +100,21 @@ type BlockinfileParams struct {
 	//
 	// Default: # {mark} ANSIBLE MANAGED BLOCK
 	// Required: false
-	Marker string `yaml:"marker,omitempty" json:"marker,omitempty"`
+	Marker string `yaml:"marker,omitempty" json:"marker,omitempty" cty:"marker"`
 
 	// MarkerBegin
 	// This will be inserted at C({mark}) in the opening ansible block marker.
 	//
 	// Default: BEGIN
 	// Required: false
-	MarkerBegin string `yaml:"marker_begin,omitempty" json:"marker_begin,omitempty"`
+	MarkerBegin string `yaml:"marker_begin,omitempty" json:"marker_begin,omitempty" cty:"marker_begin"`
 
 	// MarkerEnd
 	// This will be inserted at C({mark}) in the closing ansible block marker.
 	//
 	// Default: END
 	// Required: false
-	MarkerEnd string `yaml:"marker_end,omitempty" json:"marker_end,omitempty"`
+	MarkerEnd string `yaml:"marker_end,omitempty" json:"marker_end,omitempty" cty:"marker_end"`
 
 	// Path
 	// The file to modify.
@@ -122,14 +122,14 @@ type BlockinfileParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Path string `yaml:"path,omitempty" json:"path,omitempty"`
+	Path string `yaml:"path,omitempty" json:"path,omitempty" cty:"path"`
 
 	// State
 	// Whether the block should be there or not.
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	values map[string]types.Value
 }

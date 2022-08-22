@@ -43,6 +43,8 @@ func (p *Parser) Parse() (*types.Spec, error) {
 				return spec, err
 			}
 			spec.Modules = append(spec.Modules, m)
+		} else {
+			fmt.Println("Excluded: ", file.Name())
 		}
 	}
 	return spec, nil
@@ -91,6 +93,7 @@ func (p *Parser) includeModule(name string) bool {
 		!strings.HasPrefix(name, "gather_facts.py") &&
 		!strings.HasPrefix(name, "debug.py") &&
 		!strings.HasPrefix(name, "assert.py") &&
+		!strings.HasPrefix(name, "meta.py") &&
 		!strings.HasPrefix(name, "raw.py") &&
 		!strings.HasPrefix(name, "fetch.py") &&
 		!strings.HasPrefix(name, "add_host.py") &&
@@ -102,6 +105,9 @@ func (p *Parser) includeModule(name string) bool {
 		!strings.HasPrefix(name, "ping.py") &&
 		!strings.HasPrefix(name, "service.py") &&
 		!strings.HasPrefix(name, "service_facts.py") &&
+		!strings.HasPrefix(name, "package.py") &&
+		!strings.HasPrefix(name, "package_facts.py") &&
+
 		!strings.HasPrefix(name, "validate_argument_spec.py")
 
 }
@@ -126,7 +132,8 @@ func (p *Parser) toGoType(ty string, elementType string) string {
 	case "str":
 		return "string"
 	case "list":
-		elType := "map[string]interface{}"
+		// TODO: implementation is wrong, see "stat", "find"
+		elType := "string"
 		if elementType != "" {
 			elType = p.toGoType(elementType, "")
 		}
@@ -150,14 +157,14 @@ func (p *Parser) normalize(m *types.ModuleSpec) error {
 	m.NormalizedName = p.normalizeName(m, m.ModuleName)
 	for name, o := range m.Params {
 		o.NormalizedName = p.normalizeName(m, name)
-		o.StructTag = "`yaml:\"" + name + ",omitempty\" json:\"" + name + ",omitempty\"`"
+		o.StructTag = "`yaml:\"" + name + ",omitempty\" json:\"" + name + ",omitempty\" cty:\"" + name + "\"`"
 		o.GoType = p.toGoType(o.Type, o.Elements)
 	}
 
 	for name, r := range m.Returns {
 		r.GoType = p.toGoType(r.Type, "")
 		r.NormalizedName = p.normalizeName(m, name)
-		r.StructTag = "`yaml:\"" + name + ",omitempty\" json:\"" + name + ",omitempty\"`"
+		r.StructTag = "`yaml:\"" + name + ",omitempty\" json:\"" + name + ",omitempty\" cty:\"" + name + "\"`"
 	}
 
 	m.SourceLink = fmt.Sprintf("https://github.com/ansible/ansible/blob/%s/lib/ansible/modules/%s.py", p.AnsibleTag, m.ModuleName)

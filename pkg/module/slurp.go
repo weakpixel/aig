@@ -54,7 +54,7 @@ type SlurpParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Src string `yaml:"src,omitempty" json:"src,omitempty"`
+	Src string `yaml:"src,omitempty" json:"src,omitempty" cty:"src"`
 
 	values map[string]types.Value
 }
@@ -89,15 +89,15 @@ type SlurpResult struct {
 
 	// Content
 	// Encoded file content
-	Content string `yaml:"content,omitempty" json:"content,omitempty"`
+	Content string `yaml:"content,omitempty" json:"content,omitempty" cty:"content"`
 
 	// Encoding
 	// Type of encoding used for file
-	Encoding string `yaml:"encoding,omitempty" json:"encoding,omitempty"`
+	Encoding string `yaml:"encoding,omitempty" json:"encoding,omitempty" cty:"encoding"`
 
 	// Source
 	// Actual path of file slurped
-	Source string `yaml:"source,omitempty" json:"source,omitempty"`
+	Source string `yaml:"source,omitempty" json:"source,omitempty" cty:"source"`
 
 	values map[string]types.Value
 }

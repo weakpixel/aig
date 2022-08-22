@@ -28,7 +28,7 @@ func NewUser() *User {
 	paramValues["force"] = types.NewBoolValue(&module.Params.Force)
 	paramValues["generate_ssh_key"] = types.NewBoolValue(&module.Params.GenerateSshKey)
 	paramValues["group"] = types.NewStringValue(&module.Params.Group)
-	paramValues["groups"] = types.NewStringArrayValue(&module.Params.Groups)
+	paramValues["groups"] = types.NewStringListValue(&module.Params.Groups)
 	paramValues["hidden"] = types.NewBoolValue(&module.Params.Hidden)
 	paramValues["home"] = types.NewStringValue(&module.Params.Home)
 	paramValues["local"] = types.NewBoolValue(&module.Params.Local)
@@ -108,7 +108,7 @@ type UserParams struct {
 	//
 	// Default: no
 	// Required: false
-	Append bool `yaml:"append,omitempty" json:"append,omitempty"`
+	Append bool `yaml:"append,omitempty" json:"append,omitempty" cty:"append"`
 
 	// Authorization
 	// Sets the authorization of the user.
@@ -119,14 +119,14 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Authorization string `yaml:"authorization,omitempty" json:"authorization,omitempty"`
+	Authorization string `yaml:"authorization,omitempty" json:"authorization,omitempty" cty:"authorization"`
 
 	// Comment
 	// Optionally sets the description (aka I(GECOS)) of user account.
 	//
 	// Default: <no value>
 	// Required: false
-	Comment string `yaml:"comment,omitempty" json:"comment,omitempty"`
+	Comment string `yaml:"comment,omitempty" json:"comment,omitempty" cty:"comment"`
 
 	// CreateHome
 	// Unless set to C(no), a home directory will be made for the user when the account is created or if the home directory does not exist.
@@ -134,7 +134,7 @@ type UserParams struct {
 	//
 	// Default: yes
 	// Required: false
-	CreateHome bool `yaml:"create_home,omitempty" json:"create_home,omitempty"`
+	CreateHome bool `yaml:"create_home,omitempty" json:"create_home,omitempty" cty:"create_home"`
 
 	// Expires
 	// An expiry time for the user in epoch, it will be ignored on platforms that do not support this.
@@ -143,7 +143,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Expires float64 `yaml:"expires,omitempty" json:"expires,omitempty"`
+	Expires float64 `yaml:"expires,omitempty" json:"expires,omitempty" cty:"expires"`
 
 	// Force
 	// This only affects C(state=absent), it forces removal of the user and associated directories on supported platforms.
@@ -152,7 +152,7 @@ type UserParams struct {
 	//
 	// Default: no
 	// Required: false
-	Force bool `yaml:"force,omitempty" json:"force,omitempty"`
+	Force bool `yaml:"force,omitempty" json:"force,omitempty" cty:"force"`
 
 	// GenerateSshKey
 	// Whether to generate a SSH key for the user in question.
@@ -160,14 +160,14 @@ type UserParams struct {
 	//
 	// Default: no
 	// Required: false
-	GenerateSshKey bool `yaml:"generate_ssh_key,omitempty" json:"generate_ssh_key,omitempty"`
+	GenerateSshKey bool `yaml:"generate_ssh_key,omitempty" json:"generate_ssh_key,omitempty" cty:"generate_ssh_key"`
 
 	// Group
 	// Optionally sets the user's primary group (takes a group name).
 	//
 	// Default: <no value>
 	// Required: false
-	Group string `yaml:"group,omitempty" json:"group,omitempty"`
+	Group string `yaml:"group,omitempty" json:"group,omitempty" cty:"group"`
 
 	// Groups
 	// List of groups user will be added to.
@@ -177,7 +177,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Groups []string `yaml:"groups,omitempty" json:"groups,omitempty"`
+	Groups []string `yaml:"groups,omitempty" json:"groups,omitempty" cty:"groups"`
 
 	// Hidden
 	// macOS only, optionally hide the user from the login window and system preferences.
@@ -185,14 +185,14 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Hidden bool `yaml:"hidden,omitempty" json:"hidden,omitempty"`
+	Hidden bool `yaml:"hidden,omitempty" json:"hidden,omitempty" cty:"hidden"`
 
 	// Home
 	// Optionally set the user's home directory.
 	//
 	// Default: <no value>
 	// Required: false
-	Home string `yaml:"home,omitempty" json:"home,omitempty"`
+	Home string `yaml:"home,omitempty" json:"home,omitempty" cty:"home"`
 
 	// Local
 	// Forces the use of "local" command alternatives on platforms that implement it.
@@ -202,35 +202,35 @@ type UserParams struct {
 	//
 	// Default: no
 	// Required: false
-	Local bool `yaml:"local,omitempty" json:"local,omitempty"`
+	Local bool `yaml:"local,omitempty" json:"local,omitempty" cty:"local"`
 
 	// LoginClass
 	// Optionally sets the user's login class, a feature of most BSD OSs.
 	//
 	// Default: <no value>
 	// Required: false
-	LoginClass string `yaml:"login_class,omitempty" json:"login_class,omitempty"`
+	LoginClass string `yaml:"login_class,omitempty" json:"login_class,omitempty" cty:"login_class"`
 
 	// MoveHome
 	// If set to C(yes) when used with C(home: ), attempt to move the user's old home directory to the specified directory if it isn't there already and the old home exists.
 	//
 	// Default: no
 	// Required: false
-	MoveHome bool `yaml:"move_home,omitempty" json:"move_home,omitempty"`
+	MoveHome bool `yaml:"move_home,omitempty" json:"move_home,omitempty" cty:"move_home"`
 
 	// Name
 	// Name of the user to create, remove or modify.
 	//
 	// Default: <no value>
 	// Required: true
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// NonUnique
 	// Optionally when used with the -u option, this option allows to change the user ID to a non-unique value.
 	//
 	// Default: no
 	// Required: false
-	NonUnique bool `yaml:"non_unique,omitempty" json:"non_unique,omitempty"`
+	NonUnique bool `yaml:"non_unique,omitempty" json:"non_unique,omitempty" cty:"non_unique"`
 
 	// Password
 	// Optionally set the user's password to this crypted value.
@@ -241,7 +241,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Password string `yaml:"password,omitempty" json:"password,omitempty"`
+	Password string `yaml:"password,omitempty" json:"password,omitempty" cty:"password"`
 
 	// PasswordExpireMax
 	// Maximum number of days between password change.
@@ -249,7 +249,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	PasswordExpireMax int `yaml:"password_expire_max,omitempty" json:"password_expire_max,omitempty"`
+	PasswordExpireMax int `yaml:"password_expire_max,omitempty" json:"password_expire_max,omitempty" cty:"password_expire_max"`
 
 	// PasswordExpireMin
 	// Minimum number of days between password change.
@@ -257,7 +257,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	PasswordExpireMin int `yaml:"password_expire_min,omitempty" json:"password_expire_min,omitempty"`
+	PasswordExpireMin int `yaml:"password_expire_min,omitempty" json:"password_expire_min,omitempty" cty:"password_expire_min"`
 
 	// PasswordLock
 	// Lock the password (C(usermod -L), C(usermod -U), C(pw lock)).
@@ -268,7 +268,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	PasswordLock bool `yaml:"password_lock,omitempty" json:"password_lock,omitempty"`
+	PasswordLock bool `yaml:"password_lock,omitempty" json:"password_lock,omitempty" cty:"password_lock"`
 
 	// Profile
 	// Sets the profile of the user.
@@ -279,7 +279,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Profile string `yaml:"profile,omitempty" json:"profile,omitempty"`
+	Profile string `yaml:"profile,omitempty" json:"profile,omitempty" cty:"profile"`
 
 	// Remove
 	// This only affects C(state=absent), it attempts to remove directories associated with the user.
@@ -287,7 +287,7 @@ type UserParams struct {
 	//
 	// Default: no
 	// Required: false
-	Remove bool `yaml:"remove,omitempty" json:"remove,omitempty"`
+	Remove bool `yaml:"remove,omitempty" json:"remove,omitempty" cty:"remove"`
 
 	// Role
 	// Sets the role of the user.
@@ -298,14 +298,14 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Role string `yaml:"role,omitempty" json:"role,omitempty"`
+	Role string `yaml:"role,omitempty" json:"role,omitempty" cty:"role"`
 
 	// Seuser
 	// Optionally sets the seuser type (user_u) on selinux enabled systems.
 	//
 	// Default: <no value>
 	// Required: false
-	Seuser string `yaml:"seuser,omitempty" json:"seuser,omitempty"`
+	Seuser string `yaml:"seuser,omitempty" json:"seuser,omitempty" cty:"seuser"`
 
 	// Shell
 	// Optionally set the user's shell.
@@ -314,7 +314,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Shell string `yaml:"shell,omitempty" json:"shell,omitempty"`
+	Shell string `yaml:"shell,omitempty" json:"shell,omitempty" cty:"shell"`
 
 	// Skeleton
 	// Optionally set a home skeleton directory.
@@ -322,7 +322,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Skeleton string `yaml:"skeleton,omitempty" json:"skeleton,omitempty"`
+	Skeleton string `yaml:"skeleton,omitempty" json:"skeleton,omitempty" cty:"skeleton"`
 
 	// SshKeyBits
 	// Optionally specify number of bits in SSH key to create.
@@ -330,14 +330,14 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	SshKeyBits int `yaml:"ssh_key_bits,omitempty" json:"ssh_key_bits,omitempty"`
+	SshKeyBits int `yaml:"ssh_key_bits,omitempty" json:"ssh_key_bits,omitempty" cty:"ssh_key_bits"`
 
 	// SshKeyComment
 	// Optionally define the comment for the SSH key.
 	//
 	// Default: ansible-generated on $HOSTNAME
 	// Required: false
-	SshKeyComment string `yaml:"ssh_key_comment,omitempty" json:"ssh_key_comment,omitempty"`
+	SshKeyComment string `yaml:"ssh_key_comment,omitempty" json:"ssh_key_comment,omitempty" cty:"ssh_key_comment"`
 
 	// SshKeyFile
 	// Optionally specify the SSH key filename.
@@ -346,7 +346,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	SshKeyFile string `yaml:"ssh_key_file,omitempty" json:"ssh_key_file,omitempty"`
+	SshKeyFile string `yaml:"ssh_key_file,omitempty" json:"ssh_key_file,omitempty" cty:"ssh_key_file"`
 
 	// SshKeyPassphrase
 	// Set a passphrase for the SSH key.
@@ -354,7 +354,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	SshKeyPassphrase string `yaml:"ssh_key_passphrase,omitempty" json:"ssh_key_passphrase,omitempty"`
+	SshKeyPassphrase string `yaml:"ssh_key_passphrase,omitempty" json:"ssh_key_passphrase,omitempty" cty:"ssh_key_passphrase"`
 
 	// SshKeyType
 	// Optionally specify the type of SSH key to generate.
@@ -362,14 +362,14 @@ type UserParams struct {
 	//
 	// Default: rsa
 	// Required: false
-	SshKeyType string `yaml:"ssh_key_type,omitempty" json:"ssh_key_type,omitempty"`
+	SshKeyType string `yaml:"ssh_key_type,omitempty" json:"ssh_key_type,omitempty" cty:"ssh_key_type"`
 
 	// State
 	// Whether the account should exist or not, taking action if the state is different from what is stated.
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// System
 	// When creating an account C(state=present), setting this to C(yes) makes the user a system account.
@@ -377,14 +377,14 @@ type UserParams struct {
 	//
 	// Default: no
 	// Required: false
-	System bool `yaml:"system,omitempty" json:"system,omitempty"`
+	System bool `yaml:"system,omitempty" json:"system,omitempty" cty:"system"`
 
 	// Uid
 	// Optionally sets the I(UID) of the user.
 	//
 	// Default: <no value>
 	// Required: false
-	Uid int `yaml:"uid,omitempty" json:"uid,omitempty"`
+	Uid int `yaml:"uid,omitempty" json:"uid,omitempty" cty:"uid"`
 
 	// Umask
 	// Sets the umask of the user.
@@ -394,7 +394,7 @@ type UserParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Umask string `yaml:"umask,omitempty" json:"umask,omitempty"`
+	Umask string `yaml:"umask,omitempty" json:"umask,omitempty" cty:"umask"`
 
 	// UpdatePassword
 	// C(always) will update passwords if they differ.
@@ -402,7 +402,7 @@ type UserParams struct {
 	//
 	// Default: always
 	// Required: false
-	UpdatePassword string `yaml:"update_password,omitempty" json:"update_password,omitempty"`
+	UpdatePassword string `yaml:"update_password,omitempty" json:"update_password,omitempty" cty:"update_password"`
 
 	values map[string]types.Value
 }
@@ -437,87 +437,87 @@ type UserResult struct {
 
 	// Append
 	// Whether or not to append the user to groups.
-	Append bool `yaml:"append,omitempty" json:"append,omitempty"`
+	Append bool `yaml:"append,omitempty" json:"append,omitempty" cty:"append"`
 
 	// Comment
 	// Comment section from passwd file, usually the user name.
-	Comment string `yaml:"comment,omitempty" json:"comment,omitempty"`
+	Comment string `yaml:"comment,omitempty" json:"comment,omitempty" cty:"comment"`
 
 	// CreateHome
 	// Whether or not to create the home directory.
-	CreateHome bool `yaml:"create_home,omitempty" json:"create_home,omitempty"`
+	CreateHome bool `yaml:"create_home,omitempty" json:"create_home,omitempty" cty:"create_home"`
 
 	// Force
 	// Whether or not a user account was forcibly deleted.
-	Force bool `yaml:"force,omitempty" json:"force,omitempty"`
+	Force bool `yaml:"force,omitempty" json:"force,omitempty" cty:"force"`
 
 	// Group
 	// Primary user group ID
-	Group int `yaml:"group,omitempty" json:"group,omitempty"`
+	Group int `yaml:"group,omitempty" json:"group,omitempty" cty:"group"`
 
 	// Groups
 	// List of groups of which the user is a member.
-	Groups string `yaml:"groups,omitempty" json:"groups,omitempty"`
+	Groups string `yaml:"groups,omitempty" json:"groups,omitempty" cty:"groups"`
 
 	// Home
 	// Path to user's home directory.
-	Home string `yaml:"home,omitempty" json:"home,omitempty"`
+	Home string `yaml:"home,omitempty" json:"home,omitempty" cty:"home"`
 
 	// MoveHome
 	// Whether or not to move an existing home directory.
-	MoveHome bool `yaml:"move_home,omitempty" json:"move_home,omitempty"`
+	MoveHome bool `yaml:"move_home,omitempty" json:"move_home,omitempty" cty:"move_home"`
 
 	// Name
 	// User account name.
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// Password
 	// Masked value of the password.
-	Password string `yaml:"password,omitempty" json:"password,omitempty"`
+	Password string `yaml:"password,omitempty" json:"password,omitempty" cty:"password"`
 
 	// PasswordExpireMax
 	// Maximum number of days during which a password is valid.
-	PasswordExpireMax int `yaml:"password_expire_max,omitempty" json:"password_expire_max,omitempty"`
+	PasswordExpireMax int `yaml:"password_expire_max,omitempty" json:"password_expire_max,omitempty" cty:"password_expire_max"`
 
 	// PasswordExpireMin
 	// Minimum number of days between password change
-	PasswordExpireMin int `yaml:"password_expire_min,omitempty" json:"password_expire_min,omitempty"`
+	PasswordExpireMin int `yaml:"password_expire_min,omitempty" json:"password_expire_min,omitempty" cty:"password_expire_min"`
 
 	// Remove
 	// Whether or not to remove the user account.
-	Remove bool `yaml:"remove,omitempty" json:"remove,omitempty"`
+	Remove bool `yaml:"remove,omitempty" json:"remove,omitempty" cty:"remove"`
 
 	// Shell
 	// User login shell.
-	Shell string `yaml:"shell,omitempty" json:"shell,omitempty"`
+	Shell string `yaml:"shell,omitempty" json:"shell,omitempty" cty:"shell"`
 
 	// SshFingerprint
 	// Fingerprint of generated SSH key.
-	SshFingerprint string `yaml:"ssh_fingerprint,omitempty" json:"ssh_fingerprint,omitempty"`
+	SshFingerprint string `yaml:"ssh_fingerprint,omitempty" json:"ssh_fingerprint,omitempty" cty:"ssh_fingerprint"`
 
 	// SshKeyFile
 	// Path to generated SSH private key file.
-	SshKeyFile string `yaml:"ssh_key_file,omitempty" json:"ssh_key_file,omitempty"`
+	SshKeyFile string `yaml:"ssh_key_file,omitempty" json:"ssh_key_file,omitempty" cty:"ssh_key_file"`
 
 	// SshPublicKey
 	// Generated SSH public key file.
-	SshPublicKey string `yaml:"ssh_public_key,omitempty" json:"ssh_public_key,omitempty"`
+	SshPublicKey string `yaml:"ssh_public_key,omitempty" json:"ssh_public_key,omitempty" cty:"ssh_public_key"`
 
 	// Stderr
 	// Standard error from running commands.
-	Stderr string `yaml:"stderr,omitempty" json:"stderr,omitempty"`
+	Stderr string `yaml:"stderr,omitempty" json:"stderr,omitempty" cty:"stderr"`
 
 	// Stdout
 	// Standard output from running commands.
-	Stdout string `yaml:"stdout,omitempty" json:"stdout,omitempty"`
+	Stdout string `yaml:"stdout,omitempty" json:"stdout,omitempty" cty:"stdout"`
 
 	// System
 	// Whether or not the account is a system account.
-	System bool `yaml:"system,omitempty" json:"system,omitempty"`
+	System bool `yaml:"system,omitempty" json:"system,omitempty" cty:"system"`
 
 	// Uid
 	// User ID of the user account.
-	Uid int `yaml:"uid,omitempty" json:"uid,omitempty"`
+	Uid int `yaml:"uid,omitempty" json:"uid,omitempty" cty:"uid"`
 
 	values map[string]types.Value
 }

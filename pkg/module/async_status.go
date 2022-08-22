@@ -58,7 +58,7 @@ type AsyncStatusParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Jid string `yaml:"jid,omitempty" json:"jid,omitempty"`
+	Jid string `yaml:"jid,omitempty" json:"jid,omitempty" cty:"jid"`
 
 	// Mode
 	// If C(status), obtain the status.
@@ -66,7 +66,7 @@ type AsyncStatusParams struct {
 	//
 	// Default: status
 	// Required: false
-	Mode string `yaml:"mode,omitempty" json:"mode,omitempty"`
+	Mode string `yaml:"mode,omitempty" json:"mode,omitempty" cty:"mode"`
 
 	values map[string]types.Value
 }
@@ -101,27 +101,27 @@ type AsyncStatusResult struct {
 
 	// AnsibleJobId
 	// The asynchronous job id
-	AnsibleJobId string `yaml:"ansible_job_id,omitempty" json:"ansible_job_id,omitempty"`
+	AnsibleJobId string `yaml:"ansible_job_id,omitempty" json:"ansible_job_id,omitempty" cty:"ansible_job_id"`
 
 	// Erased
 	// Path to erased job file
-	Erased string `yaml:"erased,omitempty" json:"erased,omitempty"`
+	Erased string `yaml:"erased,omitempty" json:"erased,omitempty" cty:"erased"`
 
 	// Finished
 	// Whether the asynchronous job has finished (C(1)) or not (C(0))
-	Finished int `yaml:"finished,omitempty" json:"finished,omitempty"`
+	Finished int `yaml:"finished,omitempty" json:"finished,omitempty" cty:"finished"`
 
 	// Started
 	// Whether the asynchronous job has started (C(1)) or not (C(0))
-	Started int `yaml:"started,omitempty" json:"started,omitempty"`
+	Started int `yaml:"started,omitempty" json:"started,omitempty" cty:"started"`
 
 	// Stderr
 	// Any errors returned by async_wrapper
-	Stderr string `yaml:"stderr,omitempty" json:"stderr,omitempty"`
+	Stderr string `yaml:"stderr,omitempty" json:"stderr,omitempty" cty:"stderr"`
 
 	// Stdout
 	// Any output returned by async_wrapper
-	Stdout string `yaml:"stdout,omitempty" json:"stdout,omitempty"`
+	Stdout string `yaml:"stdout,omitempty" json:"stdout,omitempty" cty:"stdout"`
 
 	values map[string]types.Value
 }

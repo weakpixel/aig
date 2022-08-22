@@ -54,21 +54,21 @@ type GetentParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Database string `yaml:"database,omitempty" json:"database,omitempty"`
+	Database string `yaml:"database,omitempty" json:"database,omitempty" cty:"database"`
 
 	// FailKey
 	// If a supplied key is missing this will make the task fail if C(yes).
 	//
 	// Default: yes
 	// Required: false
-	FailKey bool `yaml:"fail_key,omitempty" json:"fail_key,omitempty"`
+	FailKey bool `yaml:"fail_key,omitempty" json:"fail_key,omitempty" cty:"fail_key"`
 
 	// Key
 	// Key from which to return values from the specified database, otherwise the full contents are returned.
 	//
 	// Default:
 	// Required: false
-	Key string `yaml:"key,omitempty" json:"key,omitempty"`
+	Key string `yaml:"key,omitempty" json:"key,omitempty" cty:"key"`
 
 	// Service
 	// Override all databases with the specified service
@@ -76,14 +76,14 @@ type GetentParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Service string `yaml:"service,omitempty" json:"service,omitempty"`
+	Service string `yaml:"service,omitempty" json:"service,omitempty" cty:"service"`
 
 	// Split
 	// Character used to split the database values into lists/arrays such as ':' or '	', otherwise  it will try to pick one depending on the database.
 	//
 	// Default: <no value>
 	// Required: false
-	Split string `yaml:"split,omitempty" json:"split,omitempty"`
+	Split string `yaml:"split,omitempty" json:"split,omitempty" cty:"split"`
 
 	values map[string]types.Value
 }
@@ -118,7 +118,7 @@ type GetentResult struct {
 
 	// AnsibleFacts
 	// Facts to add to ansible_facts.
-	AnsibleFacts map[string]string `yaml:"ansible_facts,omitempty" json:"ansible_facts,omitempty"`
+	AnsibleFacts map[string]string `yaml:"ansible_facts,omitempty" json:"ansible_facts,omitempty" cty:"ansible_facts"`
 
 	values map[string]types.Value
 }

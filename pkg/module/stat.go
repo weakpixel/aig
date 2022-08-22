@@ -31,7 +31,8 @@ func NewStat() *Stat {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
-	// NOT SUPPORTED: stat Stat interface{}
+	// NOT SUPPORTED: stat Stat interface{} complex
+	// resultValues["stat"] = types.New???Value(&module.Params.Stat)
 	module.Result.values = resultValues
 
 	return &module
@@ -59,28 +60,28 @@ type StatParams struct {
 	//
 	// Default: sha1
 	// Required: false
-	ChecksumAlgorithm string `yaml:"checksum_algorithm,omitempty" json:"checksum_algorithm,omitempty"`
+	ChecksumAlgorithm string `yaml:"checksum_algorithm,omitempty" json:"checksum_algorithm,omitempty" cty:"checksum_algorithm"`
 
 	// Follow
 	// Whether to follow symlinks.
 	//
 	// Default: no
 	// Required: false
-	Follow bool `yaml:"follow,omitempty" json:"follow,omitempty"`
+	Follow bool `yaml:"follow,omitempty" json:"follow,omitempty" cty:"follow"`
 
 	// GetAttributes
 	// Get file attributes using lsattr tool if present.
 	//
 	// Default: yes
 	// Required: false
-	GetAttributes bool `yaml:"get_attributes,omitempty" json:"get_attributes,omitempty"`
+	GetAttributes bool `yaml:"get_attributes,omitempty" json:"get_attributes,omitempty" cty:"get_attributes"`
 
 	// GetChecksum
 	// Whether to return a checksum of the file.
 	//
 	// Default: yes
 	// Required: false
-	GetChecksum bool `yaml:"get_checksum,omitempty" json:"get_checksum,omitempty"`
+	GetChecksum bool `yaml:"get_checksum,omitempty" json:"get_checksum,omitempty" cty:"get_checksum"`
 
 	// GetMime
 	// Use file magic and return data about the nature of the file. this uses the 'file' utility found on most Linux/Unix systems.
@@ -89,14 +90,14 @@ type StatParams struct {
 	//
 	// Default: yes
 	// Required: false
-	GetMime bool `yaml:"get_mime,omitempty" json:"get_mime,omitempty"`
+	GetMime bool `yaml:"get_mime,omitempty" json:"get_mime,omitempty" cty:"get_mime"`
 
 	// Path
 	// The full path of the file/object to get the facts of.
 	//
 	// Default: <no value>
 	// Required: true
-	Path string `yaml:"path,omitempty" json:"path,omitempty"`
+	Path string `yaml:"path,omitempty" json:"path,omitempty" cty:"path"`
 
 	values map[string]types.Value
 }
@@ -131,7 +132,7 @@ type StatResult struct {
 
 	// Stat
 	// Dictionary containing all the stat data, some platforms might add additional fields.
-	Stat interface{} `yaml:"stat,omitempty" json:"stat,omitempty"`
+	Stat interface{} `yaml:"stat,omitempty" json:"stat,omitempty" cty:"stat"`
 
 	values map[string]types.Value
 }

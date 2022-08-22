@@ -57,7 +57,7 @@ type KnownHostsParams struct {
 	//
 	// Default: no
 	// Required: false
-	HashHost bool `yaml:"hash_host,omitempty" json:"hash_host,omitempty"`
+	HashHost bool `yaml:"hash_host,omitempty" json:"hash_host,omitempty" cty:"hash_host"`
 
 	// Key
 	// The SSH public host key, as a string.
@@ -69,7 +69,7 @@ type KnownHostsParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Key string `yaml:"key,omitempty" json:"key,omitempty"`
+	Key string `yaml:"key,omitempty" json:"key,omitempty" cty:"key"`
 
 	// Name
 	// The host to add or remove (must match a host specified in key). It will be converted to lowercase so that ssh-keygen can find it.
@@ -78,7 +78,7 @@ type KnownHostsParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// Path
 	// The known_hosts file to edit.
@@ -86,7 +86,7 @@ type KnownHostsParams struct {
 	//
 	// Default: ~/.ssh/known_hosts
 	// Required: false
-	Path string `yaml:"path,omitempty" json:"path,omitempty"`
+	Path string `yaml:"path,omitempty" json:"path,omitempty" cty:"path"`
 
 	// State
 	// I(present) to add the host key.
@@ -94,7 +94,7 @@ type KnownHostsParams struct {
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	values map[string]types.Value
 }

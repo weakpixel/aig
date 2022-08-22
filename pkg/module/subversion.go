@@ -61,7 +61,7 @@ type SubversionParams struct {
 	//
 	// Default: yes
 	// Required: false
-	Checkout bool `yaml:"checkout,omitempty" json:"checkout,omitempty"`
+	Checkout bool `yaml:"checkout,omitempty" json:"checkout,omitempty" cty:"checkout"`
 
 	// Dest
 	// Absolute path where the repository should be deployed.
@@ -69,35 +69,35 @@ type SubversionParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Dest string `yaml:"dest,omitempty" json:"dest,omitempty"`
+	Dest string `yaml:"dest,omitempty" json:"dest,omitempty" cty:"dest"`
 
 	// Executable
 	// Path to svn executable to use. If not supplied, the normal mechanism for resolving binary paths will be used.
 	//
 	// Default: <no value>
 	// Required: false
-	Executable string `yaml:"executable,omitempty" json:"executable,omitempty"`
+	Executable string `yaml:"executable,omitempty" json:"executable,omitempty" cty:"executable"`
 
 	// Export
 	// If C(yes), do export instead of checkout/update.
 	//
 	// Default: no
 	// Required: false
-	Export bool `yaml:"export,omitempty" json:"export,omitempty"`
+	Export bool `yaml:"export,omitempty" json:"export,omitempty" cty:"export"`
 
 	// Force
 	// If C(yes), modified files will be discarded. If C(no), module will fail if it encounters modified files. Prior to 1.9 the default was C(yes).
 	//
 	// Default: no
 	// Required: false
-	Force bool `yaml:"force,omitempty" json:"force,omitempty"`
+	Force bool `yaml:"force,omitempty" json:"force,omitempty" cty:"force"`
 
 	// InPlace
 	// If the directory exists, then the working copy will be checked-out over-the-top using svn checkout --force; if force is specified then existing files with different content are reverted.
 	//
 	// Default: no
 	// Required: false
-	InPlace bool `yaml:"in_place,omitempty" json:"in_place,omitempty"`
+	InPlace bool `yaml:"in_place,omitempty" json:"in_place,omitempty" cty:"in_place"`
 
 	// Password
 	// C(--password) parameter passed to svn when svn is less than version 1.10.0. This is not secure and the password will be leaked to argv.
@@ -105,42 +105,42 @@ type SubversionParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Password string `yaml:"password,omitempty" json:"password,omitempty"`
+	Password string `yaml:"password,omitempty" json:"password,omitempty" cty:"password"`
 
 	// Repo
 	// The subversion URL to the repository.
 	//
 	// Default: <no value>
 	// Required: true
-	Repo string `yaml:"repo,omitempty" json:"repo,omitempty"`
+	Repo string `yaml:"repo,omitempty" json:"repo,omitempty" cty:"repo"`
 
 	// Revision
 	// Specific revision to checkout.
 	//
 	// Default: HEAD
 	// Required: false
-	Revision string `yaml:"revision,omitempty" json:"revision,omitempty"`
+	Revision string `yaml:"revision,omitempty" json:"revision,omitempty" cty:"revision"`
 
 	// Switch
 	// If C(no), do not call svn switch before update.
 	//
 	// Default: yes
 	// Required: false
-	Switch bool `yaml:"switch,omitempty" json:"switch,omitempty"`
+	Switch bool `yaml:"switch,omitempty" json:"switch,omitempty" cty:"switch"`
 
 	// Update
 	// If C(no), do not retrieve new revisions from the origin repository.
 	//
 	// Default: yes
 	// Required: false
-	Update bool `yaml:"update,omitempty" json:"update,omitempty"`
+	Update bool `yaml:"update,omitempty" json:"update,omitempty" cty:"update"`
 
 	// Username
 	// C(--username) parameter passed to svn.
 	//
 	// Default: <no value>
 	// Required: false
-	Username string `yaml:"username,omitempty" json:"username,omitempty"`
+	Username string `yaml:"username,omitempty" json:"username,omitempty" cty:"username"`
 
 	// ValidateCerts
 	// If C(no), passes the C(--trust-server-cert) flag to svn.
@@ -148,7 +148,7 @@ type SubversionParams struct {
 	//
 	// Default: no
 	// Required: false
-	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty"`
+	ValidateCerts bool `yaml:"validate_certs,omitempty" json:"validate_certs,omitempty" cty:"validate_certs"`
 
 	values map[string]types.Value
 }

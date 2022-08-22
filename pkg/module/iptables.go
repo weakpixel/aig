@@ -24,10 +24,10 @@ func NewIptables() *Iptables {
 	paramValues["chain"] = types.NewStringValue(&module.Params.Chain)
 	paramValues["chain_management"] = types.NewBoolValue(&module.Params.ChainManagement)
 	paramValues["comment"] = types.NewStringValue(&module.Params.Comment)
-	paramValues["ctstate"] = types.NewStringArrayValue(&module.Params.Ctstate)
+	paramValues["ctstate"] = types.NewStringListValue(&module.Params.Ctstate)
 	paramValues["destination"] = types.NewStringValue(&module.Params.Destination)
 	paramValues["destination_port"] = types.NewStringValue(&module.Params.DestinationPort)
-	paramValues["destination_ports"] = types.NewStringArrayValue(&module.Params.DestinationPorts)
+	paramValues["destination_ports"] = types.NewStringListValue(&module.Params.DestinationPorts)
 	paramValues["dst_range"] = types.NewStringValue(&module.Params.DstRange)
 	paramValues["flush"] = types.NewBoolValue(&module.Params.Flush)
 	paramValues["fragment"] = types.NewStringValue(&module.Params.Fragment)
@@ -42,7 +42,7 @@ func NewIptables() *Iptables {
 	paramValues["limit_burst"] = types.NewStringValue(&module.Params.LimitBurst)
 	paramValues["log_level"] = types.NewStringValue(&module.Params.LogLevel)
 	paramValues["log_prefix"] = types.NewStringValue(&module.Params.LogPrefix)
-	paramValues["match"] = types.NewStringArrayValue(&module.Params.Match)
+	paramValues["match"] = types.NewStringListValue(&module.Params.Match)
 	paramValues["match_set"] = types.NewStringValue(&module.Params.MatchSet)
 	paramValues["match_set_flags"] = types.NewStringValue(&module.Params.MatchSetFlags)
 	paramValues["out_interface"] = types.NewStringValue(&module.Params.OutInterface)
@@ -96,7 +96,7 @@ type IptablesParams struct {
 	//
 	// Default: append
 	// Required: false
-	Action string `yaml:"action,omitempty" json:"action,omitempty"`
+	Action string `yaml:"action,omitempty" json:"action,omitempty" cty:"action"`
 
 	// Chain
 	// Specify the iptables chain to modify.
@@ -104,7 +104,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Chain string `yaml:"chain,omitempty" json:"chain,omitempty"`
+	Chain string `yaml:"chain,omitempty" json:"chain,omitempty" cty:"chain"`
 
 	// ChainManagement
 	// If C(true) and C(state) is C(present), the chain will be created if needed.
@@ -112,14 +112,14 @@ type IptablesParams struct {
 	//
 	// Default: false
 	// Required: false
-	ChainManagement bool `yaml:"chain_management,omitempty" json:"chain_management,omitempty"`
+	ChainManagement bool `yaml:"chain_management,omitempty" json:"chain_management,omitempty" cty:"chain_management"`
 
 	// Comment
 	// This specifies a comment that will be added to the rule.
 	//
 	// Default: <no value>
 	// Required: false
-	Comment string `yaml:"comment,omitempty" json:"comment,omitempty"`
+	Comment string `yaml:"comment,omitempty" json:"comment,omitempty" cty:"comment"`
 
 	// Ctstate
 	// A list of the connection states to match in the conntrack module.
@@ -127,7 +127,7 @@ type IptablesParams struct {
 	//
 	// Default: []
 	// Required: false
-	Ctstate []string `yaml:"ctstate,omitempty" json:"ctstate,omitempty"`
+	Ctstate []string `yaml:"ctstate,omitempty" json:"ctstate,omitempty" cty:"ctstate"`
 
 	// Destination
 	// Destination specification.
@@ -137,14 +137,14 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Destination string `yaml:"destination,omitempty" json:"destination,omitempty"`
+	Destination string `yaml:"destination,omitempty" json:"destination,omitempty" cty:"destination"`
 
 	// DestinationPort
 	// Destination port or port range specification. This can either be a service name or a port number. An inclusive range can also be specified, using the format first:last. If the first port is omitted, '0' is assumed; if the last is omitted, '65535' is assumed. If the first port is greater than the second one they will be swapped. This is only valid if the rule also specifies one of the following protocols: tcp, udp, dccp or sctp.
 	//
 	// Default: <no value>
 	// Required: false
-	DestinationPort string `yaml:"destination_port,omitempty" json:"destination_port,omitempty"`
+	DestinationPort string `yaml:"destination_port,omitempty" json:"destination_port,omitempty" cty:"destination_port"`
 
 	// DestinationPorts
 	// This specifies multiple destination port numbers or port ranges to match in the multiport module.
@@ -152,14 +152,14 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	DestinationPorts []string `yaml:"destination_ports,omitempty" json:"destination_ports,omitempty"`
+	DestinationPorts []string `yaml:"destination_ports,omitempty" json:"destination_ports,omitempty" cty:"destination_ports"`
 
 	// DstRange
 	// Specifies the destination IP range to match in the iprange module.
 	//
 	// Default: <no value>
 	// Required: false
-	DstRange string `yaml:"dst_range,omitempty" json:"dst_range,omitempty"`
+	DstRange string `yaml:"dst_range,omitempty" json:"dst_range,omitempty" cty:"dst_range"`
 
 	// Flush
 	// Flushes the specified table and chain of all rules.
@@ -168,7 +168,7 @@ type IptablesParams struct {
 	//
 	// Default: false
 	// Required: false
-	Flush bool `yaml:"flush,omitempty" json:"flush,omitempty"`
+	Flush bool `yaml:"flush,omitempty" json:"flush,omitempty" cty:"flush"`
 
 	// Fragment
 	// This means that the rule only refers to second and further fragments of fragmented packets.
@@ -177,7 +177,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Fragment string `yaml:"fragment,omitempty" json:"fragment,omitempty"`
+	Fragment string `yaml:"fragment,omitempty" json:"fragment,omitempty" cty:"fragment"`
 
 	// Gateway
 	// This specifies the IP address of host to send the cloned packets.
@@ -185,14 +185,14 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Gateway string `yaml:"gateway,omitempty" json:"gateway,omitempty"`
+	Gateway string `yaml:"gateway,omitempty" json:"gateway,omitempty" cty:"gateway"`
 
 	// GidOwner
 	// Specifies the GID or group to use in match by owner rule.
 	//
 	// Default: <no value>
 	// Required: false
-	GidOwner string `yaml:"gid_owner,omitempty" json:"gid_owner,omitempty"`
+	GidOwner string `yaml:"gid_owner,omitempty" json:"gid_owner,omitempty" cty:"gid_owner"`
 
 	// Goto
 	// This specifies that the processing should continue in a user specified chain.
@@ -200,14 +200,14 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Goto string `yaml:"goto,omitempty" json:"goto,omitempty"`
+	Goto string `yaml:"goto,omitempty" json:"goto,omitempty" cty:"goto"`
 
 	// IcmpType
 	// This allows specification of the ICMP type, which can be a numeric ICMP type, type/code pair, or one of the ICMP type names shown by the command 'iptables -p icmp -h'
 	//
 	// Default: <no value>
 	// Required: false
-	IcmpType string `yaml:"icmp_type,omitempty" json:"icmp_type,omitempty"`
+	IcmpType string `yaml:"icmp_type,omitempty" json:"icmp_type,omitempty" cty:"icmp_type"`
 
 	// InInterface
 	// Name of an interface via which a packet was received (only for packets entering the C(INPUT), C(FORWARD) and C(PREROUTING) chains).
@@ -217,14 +217,14 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	InInterface string `yaml:"in_interface,omitempty" json:"in_interface,omitempty"`
+	InInterface string `yaml:"in_interface,omitempty" json:"in_interface,omitempty" cty:"in_interface"`
 
 	// IpVersion
 	// Which version of the IP protocol this rule should apply to.
 	//
 	// Default: ipv4
 	// Required: false
-	IpVersion string `yaml:"ip_version,omitempty" json:"ip_version,omitempty"`
+	IpVersion string `yaml:"ip_version,omitempty" json:"ip_version,omitempty" cty:"ip_version"`
 
 	// Jump
 	// This specifies the target of the rule; i.e., what to do if the packet matches it.
@@ -233,7 +233,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Jump string `yaml:"jump,omitempty" json:"jump,omitempty"`
+	Jump string `yaml:"jump,omitempty" json:"jump,omitempty" cty:"jump"`
 
 	// Limit
 	// Specifies the maximum average number of matches to allow per second.
@@ -241,14 +241,14 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Limit string `yaml:"limit,omitempty" json:"limit,omitempty"`
+	Limit string `yaml:"limit,omitempty" json:"limit,omitempty" cty:"limit"`
 
 	// LimitBurst
 	// Specifies the maximum burst before the above limit kicks in.
 	//
 	// Default: <no value>
 	// Required: false
-	LimitBurst string `yaml:"limit_burst,omitempty" json:"limit_burst,omitempty"`
+	LimitBurst string `yaml:"limit_burst,omitempty" json:"limit_burst,omitempty" cty:"limit_burst"`
 
 	// LogLevel
 	// Logging level according to the syslogd-defined priorities.
@@ -257,14 +257,14 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	LogLevel string `yaml:"log_level,omitempty" json:"log_level,omitempty"`
+	LogLevel string `yaml:"log_level,omitempty" json:"log_level,omitempty" cty:"log_level"`
 
 	// LogPrefix
 	// Specifies a log text for the rule. Only make sense with a LOG jump.
 	//
 	// Default: <no value>
 	// Required: false
-	LogPrefix string `yaml:"log_prefix,omitempty" json:"log_prefix,omitempty"`
+	LogPrefix string `yaml:"log_prefix,omitempty" json:"log_prefix,omitempty" cty:"log_prefix"`
 
 	// Match
 	// Specifies a match to use, that is, an extension module that tests for a specific property.
@@ -273,7 +273,7 @@ type IptablesParams struct {
 	//
 	// Default: []
 	// Required: false
-	Match []string `yaml:"match,omitempty" json:"match,omitempty"`
+	Match []string `yaml:"match,omitempty" json:"match,omitempty" cty:"match"`
 
 	// MatchSet
 	// Specifies a set name which can be defined by ipset.
@@ -283,7 +283,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	MatchSet string `yaml:"match_set,omitempty" json:"match_set,omitempty"`
+	MatchSet string `yaml:"match_set,omitempty" json:"match_set,omitempty" cty:"match_set"`
 
 	// MatchSetFlags
 	// Specifies the necessary flags for the match_set parameter.
@@ -292,7 +292,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	MatchSetFlags string `yaml:"match_set_flags,omitempty" json:"match_set_flags,omitempty"`
+	MatchSetFlags string `yaml:"match_set_flags,omitempty" json:"match_set_flags,omitempty" cty:"match_set_flags"`
 
 	// OutInterface
 	// Name of an interface via which a packet is going to be sent (for packets entering the C(FORWARD), C(OUTPUT) and C(POSTROUTING) chains).
@@ -302,7 +302,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	OutInterface string `yaml:"out_interface,omitempty" json:"out_interface,omitempty"`
+	OutInterface string `yaml:"out_interface,omitempty" json:"out_interface,omitempty" cty:"out_interface"`
 
 	// Policy
 	// Set the policy for the chain to the given target.
@@ -313,7 +313,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Policy string `yaml:"policy,omitempty" json:"policy,omitempty"`
+	Policy string `yaml:"policy,omitempty" json:"policy,omitempty" cty:"policy"`
 
 	// Protocol
 	// The protocol of the rule or of the packet to check.
@@ -325,14 +325,14 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Protocol string `yaml:"protocol,omitempty" json:"protocol,omitempty"`
+	Protocol string `yaml:"protocol,omitempty" json:"protocol,omitempty" cty:"protocol"`
 
 	// RejectWith
 	// Specifies the error packet type to return while rejecting. It implies "jump: REJECT".
 	//
 	// Default: <no value>
 	// Required: false
-	RejectWith string `yaml:"reject_with,omitempty" json:"reject_with,omitempty"`
+	RejectWith string `yaml:"reject_with,omitempty" json:"reject_with,omitempty" cty:"reject_with"`
 
 	// RuleNum
 	// Insert the rule as the given rule number.
@@ -340,14 +340,14 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	RuleNum string `yaml:"rule_num,omitempty" json:"rule_num,omitempty"`
+	RuleNum string `yaml:"rule_num,omitempty" json:"rule_num,omitempty" cty:"rule_num"`
 
 	// SetCounters
 	// This enables the administrator to initialize the packet and byte counters of a rule (during C(INSERT), C(APPEND), C(REPLACE) operations).
 	//
 	// Default: <no value>
 	// Required: false
-	SetCounters string `yaml:"set_counters,omitempty" json:"set_counters,omitempty"`
+	SetCounters string `yaml:"set_counters,omitempty" json:"set_counters,omitempty" cty:"set_counters"`
 
 	// SetDscpMark
 	// This allows specifying a DSCP mark to be added to packets. It takes either an integer or hex value.
@@ -355,7 +355,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	SetDscpMark string `yaml:"set_dscp_mark,omitempty" json:"set_dscp_mark,omitempty"`
+	SetDscpMark string `yaml:"set_dscp_mark,omitempty" json:"set_dscp_mark,omitempty" cty:"set_dscp_mark"`
 
 	// SetDscpMarkClass
 	// This allows specifying a predefined DiffServ class which will be translated to the corresponding DSCP mark.
@@ -363,7 +363,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	SetDscpMarkClass string `yaml:"set_dscp_mark_class,omitempty" json:"set_dscp_mark_class,omitempty"`
+	SetDscpMarkClass string `yaml:"set_dscp_mark_class,omitempty" json:"set_dscp_mark_class,omitempty" cty:"set_dscp_mark_class"`
 
 	// Source
 	// Source specification.
@@ -373,7 +373,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Source string `yaml:"source,omitempty" json:"source,omitempty"`
+	Source string `yaml:"source,omitempty" json:"source,omitempty" cty:"source"`
 
 	// SourcePort
 	// Source port or port range specification.
@@ -384,21 +384,21 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	SourcePort string `yaml:"source_port,omitempty" json:"source_port,omitempty"`
+	SourcePort string `yaml:"source_port,omitempty" json:"source_port,omitempty" cty:"source_port"`
 
 	// SrcRange
 	// Specifies the source IP range to match in the iprange module.
 	//
 	// Default: <no value>
 	// Required: false
-	SrcRange string `yaml:"src_range,omitempty" json:"src_range,omitempty"`
+	SrcRange string `yaml:"src_range,omitempty" json:"src_range,omitempty" cty:"src_range"`
 
 	// State
 	// Whether the rule should be absent or present.
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	// Syn
 	// This allows matching packets that have the SYN bit set and the ACK and RST bits unset.
@@ -406,7 +406,7 @@ type IptablesParams struct {
 	//
 	// Default: ignore
 	// Required: false
-	Syn string `yaml:"syn,omitempty" json:"syn,omitempty"`
+	Syn string `yaml:"syn,omitempty" json:"syn,omitempty" cty:"syn"`
 
 	// Table
 	// This option specifies the packet matching table which the command should operate on.
@@ -414,7 +414,7 @@ type IptablesParams struct {
 	//
 	// Default: filter
 	// Required: false
-	Table string `yaml:"table,omitempty" json:"table,omitempty"`
+	Table string `yaml:"table,omitempty" json:"table,omitempty" cty:"table"`
 
 	// TcpFlags
 	// TCP flags specification.
@@ -422,7 +422,7 @@ type IptablesParams struct {
 	//
 	// Default: map[]
 	// Required: false
-	TcpFlags map[string]string `yaml:"tcp_flags,omitempty" json:"tcp_flags,omitempty"`
+	TcpFlags map[string]string `yaml:"tcp_flags,omitempty" json:"tcp_flags,omitempty" cty:"tcp_flags"`
 
 	// ToDestination
 	// This specifies a destination address to use with C(DNAT).
@@ -430,7 +430,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	ToDestination string `yaml:"to_destination,omitempty" json:"to_destination,omitempty"`
+	ToDestination string `yaml:"to_destination,omitempty" json:"to_destination,omitempty" cty:"to_destination"`
 
 	// ToPorts
 	// This specifies a destination port or range of ports to use, without this, the destination port is never altered.
@@ -438,7 +438,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	ToPorts string `yaml:"to_ports,omitempty" json:"to_ports,omitempty"`
+	ToPorts string `yaml:"to_ports,omitempty" json:"to_ports,omitempty" cty:"to_ports"`
 
 	// ToSource
 	// This specifies a source address to use with C(SNAT).
@@ -446,7 +446,7 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	ToSource string `yaml:"to_source,omitempty" json:"to_source,omitempty"`
+	ToSource string `yaml:"to_source,omitempty" json:"to_source,omitempty" cty:"to_source"`
 
 	// UidOwner
 	// Specifies the UID or username to use in match by owner rule.
@@ -454,14 +454,14 @@ type IptablesParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	UidOwner string `yaml:"uid_owner,omitempty" json:"uid_owner,omitempty"`
+	UidOwner string `yaml:"uid_owner,omitempty" json:"uid_owner,omitempty" cty:"uid_owner"`
 
 	// Wait
 	// Wait N seconds for the xtables lock to prevent multiple instances of the program from running concurrently.
 	//
 	// Default: <no value>
 	// Required: false
-	Wait string `yaml:"wait,omitempty" json:"wait,omitempty"`
+	Wait string `yaml:"wait,omitempty" json:"wait,omitempty" cty:"wait"`
 
 	values map[string]types.Value
 }

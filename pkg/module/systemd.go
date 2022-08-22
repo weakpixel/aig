@@ -34,7 +34,8 @@ func NewSystemd() *Systemd {
 	// Create dynamic result values
 	resultValues := map[string]types.Value{}
 
-	// NOT SUPPORTED: status Status interface{}
+	// NOT SUPPORTED: status Status interface{} complex
+	// resultValues["status"] = types.New???Value(&module.Params.Status)
 	module.Result.values = resultValues
 
 	return &module
@@ -58,7 +59,7 @@ type SystemdParams struct {
 	//
 	// Default: no
 	// Required: false
-	DaemonReexec bool `yaml:"daemon_reexec,omitempty" json:"daemon_reexec,omitempty"`
+	DaemonReexec bool `yaml:"daemon_reexec,omitempty" json:"daemon_reexec,omitempty" cty:"daemon_reexec"`
 
 	// DaemonReload
 	// Run daemon-reload before doing any other operations, to make sure systemd has read any changes.
@@ -66,28 +67,28 @@ type SystemdParams struct {
 	//
 	// Default: no
 	// Required: false
-	DaemonReload bool `yaml:"daemon_reload,omitempty" json:"daemon_reload,omitempty"`
+	DaemonReload bool `yaml:"daemon_reload,omitempty" json:"daemon_reload,omitempty" cty:"daemon_reload"`
 
 	// Enabled
 	// Whether the unit should start on boot. B(At least one of state and enabled are required.)
 	//
 	// Default: <no value>
 	// Required: false
-	Enabled bool `yaml:"enabled,omitempty" json:"enabled,omitempty"`
+	Enabled bool `yaml:"enabled,omitempty" json:"enabled,omitempty" cty:"enabled"`
 
 	// Force
 	// Whether to override existing symlinks.
 	//
 	// Default: <no value>
 	// Required: false
-	Force bool `yaml:"force,omitempty" json:"force,omitempty"`
+	Force bool `yaml:"force,omitempty" json:"force,omitempty" cty:"force"`
 
 	// Masked
 	// Whether the unit should be masked or not, a masked unit is impossible to start.
 	//
 	// Default: <no value>
 	// Required: false
-	Masked bool `yaml:"masked,omitempty" json:"masked,omitempty"`
+	Masked bool `yaml:"masked,omitempty" json:"masked,omitempty" cty:"masked"`
 
 	// Name
 	// Name of the unit. This parameter takes the name of exactly one unit to work with.
@@ -96,14 +97,14 @@ type SystemdParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	Name string `yaml:"name,omitempty" json:"name,omitempty" cty:"name"`
 
 	// NoBlock
 	// Do not synchronously wait for the requested operation to finish. Enqueued job will continue without Ansible blocking on its completion.
 	//
 	// Default: no
 	// Required: false
-	NoBlock bool `yaml:"no_block,omitempty" json:"no_block,omitempty"`
+	NoBlock bool `yaml:"no_block,omitempty" json:"no_block,omitempty" cty:"no_block"`
 
 	// Scope
 	// Run systemctl within a given service manager scope, either as the default system scope C(system), the current user's scope C(user), or the scope of all users C(global).
@@ -113,14 +114,14 @@ type SystemdParams struct {
 	//
 	// Default: system
 	// Required: false
-	Scope string `yaml:"scope,omitempty" json:"scope,omitempty"`
+	Scope string `yaml:"scope,omitempty" json:"scope,omitempty" cty:"scope"`
 
 	// State
 	// C(started)/C(stopped) are idempotent actions that will not run commands unless necessary. C(restarted) will always bounce the unit. C(reloaded) will always reload.
 	//
 	// Default: <no value>
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	values map[string]types.Value
 }
@@ -155,7 +156,7 @@ type SystemdResult struct {
 
 	// Status
 	// A dictionary with the key=value pairs returned from C(systemctl show).
-	Status interface{} `yaml:"status,omitempty" json:"status,omitempty"`
+	Status interface{} `yaml:"status,omitempty" json:"status,omitempty" cty:"status"`
 
 	values map[string]types.Value
 }

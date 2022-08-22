@@ -68,14 +68,14 @@ type LineinfileParams struct {
 	//
 	// Default: no
 	// Required: false
-	Backrefs bool `yaml:"backrefs,omitempty" json:"backrefs,omitempty"`
+	Backrefs bool `yaml:"backrefs,omitempty" json:"backrefs,omitempty" cty:"backrefs"`
 
 	// Backup
 	// Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
 	//
 	// Default: no
 	// Required: false
-	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty"`
+	Backup bool `yaml:"backup,omitempty" json:"backup,omitempty" cty:"backup"`
 
 	// Create
 	// Used with C(state=present).
@@ -84,7 +84,7 @@ type LineinfileParams struct {
 	//
 	// Default: no
 	// Required: false
-	Create bool `yaml:"create,omitempty" json:"create,omitempty"`
+	Create bool `yaml:"create,omitempty" json:"create,omitempty" cty:"create"`
 
 	// Firstmatch
 	// Used with C(insertafter) or C(insertbefore).
@@ -92,7 +92,7 @@ type LineinfileParams struct {
 	//
 	// Default: no
 	// Required: false
-	Firstmatch bool `yaml:"firstmatch,omitempty" json:"firstmatch,omitempty"`
+	Firstmatch bool `yaml:"firstmatch,omitempty" json:"firstmatch,omitempty" cty:"firstmatch"`
 
 	// Insertafter
 	// Used with C(state=present).
@@ -106,7 +106,7 @@ type LineinfileParams struct {
 	//
 	// Default: EOF
 	// Required: false
-	Insertafter string `yaml:"insertafter,omitempty" json:"insertafter,omitempty"`
+	Insertafter string `yaml:"insertafter,omitempty" json:"insertafter,omitempty" cty:"insertafter"`
 
 	// Insertbefore
 	// Used with C(state=present).
@@ -119,7 +119,7 @@ type LineinfileParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Insertbefore string `yaml:"insertbefore,omitempty" json:"insertbefore,omitempty"`
+	Insertbefore string `yaml:"insertbefore,omitempty" json:"insertbefore,omitempty" cty:"insertbefore"`
 
 	// Line
 	// The line to insert/replace into the file.
@@ -128,14 +128,14 @@ type LineinfileParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Line string `yaml:"line,omitempty" json:"line,omitempty"`
+	Line string `yaml:"line,omitempty" json:"line,omitempty" cty:"line"`
 
 	// Others
 	// All arguments accepted by the M(ansible.builtin.file) module also work here.
 	//
 	// Default: <no value>
 	// Required: false
-	Others string `yaml:"others,omitempty" json:"others,omitempty"`
+	Others string `yaml:"others,omitempty" json:"others,omitempty" cty:"others"`
 
 	// Path
 	// The file to modify.
@@ -143,7 +143,7 @@ type LineinfileParams struct {
 	//
 	// Default: <no value>
 	// Required: true
-	Path string `yaml:"path,omitempty" json:"path,omitempty"`
+	Path string `yaml:"path,omitempty" json:"path,omitempty" cty:"path"`
 
 	// Regexp
 	// The regular expression to look for in every line of the file.
@@ -155,7 +155,7 @@ type LineinfileParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	Regexp string `yaml:"regexp,omitempty" json:"regexp,omitempty"`
+	Regexp string `yaml:"regexp,omitempty" json:"regexp,omitempty" cty:"regexp"`
 
 	// SearchString
 	// The literal string to look for in every line of the file. This does not have to match the entire line.
@@ -166,14 +166,14 @@ type LineinfileParams struct {
 	//
 	// Default: <no value>
 	// Required: false
-	SearchString string `yaml:"search_string,omitempty" json:"search_string,omitempty"`
+	SearchString string `yaml:"search_string,omitempty" json:"search_string,omitempty" cty:"search_string"`
 
 	// State
 	// Whether the line should be there or not.
 	//
 	// Default: present
 	// Required: false
-	State string `yaml:"state,omitempty" json:"state,omitempty"`
+	State string `yaml:"state,omitempty" json:"state,omitempty" cty:"state"`
 
 	values map[string]types.Value
 }
