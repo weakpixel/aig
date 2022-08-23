@@ -13,13 +13,6 @@ func main() {
 
 	r, err := ansible.NewRemote(&rig.SSH{
 		Address: "orko.run",
-		// User:    "root",
-		// KeyPath: "/Users/dkuffner/.ssh/orko-run",
-		// PasswordCallback: func() (string, error) {
-		// 	fmt.Println("Enter password:")
-		// 	pass, err := terminal.ReadPassword(int(syscall.Stdin))
-		// 	return string(pass), err
-		// },
 	})
 
 	if err != nil {
