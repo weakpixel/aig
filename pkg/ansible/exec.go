@@ -156,5 +156,15 @@ func ExecuteRemote(r *Remote, module types.Module) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return r.Conn.ExecOutput(fmt.Sprintf("chmod +x %s && %s; res=$?; rm -f %s; exit $res", moduleFile, moduleFile, moduleFile))
+	rawResult, err := r.Conn.ExecOutput(fmt.Sprintf("chmod +x %s && %s; res=$?; rm -f %s; exit $res", moduleFile, moduleFile, moduleFile))
+	if err != nil {
+		return rawResult, err
+	}
+	decodeErr := json.Unmarshal([]byte(rawResult), module.GetResult())
+	if decodeErr != nil {
+		// if decoding failed than we can assume that the execution failed.
+		// return original error
+		return rawResult, fmt.Errorf("execution failed: %s  Decoding error: %s", err, decodeErr)
+	}
+	return rawResult, nil
 }
