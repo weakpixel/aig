@@ -4,7 +4,6 @@ package module
 
 import (
 	"fmt"
-
 	"github.com/weakpixel/aig/pkg/types"
 )
 
@@ -39,7 +38,6 @@ func NewCommand() *Command {
 	resultValues["cmd"] = types.NewStringListValue(&module.Result.Cmd)
 	resultValues["delta"] = types.NewStringValue(&module.Result.Delta)
 	resultValues["end"] = types.NewStringValue(&module.Result.End)
-	resultValues["msg"] = types.NewBoolValue(&module.Result.Msg)
 	resultValues["rc"] = types.NewIntValue(&module.Result.Rc)
 	resultValues["start"] = types.NewStringValue(&module.Result.Start)
 	resultValues["stderr"] = types.NewStringValue(&module.Result.Stderr)
@@ -193,10 +191,6 @@ type CommandResult struct {
 	// End
 	// The command execution end time.
 	End string `yaml:"end,omitempty" json:"end,omitempty" cty:"end"`
-
-	// Msg
-	// changed
-	Msg string `yaml:"msg,omitempty" json:"msg,omitempty" cty:"msg"`
 
 	// Rc
 	// The command return code (0 means success).

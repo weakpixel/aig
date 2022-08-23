@@ -50,6 +50,15 @@ func (p *Parser) Parse() (*types.Spec, error) {
 	return spec, nil
 }
 
+var (
+	// map[CommandName]map[AttrName] = bool
+	returnFilter = map[string]map[string]bool{
+		"command": {
+			"msg": false,
+		},
+	}
+)
+
 func (p *Parser) parse(m *types.ModuleSpec) error {
 	f, _ := os.Open(m.Path)
 	Ast, err := parser.Parse(f, m.Path, py.ExecMode)
@@ -79,6 +88,17 @@ func (p *Parser) parse(m *types.ModuleSpec) error {
 	if err != nil {
 		return fmt.Errorf("return: %s: %s", m.Path, err)
 	}
+
+	// special filter to get rid of not working variables
+	if filterReturn, ok := returnFilter[m.ModuleName]; ok {
+		for k := range m.Returns {
+			if _, ok := filterReturn[k]; ok {
+				fmt.Printf("Filter return: %s:%s\n", m.ModuleName, k)
+				delete(m.Returns, k)
+			}
+		}
+	}
+
 	return p.normalize(m)
 }
 
