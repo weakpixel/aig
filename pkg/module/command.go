@@ -4,6 +4,7 @@ package module
 
 import (
 	"fmt"
+
 	"github.com/weakpixel/aig/pkg/types"
 )
 
@@ -195,7 +196,7 @@ type CommandResult struct {
 
 	// Msg
 	// changed
-	Msg bool `yaml:"msg,omitempty" json:"msg,omitempty" cty:"msg"`
+	Msg string `yaml:"msg,omitempty" json:"msg,omitempty" cty:"msg"`
 
 	// Rc
 	// The command return code (0 means success).
